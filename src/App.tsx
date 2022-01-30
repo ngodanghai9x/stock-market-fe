@@ -1,15 +1,21 @@
-import { useContext } from 'react';
+import 'react-toastify/dist/ReactToastify.css';
+import 'rsuite/styles/index.less';
+import "rsuite/dist/rsuite.min.css";
+// import './styles/tailwind.css';
 import './App.css';
-import Header from './components/header';
-import { AppContext, AppContextProvider } from './context';
+import { AppContextProvider } from './context';
+import Routers from './router';
+import { AuthProvider } from './context/auth/auth';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
-  const { setNotification } = useContext(AppContext);
   return (
-    <AppContextProvider>
-      <Header className="text-3xl font-bold underline text-red-300" />
-      <button onClick={() => setNotification}>Oke</button>
-    </AppContextProvider>
+    <AuthProvider>
+      <AppContextProvider>
+        <ToastContainer />
+        <Routers />
+      </AppContextProvider>
+    </AuthProvider>
   );
 }
 

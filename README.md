@@ -1,3 +1,9 @@
+# Naming Convention
+- Enum: 
+  - enum PascalCase { PascalCase = 'value' }
+- Constant: 
+  - const UPPER_SNAKE_CASE = { camelCase: 'value' }
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

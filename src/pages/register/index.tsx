@@ -1,7 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { pathNames } from "../../constants/path-name";
+import { PATH_NAMES } from "../../constants/path-name";
 import { customerRegister } from '../../services/api-auth.service';
 import { RegisterPayload } from '../../services/api-auth.type';
 
@@ -13,7 +13,7 @@ const RegisterPage = () => {
     try {
       const res = await customerRegister(data)
       toast(res.data.message)
-      navigate(pathNames.login)
+      navigate(PATH_NAMES.login)
     } catch (error: any) {
       console.log(error)
       toast(error.response.data.message)

@@ -1,1 +1,1 @@
-export const JWT_DATA = 'jwt-data'
+export const JWT_TOKEN = 'jwt-token'

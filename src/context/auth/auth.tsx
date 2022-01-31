@@ -1,12 +1,14 @@
 import React, { createContext, ReactElement, useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
-import { pathNames, publicRoutes } from "../../constants/path-name"
+import { PATH_NAMES, PUBLIC_ROUTES } from "../../constants/path-name"
 import { tokenCookies } from "../../lib/token-cookies"
 import { User } from "../../services/api-auth.type"
 
 const initialUser: User = {
+  userId: 0,
   fullName: '',
-  username: ''
+  username: '',
+  role: ''
 }
 
 const checkAuthenticated = () => {
@@ -46,9 +48,9 @@ export const AuthProvider = (props: { children: ReactElement }) => {
 
   useEffect(() => {
     const pathname = location.pathname;
-    if (publicRoutes.includes(pathname) && isAuthenticated) {
+    if (PUBLIC_ROUTES.includes(pathname) && isAuthenticated) {
       console.log('ree')
-      navigation(pathNames.home)
+      navigation(PATH_NAMES.home)
     }
   }, [isAuthenticated, location, navigation])
 

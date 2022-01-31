@@ -1,6 +1,6 @@
 import { ReactElement, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { pathNames } from '../../../constants/path-name';
+import { PATH_NAMES } from '../../../constants/path-name';
 import { AuthContext } from '../../../context/auth/auth';
 
 
@@ -10,7 +10,7 @@ const ProtectedRoute = (props: { children: ReactElement }) => {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigation(pathNames.login)
+      navigation(PATH_NAMES.login)
     };
   }, [])
 

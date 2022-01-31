@@ -12,7 +12,15 @@ export type LoginPayload = {
 }
 
 export type User = {
+  userId: number;
   username: string;
   fullName: string;
+  role: string;
+
   email?: string;
+  phone?: string;
+  birthday?: string;
+  money?: number;
+  // createdAt: Timestamp;
 }
+

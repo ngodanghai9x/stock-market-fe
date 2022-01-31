@@ -15,6 +15,7 @@ import { customerLogin } from './../services/api-auth.service';
 //     });
 //   });
 // };
+const { TOKEN_LIFE = 14400, REFRESH_TOKEN_LIFE } = process.env;
 
 export const login = async (data: LoginPayload) => {
   try {
@@ -40,4 +41,46 @@ export const getTokenData = (token: string): TokenInfo | null => {
 
 export const isEmpty = (value: string | number): boolean => {
   return value === null || value === undefined || String(value).trim() === '';
+};
+
+export const hideEmail = (email: string): string => {
+  if (!email) return '';
+  const array = email.split('@');
+  const temp = array[0].slice(0, 3);
+  return `${temp}*******@${array[1]}`;
+};
+
+export const hidePhone = (phone: string): string => {
+  if (!phone) return '';
+  const temp = phone.slice(phone.length - 3, phone.length);
+  return `********${temp}`;
+};
+
+export const getMinute = (second: number): string => {
+  const _minute = Math.floor(second / 60);
+  const _second = second % 60;
+  return `${_minute}m : ${_second}s`;
+};
+
+export const setCookie = (cname: string, cvalue: string, expSecond: number = +TOKEN_LIFE) => {
+  const d = new Date();
+  d.setTime(d.getTime() + expSecond * 1000);
+  const expires = `expires=${d.toUTCString()}`;
+  document.cookie = `${cname}=${cvalue};${expires};path=/`;
+};
+
+export const getCookie = (cname: string) => {
+  const name = `${cname}=`;
+  const decodedCookie = decodeURIComponent(document.cookie);
+  const ca = decodedCookie.split(';');
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) === ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) === 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return '';
 };

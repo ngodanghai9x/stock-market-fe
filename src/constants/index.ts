@@ -210,3 +210,5 @@ export const WEAK_PASSWORDS = [
   'thomas',
   'angel1',
 ];
+
+export const USER_DATA = "user-data"

@@ -1,6 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { WEAK_PASSWORDS } from "../../constants";
 import { PATH_NAMES } from "../../constants/path-name";
 import { customerRegister } from '../../services/api-auth.service';
 import { RegisterPayload } from '../../services/api-auth.type';
@@ -19,7 +20,7 @@ const RegisterPage = () => {
       toast(error.response.data.message)
     }
   }
-  console.log(errors)
+
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -31,7 +32,11 @@ const RegisterPage = () => {
         </div>
         <div>
           <label htmlFor="password">Password:</label>
-          <input type="password" id='password' {...register('password', { required: true })} />
+          <input type="password" id='password' {...register('password', {
+            required: true, validate: {
+              weakPassword: v => WEAK_PASSWORDS.includes(v) || 'Weak'
+            }
+          })} />
           {errors.password && <span>This field is required</span>}
         </div>
         <div>

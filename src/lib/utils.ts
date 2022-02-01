@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import { USER_DATA } from '../constants';
 import { JWT_TOKEN } from '../constants/request';
 import { LoginPayload } from '../services/api-auth.type';
 import { TokenInfo } from '../types';
@@ -21,7 +22,11 @@ export const login = async (data: LoginPayload) => {
   try {
     const res = await customerLogin(data);
     const { token, refreshToken, user } = res.data.data;
-    Cookies.set(JWT_TOKEN, token);
+    // Expiration time as days
+    const expireTime = new Date(new Date().getTime() + Number(process.env.REACT_APP_TOKEN_LIFE) * 60 * 1000);
+    Cookies.set(JWT_TOKEN, token, {expires: expireTime});
+    localStorage.setItem(USER_DATA,JSON.stringify(user) )
+
     return res.data;
   } catch (error) {
     return Promise.reject(error);

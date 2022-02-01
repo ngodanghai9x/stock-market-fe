@@ -1,6 +1,6 @@
 import React, { createContext, ReactElement, useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
-import { USER_DATA } from "../../constants"
+import { STORAGE } from "../../constants"
 import { PATH_NAMES, PUBLIC_ROUTES } from "../../constants/path-name"
 import { tokenCookies } from "../../lib/token-cookies"
 import { User } from "../../services/api-auth.type"
@@ -15,7 +15,7 @@ const initialUser: User = {
 const checkAuthenticated = () => {
   const token = tokenCookies.get()
   if (!token) return { result: false }
-  const userData = localStorage.getItem(USER_DATA)
+  const userData = localStorage.getItem(STORAGE.userData)
   if (!userData) return { result: false }
   return { result: true, userData: JSON.parse(userData) };
 }

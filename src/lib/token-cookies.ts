@@ -1,8 +1,8 @@
 import Cookies from 'js-cookie'
-import { JWT_TOKEN } from '../constants/request'
+import { STORAGE } from '../constants/index'
 
 export const tokenCookies = {
   get(){
-    return Cookies.get(JWT_TOKEN) || ''
+    return Cookies.get(STORAGE.jwtToken) || ''
   }
 }

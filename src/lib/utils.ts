@@ -1,6 +1,5 @@
 import Cookies from 'js-cookie';
-import { USER_DATA } from '../constants';
-import { JWT_TOKEN } from '../constants/request';
+import { STORAGE } from '../constants';
 import { LoginPayload } from '../services/api-auth.type';
 import { TokenInfo } from '../types';
 import { customerLogin } from './../services/api-auth.service';
@@ -16,16 +15,15 @@ import { customerLogin } from './../services/api-auth.service';
 //     });
 //   });
 // };
-const { TOKEN_LIFE = 14400, REFRESH_TOKEN_LIFE } = process.env;
 
 export const login = async (data: LoginPayload) => {
   try {
     const res = await customerLogin(data);
     const { token, refreshToken, user } = res.data.data;
-    // Expiration time as days
-    const expireTime = new Date(new Date().getTime() + Number(process.env.REACT_APP_TOKEN_LIFE) * 60 * 1000);
-    Cookies.set(JWT_TOKEN, token, {expires: expireTime});
-    localStorage.setItem(USER_DATA,JSON.stringify(user) )
+    // Expiration time (ms): 4h
+    const expireTime = new Date(new Date().getTime() + Number(process.env.REACT_APP_TOKEN_LIFE) * 1000);
+    Cookies.set(STORAGE.jwtToken, token, {expires: expireTime});
+    localStorage.setItem(STORAGE.userData,JSON.stringify(user) )
 
     return res.data;
   } catch (error) {

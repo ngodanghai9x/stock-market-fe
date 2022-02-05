@@ -23,8 +23,13 @@ export const login = async (data: LoginPayload) => {
     const res = await customerLogin(data);
     const { token, refreshToken, user } = res.data.data;
     // Expiration time as days
-    const expireTime = new Date(new Date().getTime() + Number(process.env.REACT_APP_TOKEN_LIFE) * 60 * 1000);
-    Cookies.set(JWT_TOKEN, token, {expires: expireTime});
+    const expireTime = new Date(new Date().getTime() + Number(process.env.REACT_APP_REFRESH_TOKEN_LIFE) * 1000);
+    const expiresIn = Date.now() + Number(process.env.REACT_APP_REFRESH_TOKEN_LIFE) * 1000;
+    Cookies.set(JWT_TOKEN, JSON.stringify({
+      token,
+      refreshToken,
+      expiresIn
+    }), {expires: expireTime});
     localStorage.setItem(USER_DATA,JSON.stringify(user) )
 
     return res.data;

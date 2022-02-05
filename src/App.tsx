@@ -1,7 +1,7 @@
 import 'react-toastify/dist/ReactToastify.css';
-import 'rsuite/styles/index.less';
-import "rsuite/dist/rsuite.min.css";
-// import './styles/tailwind.css';
+// import 'rsuite/styles/index.less';
+// import "rsuite/dist/rsuite.min.css";
+import './styles/tailwind.css';
 import './App.css';
 import { AppContextProvider } from './context';
 import Routers from './router';

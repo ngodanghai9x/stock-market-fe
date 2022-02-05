@@ -1,9 +1,12 @@
 import React, { createContext, ReactElement, useEffect, useState } from "react"
+import Cookies from 'js-cookie';
 import { useLocation, useNavigate } from "react-router-dom"
 import { USER_DATA } from "../../constants"
 import { PATH_NAMES, PUBLIC_ROUTES } from "../../constants/path-name"
 import { tokenCookies } from "../../lib/token-cookies"
 import { User } from "../../services/api-auth.type"
+import { JWT_TOKEN } from "../../constants/request";
+import { setupHeaderWithToken } from "../../lib/request";
 
 const initialUser: User = {
   userId: 0,
@@ -13,8 +16,12 @@ const initialUser: User = {
 }
 
 const checkAuthenticated = () => {
-  const token = tokenCookies.get()
+  const { token, expiresIn } = tokenCookies.get()
   if (!token) return { result: false }
+  if (Date.now() > expiresIn) {
+    Cookies.remove(JWT_TOKEN)
+    return { result: false }
+  }
   const userData = localStorage.getItem(USER_DATA)
   if (!userData) return { result: false }
   return { result: true, userData: JSON.parse(userData) };
@@ -44,16 +51,21 @@ export const AuthProvider = (props: { children: ReactElement }) => {
 
   useEffect(() => {
     const { result, userData } = checkAuthenticated()
-    setAuthenticated(result);
     if (!userData) return;
     setUser(userData)
-  }, [])
+
+    setAuthenticated(result);
+    if (result) {
+      setupHeaderWithToken()
+    }
+  }, [location])
 
   useEffect(() => {
     const pathname = location.pathname;
     if (PUBLIC_ROUTES.includes(pathname) && isAuthenticated) {
       navigation(PATH_NAMES.home)
     }
+
   }, [isAuthenticated, location, navigation])
 
   return (

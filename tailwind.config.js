@@ -11,6 +11,10 @@ module.exports = {
         700: '',
         800: '',
       },
+      blue: {
+        purple: '#272262',
+        'purple-dark': '#211C52',
+      },
     },
     extend: {
       screens: {

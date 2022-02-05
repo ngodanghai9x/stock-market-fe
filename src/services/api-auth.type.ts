@@ -24,3 +24,7 @@ export type User = {
   // createdAt: Timestamp;
 }
 
+export type ChangePasswordPayload = {
+  oldPassword: string;
+  password: string;
+}

@@ -211,4 +211,7 @@ export const WEAK_PASSWORDS = [
   'angel1',
 ];
 
-export const USER_DATA = "user-data"
+export const STORAGE = {
+  userData: 'user-data',
+  jwtToken: 'jwt-token',
+};

@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie'
-import { JWT_TOKEN } from '../constants/request'
+import { STORAGE } from '../constants/index'
 
 type TokenType = {
   token: string;
@@ -15,7 +15,7 @@ const initialToken : TokenType = {
 
 export const tokenCookies = {
   get(){
-    const token = Cookies.get(JWT_TOKEN)
+    const token = Cookies.get(STORAGE.jwtToken)
     return token ?  JSON.parse(token) as TokenType : initialToken
   }
 }

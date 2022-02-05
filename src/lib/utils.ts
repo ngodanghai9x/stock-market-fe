@@ -1,6 +1,5 @@
 import Cookies from 'js-cookie';
-import { USER_DATA } from '../constants';
-import { JWT_TOKEN } from '../constants/request';
+import { STORAGE } from '../constants';
 import { LoginPayload } from '../services/api-auth.type';
 import { TokenInfo } from '../types';
 import { customerLogin } from './../services/api-auth.service';
@@ -16,21 +15,20 @@ import { customerLogin } from './../services/api-auth.service';
 //     });
 //   });
 // };
-const { TOKEN_LIFE = 14400, REFRESH_TOKEN_LIFE } = process.env;
 
 export const login = async (data: LoginPayload) => {
   try {
     const res = await customerLogin(data);
     const { token, refreshToken, user } = res.data.data;
-    // Expiration time as days
-    const expireTime = new Date(new Date().getTime() + Number(process.env.REACT_APP_REFRESH_TOKEN_LIFE) * 1000);
+    // Expiration time (ms): 4h
+    const expireTime = new Date(new Date().getTime() + Number(process.env.REACT_APP_TOKEN_LIFE) * 1000);
     const expiresIn = Date.now() + Number(process.env.REACT_APP_REFRESH_TOKEN_LIFE) * 1000;
-    Cookies.set(JWT_TOKEN, JSON.stringify({
+    Cookies.set(STORAGE.jwtToken, JSON.stringify({
       token,
       refreshToken,
       expiresIn
     }), {expires: expireTime});
-    localStorage.setItem(USER_DATA,JSON.stringify(user) )
+    localStorage.setItem(STORAGE.userData,JSON.stringify(user) )
 
     return res.data;
   } catch (error) {
@@ -72,7 +70,7 @@ export const getMinute = (second: number): string => {
   return `${_minute}m : ${_second}s`;
 };
 
-export const setCookie = (cname: string, cvalue: string, expSecond: number = +TOKEN_LIFE) => {
+export const setCookie = (cname: string, cvalue: string, expSecond: number = + Number(process.env.REACT_APP_TOKEN_LIFE)) => {
   const d = new Date();
   d.setTime(d.getTime() + expSecond * 1000);
   const expires = `expires=${d.toUTCString()}`;

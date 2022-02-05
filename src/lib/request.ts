@@ -20,11 +20,6 @@ const setupAuthInterceptor = () => {
     axiosClient.defaults.headers.common[AUTHORIZATION_HEADER_KEY] = token;
   }
 
-  axiosClient.interceptors.request.use((config) => {
-    Object.assign(config.data, {Timestamp: new Date().getTime()})
-    return config
-  })
-
   axiosClient.interceptors.response.use((res) => res, async (error: AxiosError) => {
     if(error.response) {
       if(error.response.status === 401) {

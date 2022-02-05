@@ -1,7 +1,7 @@
 import React, { createContext, ReactElement, useEffect, useState } from "react"
 import Cookies from 'js-cookie';
 import { useLocation, useNavigate } from "react-router-dom"
-import { USER_DATA } from "../../constants"
+import { STORAGE } from "../../constants"
 import { PATH_NAMES, PUBLIC_ROUTES } from "../../constants/path-name"
 import { tokenCookies } from "../../lib/token-cookies"
 import { User } from "../../services/api-auth.type"
@@ -19,10 +19,10 @@ const checkAuthenticated = () => {
   const { token, expiresIn } = tokenCookies.get()
   if (!token) return { result: false }
   if (Date.now() > expiresIn) {
-    Cookies.remove(JWT_TOKEN)
+    Cookies.remove(STORAGE.jwtToken)
     return { result: false }
   }
-  const userData = localStorage.getItem(USER_DATA)
+  const userData = localStorage.getItem(STORAGE.userData)
   if (!userData) return { result: false }
   return { result: true, userData: JSON.parse(userData) };
 }

@@ -1,5 +1,6 @@
 const { EMAIL_USERNAME, EMAIL_NAME } = process.env;
 
+/* ------- Constant ------- */
 export const DATE_FORMAT = {
   dateTime: 'YYYY-MM-DD HH:mm:ss',
   date: 'YYYY-MM-DD',
@@ -215,3 +216,42 @@ export const STORAGE = {
   userData: 'user-data',
   jwtToken: 'jwt-token',
 };
+
+export const NUMBER = {
+  quantityUnit: 100,
+  priceUnit: 1000,
+};
+
+export const PERCENT = {
+  fee: 0.01,
+  priceRange: 0.1,
+};
+
+/* ------- Enum ------- */
+export enum MatchedStatus {
+  Fulfilled = 'Fulfilled',
+  Partial = 'Partial',
+}
+
+// 2 way enum (special) => use PascalCase + camelCase/UPPERCASE
+export enum RoleIdType {
+  user = 1,
+  company = 2,
+  admin = 3,
+  moderator = 4,
+}
+
+export enum OrderIdType {
+  LO = 1,
+  MP = 2,
+  ATO = 3,
+  ATC = 4,
+}
+
+export enum StatusIdType {
+  activated = 1,
+  deleted = 2,
+  duplicated = 3,
+  reviewed = 4,
+  pending = 5,
+}

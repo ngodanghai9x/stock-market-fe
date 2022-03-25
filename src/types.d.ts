@@ -9,6 +9,18 @@ export interface TokenInfo {
 
 export type Value = string | number | boolean | null;
 
+export type SymbolTradePurchase = {
+  [price: string]: Partial<StockOrder>[];
+};
+
+export type Purchase = 'buy' | 'sell';
+
+//  Record<string, Record<string, any>>;
+export type GroupedStockOrders = {
+  [symbol: string]: { [purchase: string | Purchase]: { [price: string]: Partial<StockOrder>[] } };
+  // [symbol: string]: Record<Purchase, { [price: string]: StockOrder[] }>;
+};
+
 export type LoginReq = {
   username: string;
   password: string;

@@ -233,6 +233,24 @@ export enum MatchedStatus {
   Partial = 'Partial',
 }
 
+/* ------- Special case ------- */
+export const TABLE = {
+  citizen_identity: 'citizen_identity',
+  companies: 'companies',
+  industries: 'industries',
+  roles: 'roles',
+  stock_orders: 'stock_orders',
+  stock_order_types: 'stock_order_types',
+  users: 'users',
+  user_storages: 'user_storages',
+  status: 'status',
+};
+
+export const USER_STATUS = {
+  activated: 'activated',
+  deleted: 'deleted',
+  expired_password: 'expired_password',
+};
 // 2 way enum (special) => use PascalCase + camelCase/UPPERCASE
 export enum RoleIdType {
   user = 1,

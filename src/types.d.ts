@@ -1,6 +1,9 @@
+import { RoleIdType } from './constants';
+
 export interface TokenInfo {
   userId: number;
   username: string;
+  roleId: RoleIdType;
   role: string;
   fullName: string;
 
@@ -49,13 +52,7 @@ export type ChangPwReq = {
 export type CreateCompanyReq = {
   company: Company;
   isIpo: boolean;
-  account: { password: string; username: string };
-  // stock: UserStorage;
-};
-
-export type ValidCreateCompanyReq = {
-  company: Company;
-  isIpo: boolean;
-  user: User;
+  needChangePw: boolean;
+  account: { username: string };
   // stock: UserStorage;
 };

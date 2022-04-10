@@ -1,18 +1,17 @@
 import React, { createContext, ReactElement, useEffect, useState } from "react"
 import Cookies from 'js-cookie';
 import { useLocation, useNavigate } from "react-router-dom"
-import { STORAGE } from "../../constants"
+import { RoleIdType, STORAGE } from "../../constants"
 import { PATH_NAMES, PUBLIC_ROUTES } from "../../constants/path-name"
 import { tokenCookies } from "../../lib/token-cookies"
 import { User } from "../../services/api-auth.type"
-import { JWT_TOKEN } from "../../constants/request";
 import { setupHeaderWithToken } from "../../lib/request";
 
 const initialUser: User = {
   userId: 0,
   fullName: '',
   username: '',
-  role: ''
+  roleId: RoleIdType.admin
 }
 
 const checkAuthenticated = () => {

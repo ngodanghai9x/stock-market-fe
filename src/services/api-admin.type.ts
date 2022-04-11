@@ -20,3 +20,11 @@ export type CreateCompanyPayload = {
     price: number;
   };
 };
+
+export type Industry = {
+  industryId: number;
+  industryName: string;
+  industryCode: string;
+  editable: number;
+  statusId: number;
+};

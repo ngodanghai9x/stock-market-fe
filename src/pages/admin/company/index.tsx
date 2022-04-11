@@ -1,5 +1,5 @@
 import { Button } from '@mui/material';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,6 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import CreateCompanyModal from './components/CreateCompanyModal';
+import { getAllCompany } from '../../../services/api-admin.service';
 
 interface Data {
   companyId: number;
@@ -78,29 +79,30 @@ const columns: readonly Column[] = [
 ];
 
 function createData(
-  companyId: number,
-  companyName: string,
-  stockSymbol: string,
-  industryId: number,
-  websiteUrl: string,
-  numEmployees: number,
-  foundedDate: string,
-  ipoDate: string,
-  statusId: number
-): Data {
+  { companyId,
+    companyName,
+    stockSymbol,
+    industryId,
+    foundedDate,
+    ipoDate,
+    statusId }: Data
+) {
   return { companyId, companyName, stockSymbol, industryId, foundedDate, ipoDate, statusId };
 }
-
-const rows = [
-  createData(1, 'companyName', 'stockSymbol', 142, 'websiteUrl', 1000, 'foundedDate', 'ipoDate', 1),
-  createData(1, 'companyName', 'stockSymbol', 142, 'websiteUrl', 1000, 'foundedDate', 'ipoDate', 1),
-  createData(1, 'companyName', 'stockSymbol', 142, 'websiteUrl', 1000, 'foundedDate', 'ipoDate', 1),
-];
 
 const CompanyPage = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [companies, setCompanies] = useState<Data[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const listCompany = await getAllCompany()
+      setCompanies(listCompany.map((company: Data) => createData(company)))
+    }
+    fetchData()
+  }, []);
 
   const toggleModal = useCallback(() => {
     setIsOpenModal((p) => !p);
@@ -135,7 +137,7 @@ const CompanyPage = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                {companies.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                   return (
                     <TableRow hover role="checkbox" tabIndex={-1} key={row.companyId}>
                       {columns.map((column) => {
@@ -155,7 +157,7 @@ const CompanyPage = () => {
           <TablePagination
             rowsPerPageOptions={[10, 25, 100]}
             component="div"
-            count={rows.length}
+            count={companies.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

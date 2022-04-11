@@ -23,7 +23,14 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
     handleSubmit,
     getValues,
     formState: { errors },
-  } = useForm<CreateCompanyPayload>();
+  } = useForm<CreateCompanyPayload>({
+    defaultValues: {
+      company: {
+        ipoDate: new Date(),
+      },
+      isIpo: false,
+    }
+  });
   const onSubmit: SubmitHandler<CreateCompanyPayload> = async (data) => {
     try {
       console.log(data);

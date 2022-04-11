@@ -15,7 +15,7 @@ const AdminPage = () => {
         <div className="bg-gray-100 h-[calc(100vh-64px)]">
           <div>
           </div>
-          <div className=" flex h-full items-center py-10 flex-col">
+          <div className=" flex h-full items-center py-6 flex-col">
             <div className="w-3/4 pb-2">
               {/* <Breadcrumbs aria-label="breadcrumb">
                 <Link underline="hover" color="inherit" href="/">

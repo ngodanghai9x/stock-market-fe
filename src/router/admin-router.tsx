@@ -13,6 +13,7 @@ const AdminRouter = () => {
       <Routes>
         <Route path='/' element={<AdminPage />}>
           <Route path={PATH_NAMES.companies} element={<CompanyPage />} />
+          <Route path={PATH_NAMES.companyDetail} element={<CompanyPage />} />
           <Route path={PATH_NAMES.industries} element={<IndustryPage />} />
           <Route path={PATH_NAMES.users} element={<UserPage />} />
           <Route path={PATH_NAMES.dashboard} element={<DashboardPage />} />

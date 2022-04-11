@@ -7,6 +7,7 @@ export const PATH_NAMES = {
   industries: '/industries',
   users: '/users',
   dashboard: '/dashboard',
+  companyDetail: '/companies/:companyId',
 };
 
 export const PUBLIC_ROUTES = [PATH_NAMES.login, PATH_NAMES.register];

@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import { AppContext } from '../../context'
 
 const Header = ({ ...pros }) => {
   return (

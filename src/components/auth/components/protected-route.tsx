@@ -1,7 +1,7 @@
 import { ReactElement, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PATH_NAMES } from '../../../constants/path-name';
-import { AuthContext } from '../../../context/auth/auth';
+import { AuthContext } from '../../../context/auth/AuthContext';
 
 
 const ProtectedRoute = (props: { children: ReactElement }) => {

@@ -5,7 +5,7 @@ import './styles/tailwind.css';
 import './App.css';
 import { AppContextProvider } from './context';
 import Routers from './router';
-import { AuthProvider } from './context/auth/auth';
+import { AuthProvider } from './context/auth/AuthContext';
 import { ToastContainer } from 'react-toastify';
 
 function App() {

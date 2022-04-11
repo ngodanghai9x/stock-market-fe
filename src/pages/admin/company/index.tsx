@@ -1,5 +1,5 @@
-import { Button } from '@mui/material'
-import React, { useCallback, useState } from 'react'
+import { Button } from '@mui/material';
+import React, { useCallback, useState } from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,11 +8,21 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import CreateCompanyModal from './components/create-company-modal';
+import CreateCompanyModal from './components/CreateCompanyModal';
 
-
+interface Data {
+  companyId: number;
+  companyName: string;
+  stockSymbol: string;
+  industryId: number;
+  // websiteUrl: string;
+  // numEmployees: number;
+  foundedDate: string;
+  ipoDate: string;
+  statusId: number;
+}
 interface Column {
-  id: 'name' | 'code' | 'population' | 'size' | 'density';
+  id: keyof Data;
   label: string;
   minWidth?: number;
   align?: 'right';
@@ -20,72 +30,71 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
+  { id: 'companyId', label: 'ID', minWidth: 55 },
+  { id: 'companyName', label: 'Tên công ty', minWidth: 120 },
   {
-    id: 'population',
-    label: 'Population',
-    minWidth: 170,
+    id: 'stockSymbol',
+    label: 'Mã cổ phiếu',
+    minWidth: 65,
     align: 'right',
-    format: (value: number) => value.toLocaleString('en-US'),
   },
   {
-    id: 'size',
-    label: 'Size\u00a0(km\u00b2)',
+    id: 'industryId',
+    label: 'Ngành nghề',
     minWidth: 170,
     align: 'right',
-    format: (value: number) => value.toLocaleString('en-US'),
+  },
+  // {
+  //   id: 'websiteUrl',
+  //   label: 'Website',
+  //   minWidth: 170,
+  //   align: 'right',
+  // },
+  // {
+  //   id: 'numEmployees',
+  //   label: 'Số nhân viên',
+  //   minWidth: 170,
+  //   align: 'right',
+  //   format: (value: number) => value.toFixed(2),
+  // },
+  {
+    id: 'foundedDate',
+    label: 'Ngày thành lập',
+    minWidth: 170,
+    align: 'right',
   },
   {
-    id: 'density',
-    label: 'Density',
+    id: 'ipoDate',
+    label: 'Ngày niêm yết',
     minWidth: 170,
     align: 'right',
-    format: (value: number) => value.toFixed(2),
+  },
+  {
+    id: 'statusId',
+    label: 'Trạng thái',
+    minWidth: 170,
+    align: 'right',
   },
 ];
 
-interface Data {
-  name: string;
-  code: string;
-  population: number;
-  size: number;
-  density: number;
-}
-
 function createData(
-  name: string,
-  code: string,
-  population: number,
-  size: number,
+  companyId: number,
+  companyName: string,
+  stockSymbol: string,
+  industryId: number,
+  websiteUrl: string,
+  numEmployees: number,
+  foundedDate: string,
+  ipoDate: string,
+  statusId: number
 ): Data {
-  const density = population / size;
-  return { name, code, population, size, density };
+  return { companyId, companyName, stockSymbol, industryId, foundedDate, ipoDate, statusId };
 }
 
 const rows = [
-  createData('India', 'IN', 1324171354, 3287263),
-  createData('China', 'CN', 1403500365, 9596961),
-  createData('Italy', 'IT', 60483973, 301340),
-  createData('United States', 'US', 327167434, 9833520),
-  createData('Canada', 'CA', 37602103, 9984670),
-  createData('Australia', 'AU', 25475400, 7692024),
-  createData('Germany', 'DE', 83019200, 357578),
-  createData('Ireland', 'IE', 4857000, 70273),
-  createData('Mexico', 'MX', 126577691, 1972550),
-  createData('Japan', 'JP', 126317000, 377973),
-  createData('France', 'FR', 67022000, 640679),
-  createData('United Kingdom', 'GB', 67545757, 242495),
-  createData('Russia', 'RU', 146793744, 17098246),
-  createData('Nigeria', 'NG', 200962417, 923768),
-  createData('Brazil', 'BR', 210147125, 8515767),
-  createData('Brazil', 'BR', 210147125, 8515767),
-  createData('Brazil', 'BR', 210147125, 8515767),
-  createData('Brazil', 'BR', 210147125, 8515767),
-  createData('Brazil', 'BR', 210147125, 8515767),
-  createData('Brazil', 'BR', 210147125, 8515767),
-  createData('Brazil', 'BR', 210147125, 8515767),
-  createData('Brazil', 'BR', 210147125, 8515767),
+  createData(1, 'companyName', 'stockSymbol', 142, 'websiteUrl', 1000, 'foundedDate', 'ipoDate', 1),
+  createData(1, 'companyName', 'stockSymbol', 142, 'websiteUrl', 1000, 'foundedDate', 'ipoDate', 1),
+  createData(1, 'companyName', 'stockSymbol', 142, 'websiteUrl', 1000, 'foundedDate', 'ipoDate', 1),
 ];
 
 const CompanyPage = () => {
@@ -94,8 +103,8 @@ const CompanyPage = () => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
   const toggleModal = useCallback(() => {
-    setIsOpenModal(p => !p)
-  }, [])
+    setIsOpenModal((p) => !p);
+  }, []);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -106,46 +115,40 @@ const CompanyPage = () => {
     setPage(0);
   };
   return (
-    <div className='bg-white h-full w-11/12'>
-      <div className='flex justify-end mt-4 mr-4'>
-        <Button variant="outlined" onClick={toggleModal}>Create company</Button>
+    <div className="bg-white h-full w-11/12">
+      <div className="flex justify-end mt-4 mr-4">
+        <Button variant="outlined" onClick={toggleModal}>
+          Thêm mới
+        </Button>
       </div>
-      <div className='mt-5 px-4'>
+      <div className="mt-5 px-4">
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
           <TableContainer sx={{ maxHeight: 660, minHeight: 660 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>
                   {columns.map((column) => (
-                    <TableCell
-                      key={column.id}
-                      align={column.align}
-                      style={{ minWidth: column.minWidth }}
-                    >
+                    <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth }}>
                       {column.label}
                     </TableCell>
                   ))}
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => {
-                    return (
-                      <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                        {columns.map((column) => {
-                          const value = row[column.id];
-                          return (
-                            <TableCell key={column.id} align={column.align}>
-                              {column.format && typeof value === 'number'
-                                ? column.format(value)
-                                : value}
-                            </TableCell>
-                          );
-                        })}
-                      </TableRow>
-                    );
-                  })}
+                {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                  return (
+                    <TableRow hover role="checkbox" tabIndex={-1} key={row.companyId}>
+                      {columns.map((column) => {
+                        const value = row[column.id];
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            {column.format && typeof value === 'number' ? column.format(value) : value}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </TableContainer>
@@ -162,7 +165,7 @@ const CompanyPage = () => {
       </div>
       <CreateCompanyModal isOpen={isOpenModal} onClose={toggleModal} />
     </div>
-  )
-}
+  );
+};
 
-export default CompanyPage
+export default CompanyPage;

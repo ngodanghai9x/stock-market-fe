@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react"
-import LoginLogo from "../../components/images/login-logo"
+import LoginLogo from "../../components/images/LoginLogo"
 import { LoginForm, RegisterForm } from "../../modules/auth";
 
 enum Form {

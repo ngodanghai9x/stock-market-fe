@@ -3,7 +3,6 @@ export type CreateCompanyPayload = {
   needChangePw: boolean;
   account: {
     username: string;
-    password: string;
   };
   company: {
     companyName: string;

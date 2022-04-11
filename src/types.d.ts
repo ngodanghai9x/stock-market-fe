@@ -24,35 +24,3 @@ export type GroupedStockOrders = {
   // [symbol: string]: Record<Purchase, { [price: string]: StockOrder[] }>;
 };
 
-export type LoginReq = {
-  username: string;
-  password: string;
-};
-
-export type LogoutReq = {};
-
-export type RegisterReq = {
-  username: string;
-  password: string;
-  fullName: string;
-  email: string;
-};
-
-export type ForgetPwReq = {
-  username: string;
-  password: string;
-  otpForget: string;
-};
-
-export type ChangPwReq = {
-  password: string;
-  oldPassword: string;
-};
-
-export type CreateCompanyReq = {
-  company: Company;
-  isIpo: boolean;
-  needChangePw: boolean;
-  account: { username: string };
-  // stock: UserStorage;
-};

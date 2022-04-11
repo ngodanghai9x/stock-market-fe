@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import ProtectedRoute from '../../components/auth/components/protected-route';
-import { AuthContext } from '../../context/auth/auth';
+import { AuthContext } from '../../context/auth/AuthContext';
 
 const HomePage = () => {
   const { user } = useContext(AuthContext)

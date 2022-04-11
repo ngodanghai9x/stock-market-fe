@@ -1,7 +1,7 @@
 import { Breadcrumbs, Link, Typography } from "@mui/material"
 import { Outlet, useLocation } from "react-router-dom"
-import Header from "../../components/admin/layout/header"
-import SideBar from "../../components/admin/layout/side-bar"
+import Header from "../../components/admin/layout/Header"
+import SideBar from "../../components/admin/layout/SideBar"
 
 const AdminPage = () => {
 

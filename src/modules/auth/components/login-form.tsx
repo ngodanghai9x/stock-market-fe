@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { toast } from "react-toastify"
-import { AuthContext } from "../../../context/auth/auth"
+import { AuthContext } from "../../../context/auth/AuthContext"
 import { login } from "../../../lib/utils"
 import { LoginPayload } from "../../../services/api-auth.type"
 import AuthInput from "./auth-input"

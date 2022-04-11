@@ -16,7 +16,7 @@ type CreateCompanyModalProps = {
 
 const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
   const [ipoDate, setIpoDate] = useState<Date | null>(null);
-  const [dateOfincorporation, setDateOfincorporation] = useState<Date | null>(null);
+  const [foundedDate, setFoundedDate] = useState<Date | null>(null);
   const [industries, setIndustries] = useState<Industry[]>([]);
   const { register, handleSubmit, getValues, formState: { errors } } = useForm<CreateCompanyPayload>()
   const onSubmit: SubmitHandler<CreateCompanyPayload> = async (data) => {
@@ -101,10 +101,10 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
                 orientation='portrait'
                 label="Ngày thành lập"
                 inputFormat="MM/dd/yyyy"
-                value={dateOfincorporation}
+                value={foundedDate}
                 className="w-full"
                 onChange={(newValue) => {
-                  setDateOfincorporation(newValue);
+                  setFoundedDate(newValue);
                 }}
                 renderInput={(params) => <div className='my-3'><TextField variant='standard' className='w-full' {...params} /></div>}
               />

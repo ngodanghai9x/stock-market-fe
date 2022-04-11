@@ -2,9 +2,9 @@ import classNames from "classnames"
 import React from "react"
 import { hasUtilsClass } from "../lib/has-utils-class"
 
-type PagelayoutProps = React.ComponentPropsWithoutRef<'div'>
+type PageLayoutProps = React.ComponentPropsWithoutRef<'div'>
 
-const Pagelayout = ({ children, className, ...rest }: PagelayoutProps) => {
+const PageLayout = ({ children, className, ...rest }: PageLayoutProps) => {
   return (
     <div className={
       classNames(
@@ -17,4 +17,4 @@ const Pagelayout = ({ children, className, ...rest }: PagelayoutProps) => {
   )
 }
 
-export default Pagelayout
+export default PageLayout

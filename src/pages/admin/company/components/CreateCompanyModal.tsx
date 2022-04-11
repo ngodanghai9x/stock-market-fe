@@ -134,6 +134,7 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
                   onChange={(newValue) => {
                     setIpoDate(newValue);
                   }}
+                  disabled={getValues().isIpo}
                   renderInput={(params) => (
                     <div className="my-1 mx-2">
                       <TextField variant="standard" className="w-full" {...params} />
@@ -191,7 +192,9 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
               />
             </div>
             <div className="flex -ml-3">
-              <Checkbox id="isIpo" {...register('isIpo')} />
+              <Checkbox id="isIpo" {...register('isIpo')} onClick={() => {
+                setIpoDate(new Date())
+              }} />
               <label className="mt-2 cursor-pointer select-none" htmlFor="isIpo">
                 Niêm yết ngay
               </label>

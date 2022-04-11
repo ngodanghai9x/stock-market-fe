@@ -22,7 +22,7 @@ const CustomModal = ({ open, onClose, children, modalTitle }: CustomModalProps) 
             <h1 className='text-xl font-bold '>{modalTitle}</h1>
             <Close onClick={onClose} className='cursor-pointer' />
           </div>
-          <div className='max-h-[860px] overflow-y-scroll'>
+          <div className='max-h-[690px] overflow-y-scroll'>
             {children}
           </div>
         </div>

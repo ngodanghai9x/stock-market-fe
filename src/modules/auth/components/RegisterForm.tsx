@@ -5,7 +5,7 @@ import { WEAK_PASSWORDS } from "../../../constants";
 import { PATH_NAMES } from "../../../constants/path-name";
 import { customerRegister } from '../../../services/api-auth.service';
 import { RegisterPayload } from '../../../services/api-auth.type';
-import AuthInput from "./auth-input";
+import AuthInput from "./AuthInput";
 
 export const RegisterForm = () => {
   const { register, handleSubmit, getValues, formState: { errors } } = useForm<RegisterPayload>()

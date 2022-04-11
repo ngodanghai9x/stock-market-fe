@@ -4,7 +4,7 @@ import { toast } from "react-toastify"
 import { AuthContext } from "../../../context/auth/AuthContext"
 import { login } from "../../../lib/utils"
 import { LoginPayload } from "../../../services/api-auth.type"
-import AuthInput from "./auth-input"
+import AuthInput from "./AuthInput"
 
 export const LoginForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<LoginPayload>()
@@ -19,7 +19,6 @@ export const LoginForm = () => {
     } catch (error: any) {
       console.log(error)
       toast(error.response.data.message)
-
     }
   }
 

@@ -6,7 +6,7 @@ const SideBar = () => {
   return (
     <div className='col-span-2 h-screen border-r'>
       <div className='p-4 text-white font-bold text-2xl border-b'>
-        <p>thu gon</p>
+        <p>Thu gon</p>
       </div>
       <div>
         <ul className='flex flex-col'>

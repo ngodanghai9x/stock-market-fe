@@ -10,7 +10,7 @@ const SideBar = () => {
       </div>
       <div>
         <ul className='flex flex-col'>
-          {SIDEBAR_OPTION.map((option, index) => <li key={index} className='py-3 text-base px-4 hover:bg-gray-100'>
+          {SIDEBAR_OPTION.map((option, index) => <li key={index} className='text-base  hover:bg-gray-100'>
             <CustomLink to={option}>
               {option.charAt(0).toUpperCase() + option.slice(1)}
             </CustomLink>
@@ -30,7 +30,7 @@ function CustomLink({ children, to, ...props }: LinkProps) {
       <Link
         to={to}
         {...props}
-        className={`${match ? 'font-bold' : ''}`}
+        className={`block w-full h-full py-3  px-4 ${match ? 'font-bold' : ''}`}
       >
         {children}
       </Link>

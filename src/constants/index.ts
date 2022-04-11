@@ -259,6 +259,12 @@ export enum RoleIdType {
   moderator = 4,
 }
 
+export const RoleLabelType = {
+  '1': 'Người dùng',
+  // '3': 'Quản trị viên',
+  '4': 'Biên tập viên',
+};
+
 export enum OrderIdType {
   LO = 1,
   MP = 2,
@@ -273,3 +279,11 @@ export enum StatusIdType {
   reviewed = 4,
   pending = 5,
 }
+
+export const StatusLabelType = {
+  '1': 'Hoạt động',
+  // '2': 'Đã xóa',
+  // '3': 'Trùng lặp',
+  '4': 'Đã duyệt',
+  '5': 'Chờ duyệt',
+};

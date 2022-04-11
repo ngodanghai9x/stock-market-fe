@@ -1,56 +1,116 @@
-import { Button, Input, TextField } from '@mui/material';
+import { Autocomplete, Button, Input, TextField } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import CustomModal from '../../../../components/CustomModal';
-import { CreateCompanyPayload } from '../../../../services/api-admin.type';
+import { RoleLabelType, StatusLabelType } from '../../../../constants';
+import { EditUserPayload } from '../../../../services/api-admin.type';
 
 type EditUserModalProps = {
   isOpen: boolean;
   onClose: () => void;
-}
+};
 
 const EditUserModal = ({ isOpen, onClose }: EditUserModalProps) => {
-  const { register, handleSubmit, getValues, formState: { errors } } = useForm<CreateCompanyPayload>()
-  const onSubmit: SubmitHandler<CreateCompanyPayload> = async (data) => {
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm<EditUserPayload>();
+  const onSubmit: SubmitHandler<EditUserPayload> = async (data) => {
     try {
-      console.log(data)
+      console.log(data);
     } catch (error: any) {
-      console.log(error)
-      toast(error.response.data.message)
+      console.log(error);
+      toast(error.response.data.message);
     }
-  }
+  };
   return (
     <div>
       <CustomModal
-        modalTitle='Thông tin về người dùng'
+        modalTitle="Thông tin người dùng"
         open={isOpen}
         onClose={onClose}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description">
+        aria-describedby="modal-modal-description"
+      >
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className='mx-10 mb-10'>
-            {/* <p className='mt-2 font-medium'>Account: </p> */}
-            {/* <TextField id="standard-basic" label="Username" variant="standard" className='w-full'  {...register('account.username', { required: true })} /> */}
-            {/* <TextField id="standard-basic" label="Password" variant="standard" className='w-full'  {...register('account.password', { required: true })} /> */}
-            <p className='mt-2 font-medium'>Công ty: </p>
-            <TextField id="standard-basic" label="Company name" variant="standard" className='w-full'   {...register('company.companyName', { required: true })} />
-            <TextField id="standard-basic" label="Website url" variant="standard" className='w-full'  {...register('company.websiteUrl', { required: true })} />
-            <TextField id="standard-basic" label="Contact email" variant="standard" className='w-full'  {...register('company.contactEmail', { required: true })} />
-            <TextField id="standard-basic" label="Phone number" variant="standard" className='w-full'  {...register('company.phoneNumber', { required: true })} />
-            <TextField id="standard-basic" label="Number employees" variant="standard" className='w-full'  {...register('company.numEmployees', { required: true })} />
-            <p className='mt-2 font-medium'>Cố phiếu: </p>
-            <TextField id="standard-basic" label="Stock symbol" variant="standard" className='w-full'  {...register('stock.stockSymbol', { required: true })} />
-            <TextField id="standard-basic" label="Quantity" variant="standard" className='w-full' {...register('stock.quantity', { required: true })} />
-            <TextField id="standard-basic" label="Price" variant="standard" className='w-full' {...register('stock.price', { required: true })} />
+          <div className="mx-10 mb-10">
+            <div className="my-2">
+              <TextField
+                required
+                label="Tên ngành nghề"
+                variant="standard"
+                className="w-full"
+                {...register('user.fullName', { required: true })}
+              />
+            </div>
+            <div className="mb-2">
+              <TextField
+                required
+                label="Mã ngành nghề"
+                variant="standard"
+                className="w-full"
+                {...register('user.phone', { required: true })}
+              />
+            </div>
+            <div className="mb-2">
+              <Autocomplete
+                freeSolo
+                disableClearable
+                options={Object.values(StatusLabelType)}
+                renderInput={(params) => (
+                  <div className="">
+                    <TextField
+                      {...params}
+                      required
+                      label="Vai trò"
+                      variant="standard"
+                      InputProps={{
+                        ...params.InputProps,
+                        type: 'search',
+                      }}
+                    />
+                  </div>
+                )}
+              />
+            </div>
+            <div className="mb-2">
+              <Autocomplete
+                freeSolo
+                disableClearable
+                options={Object.values(RoleLabelType)}
+                renderInput={(params) => (
+                  <div className="">
+                    <TextField
+                      {...params}
+                      required
+                      label="Trạng thái"
+                      variant="standard"
+                      InputProps={{
+                        ...params.InputProps,
+                        type: 'search',
+                      }}
+                    />
+                  </div>
+                )}
+              />
+            </div>
           </div>
-          <div className='flex justify-end px-6 pb-6'>
-            <Button type='button' variant='contained' > Hủy </Button>
-            <Button type='submit' variant='contained' > Lưu </Button>
+          <div className="flex justify-end px-6 pb-6">
+            <div className="mr-3">
+              <Button type="button" variant="outlined" onClick={onClose}>
+                Hủy
+              </Button>
+            </div>
+            <Button type="submit" variant="contained">
+              Lưu
+            </Button>
           </div>
         </form>
       </CustomModal>
     </div>
-  )
-}
+  );
+};
 
-export default EditUserModal
+export default EditUserModal;

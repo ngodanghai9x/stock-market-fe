@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import { STORAGE } from '../constants';
+import { StatusIdType, StatusLabelType, STORAGE } from '../constants';
 import { LoginPayload } from '../services/api-auth.type';
 import { TokenInfo } from '../types';
 import { customerLogin } from './../services/api-auth.service';

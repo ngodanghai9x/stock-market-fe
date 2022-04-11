@@ -57,6 +57,7 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
               <div className="my-1 mx-2">
                 <TextField
                   id="company-name"
+                  required
                   label="Tên công ty"
                   variant="standard"
                   className="w-full"
@@ -73,7 +74,8 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
                     <div className="">
                       <TextField
                         {...params}
-                        label="Lĩnh vực"
+                        required
+                        label="Ngành nghề"
                         variant="standard"
                         InputProps={{
                           ...params.InputProps,
@@ -87,6 +89,7 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
               <div className="my-1 mx-2">
                 <TextField
                   id="website-url"
+                  required
                   label="Website"
                   variant="standard"
                   className="w-full"
@@ -96,6 +99,7 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
               <div className="my-1 mx-2">
                 <TextField
                   id="contact-email"
+                  required
                   label="Email"
                   variant="standard"
                   className="w-full"
@@ -130,6 +134,7 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
                   onChange={(newValue) => {
                     setIpoDate(newValue);
                   }}
+                  disabled={getValues().isIpo}
                   renderInput={(params) => (
                     <div className="my-1 mx-2">
                       <TextField variant="standard" className="w-full" {...params} />
@@ -159,6 +164,7 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
             <div className="my-2">
               <TextField
                 id="stock-symbol"
+                required
                 label="Mã cổ phiếu"
                 variant="standard"
                 className="w-full"
@@ -168,6 +174,7 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
             <div className="mb-2">
               <TextField
                 id="quantity"
+                required
                 label="Số lượng cổ phiếu"
                 variant="standard"
                 className="w-full"
@@ -177,6 +184,7 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
             <div className="mb-2">
               <TextField
                 id="price"
+                required
                 label="Giá cổ phiếu"
                 variant="standard"
                 className="w-full"
@@ -184,7 +192,9 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
               />
             </div>
             <div className="flex -ml-3">
-              <Checkbox id="isIpo" {...register('isIpo')} />
+              <Checkbox id="isIpo" {...register('isIpo')} onClick={() => {
+                setIpoDate(new Date())
+              }} />
               <label className="mt-2 cursor-pointer select-none" htmlFor="isIpo">
                 Niêm yết ngay
               </label>

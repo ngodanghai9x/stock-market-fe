@@ -9,71 +9,34 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import CreateIndustryModal from './components/CreateIndustryModal';
-
-interface Data {
-  companyId: number;
-  companyName: string;
-  stockSymbol: string;
-  industryId: number;
-  // websiteUrl: string;
-  // numEmployees: number;
-  foundedDate: string;
-  ipoDate: string;
-  statusId: number;
-}
+import { Industry } from '../../../services/api-admin.type';
 interface Column {
-  id: keyof Data;
+  id: keyof Industry;
   label: string;
   minWidth?: number;
-  align?: 'right';
+  align?: 'right' | 'left';
   format?: (value: number) => string;
 }
-
 const columns: readonly Column[] = [
-  { id: 'companyId', label: 'ID', minWidth: 55 },
-  { id: 'companyName', label: 'Tên công ty', minWidth: 120 },
+  { id: 'industryId', label: 'ID', minWidth: 55 },
+  { id: 'industryName', label: 'Tên ngành nghề', minWidth: 150 },
   {
-    id: 'stockSymbol',
-    label: 'Mã cổ phiếu',
-    minWidth: 65,
-    align: 'right',
+    id: 'industryCode',
+    label: 'Mã ngành nghề',
+    minWidth: 75,
+    align: 'left',
   },
   {
-    id: 'industryId',
-    label: 'Ngành nghề',
-    minWidth: 170,
-    align: 'right',
-  },
-  // {
-  //   id: 'websiteUrl',
-  //   label: 'Website',
-  //   minWidth: 170,
-  //   align: 'right',
-  // },
-  // {
-  //   id: 'numEmployees',
-  //   label: 'Số nhân viên',
-  //   minWidth: 170,
-  //   align: 'right',
-  //   format: (value: number) => value.toFixed(2),
-  // },
-  {
-    id: 'foundedDate',
-    label: 'Ngày thành lập',
-    minWidth: 170,
-    align: 'right',
-  },
-  {
-    id: 'ipoDate',
-    label: 'Ngày niêm yết',
-    minWidth: 170,
-    align: 'right',
+    id: 'description',
+    label: 'Mô tả',
+    minWidth: 300,
+    align: 'left',
   },
   {
     id: 'statusId',
     label: 'Trạng thái',
-    minWidth: 170,
-    align: 'right',
+    minWidth: 90,
+    align: 'left',
   },
 ];
 
@@ -87,8 +50,8 @@ function createData(
   foundedDate: string,
   ipoDate: string,
   statusId: number
-): Data {
-  return { companyId, companyName, stockSymbol, industryId, foundedDate, ipoDate, statusId };
+): Industry {
+  return {} as Industry;
 }
 
 const rows = [
@@ -137,7 +100,7 @@ const IndustryPage = () => {
               <TableBody>
                 {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                   return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={row.companyId}>
+                    <TableRow hover role="checkbox" tabIndex={-1} key={row.industryId}>
                       {columns.map((column) => {
                         const value = row[column.id];
                         return (

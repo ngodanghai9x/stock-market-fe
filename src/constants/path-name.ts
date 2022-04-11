@@ -12,4 +12,9 @@ export const PATH_NAMES = {
 
 export const PUBLIC_ROUTES = [PATH_NAMES.login, PATH_NAMES.register];
 
-export const SIDEBAR_OPTION = ['dashboard', 'companies', 'industries', 'users'];
+export const SIDEBAR_OPTION: Record<string, string> = {
+  dashboard: 'Trang chủ',
+  companies: 'Công ty',
+  industries: 'Ngành nghề',
+  users: 'Người dùng',
+};

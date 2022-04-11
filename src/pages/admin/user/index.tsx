@@ -9,20 +9,9 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import EditUserModal from './components/EditUserModal';
-
-interface Data {
-  companyId: number;
-  companyName: string;
-  stockSymbol: string;
-  industryId: number;
-  // websiteUrl: string;
-  // numEmployees: number;
-  foundedDate: string;
-  ipoDate: string;
-  statusId: number;
-}
+import { User } from '../../../services/api-admin.type';
 interface Column {
-  id: keyof Data;
+  id: keyof User;
   label: string;
   minWidth?: number;
   align?: 'right';
@@ -30,47 +19,34 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-  { id: 'companyId', label: 'ID', minWidth: 55 },
-  { id: 'companyName', label: 'Tên công ty', minWidth: 120 },
+  { id: 'userId', label: 'ID', minWidth: 55 },
+  { id: 'username', label: 'Tài khoản', minWidth: 120 },
   {
-    id: 'stockSymbol',
-    label: 'Mã cổ phiếu',
+    id: 'fullName',
+    label: 'Họ và tên',
     minWidth: 65,
     align: 'right',
   },
   {
-    id: 'industryId',
-    label: 'Ngành nghề',
-    minWidth: 170,
-    align: 'right',
-  },
-  // {
-  //   id: 'websiteUrl',
-  //   label: 'Website',
-  //   minWidth: 170,
-  //   align: 'right',
-  // },
-  // {
-  //   id: 'numEmployees',
-  //   label: 'Số nhân viên',
-  //   minWidth: 170,
-  //   align: 'right',
-  //   format: (value: number) => value.toFixed(2),
-  // },
-  {
-    id: 'foundedDate',
-    label: 'Ngày thành lập',
+    id: 'roleId',
+    label: 'Vai trò',
     minWidth: 170,
     align: 'right',
   },
   {
-    id: 'ipoDate',
-    label: 'Ngày niêm yết',
+    id: 'email',
+    label: 'Email',
     minWidth: 170,
     align: 'right',
   },
   {
-    id: 'statusId',
+    id: 'birthday',
+    label: 'Ngày sinh nhật',
+    minWidth: 170,
+    align: 'right',
+  },
+  {
+    id: 'userStatus',
     label: 'Trạng thái',
     minWidth: 170,
     align: 'right',
@@ -87,8 +63,8 @@ function createData(
   foundedDate: string,
   ipoDate: string,
   statusId: number
-): Data {
-  return { companyId, companyName, stockSymbol, industryId, foundedDate, ipoDate, statusId };
+): User {
+  return { } as User;
 }
 
 const rows = [
@@ -137,7 +113,7 @@ const UserPage = () => {
               <TableBody>
                 {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                   return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={row.companyId}>
+                    <TableRow hover role="checkbox" tabIndex={-1} key={row.userId}>
                       {columns.map((column) => {
                         const value = row[column.id];
                         return (

@@ -57,6 +57,7 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
               <div className="my-1 mx-2">
                 <TextField
                   id="company-name"
+                  required
                   label="Tên công ty"
                   variant="standard"
                   className="w-full"
@@ -73,7 +74,8 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
                     <div className="">
                       <TextField
                         {...params}
-                        label="Lĩnh vực"
+                        required
+                        label="Ngành nghề"
                         variant="standard"
                         InputProps={{
                           ...params.InputProps,
@@ -87,6 +89,7 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
               <div className="my-1 mx-2">
                 <TextField
                   id="website-url"
+                  required
                   label="Website"
                   variant="standard"
                   className="w-full"
@@ -96,6 +99,7 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
               <div className="my-1 mx-2">
                 <TextField
                   id="contact-email"
+                  required
                   label="Email"
                   variant="standard"
                   className="w-full"
@@ -159,6 +163,7 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
             <div className="my-2">
               <TextField
                 id="stock-symbol"
+                required
                 label="Mã cổ phiếu"
                 variant="standard"
                 className="w-full"
@@ -168,6 +173,7 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
             <div className="mb-2">
               <TextField
                 id="quantity"
+                required
                 label="Số lượng cổ phiếu"
                 variant="standard"
                 className="w-full"
@@ -177,6 +183,7 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
             <div className="mb-2">
               <TextField
                 id="price"
+                required
                 label="Giá cổ phiếu"
                 variant="standard"
                 className="w-full"

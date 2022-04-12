@@ -3,21 +3,21 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import CustomModal from '../../../../components/CustomModal';
 import { RoleLabelType, StatusLabelType } from '../../../../constants';
-import { EditUserPayload } from '../../../../services/api-admin.type';
+import { AdminEditUserPayload } from '../../../../services/api-admin.type';
 
-type EditUserModalProps = {
+type AdminEditUserModalProps = {
   isOpen: boolean;
   onClose: () => void;
 };
 
-const EditUserModal = ({ isOpen, onClose }: EditUserModalProps) => {
+const AdminEditUserModal = ({ isOpen, onClose }: AdminEditUserModalProps) => {
   const {
     register,
     handleSubmit,
     getValues,
     formState: { errors },
-  } = useForm<EditUserPayload>();
-  const onSubmit: SubmitHandler<EditUserPayload> = async (data) => {
+  } = useForm<AdminEditUserPayload>();
+  const onSubmit: SubmitHandler<AdminEditUserPayload> = async (data) => {
     try {
       console.log(data);
     } catch (error: any) {
@@ -42,7 +42,7 @@ const EditUserModal = ({ isOpen, onClose }: EditUserModalProps) => {
                 label="Tên ngành nghề"
                 variant="standard"
                 className="w-full"
-                {...register('user.fullName', { required: true })}
+                {...register('user.userStatus', { required: true })}
               />
             </div>
             <div className="mb-2">
@@ -51,7 +51,7 @@ const EditUserModal = ({ isOpen, onClose }: EditUserModalProps) => {
                 label="Mã ngành nghề"
                 variant="standard"
                 className="w-full"
-                {...register('user.phone', { required: true })}
+                {...register('user.roleId', { required: true })}
               />
             </div>
             <div className="mb-2">
@@ -113,4 +113,4 @@ const EditUserModal = ({ isOpen, onClose }: EditUserModalProps) => {
   );
 };
 
-export default EditUserModal;
+export default AdminEditUserModal;

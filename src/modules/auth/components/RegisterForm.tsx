@@ -1,6 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import ValidateMessage from "../../../components/ValidateMessage";
 import { WEAK_PASSWORDS } from "../../../constants";
 import { PATH_NAMES } from "../../../constants/path-name";
 import { customerRegister } from '../../../services/api-auth.service';
@@ -26,37 +27,37 @@ export const RegisterForm = () => {
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="group flex flex-col mb-8">
-          <AuthInput label="User name:" {...register('username', { required: true })} />
-          {errors.username && <span>This field is required</span>}
+          <AuthInput label="Tài khoản:" {...register('username', { required: true })} />
+          {errors.username && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
         </div>
         <div className="group flex flex-col mb-8">
-          <AuthInput label="Password:" type="password" {...register('password', {
+          <AuthInput label="Mật khẩu:" type="password" {...register('password', {
             required: true, validate: {
               weakPassword: v => !WEAK_PASSWORDS.includes(v) || 'Weak'
             }
           })} />
-          {errors.password && <span>{errors.password.message}</span>}
+          {errors.password && <ValidateMessage>{errors.password.message}</ValidateMessage>}
         </div>
         <div className="group flex flex-col mb-8">
-          <AuthInput label="Confirm password:" type="password" {...register('confirmPassword', {
+          <AuthInput label="Xác nhận mật khẩu:" type="password" {...register('confirmPassword', {
             required: {
               value: true,
-              message: 'This field is required'
+              message: 'Trường này bắt buộc phải nhập'
             }, validate: {
-              samePassword: v => v === getValues('password') || 'Confirm password not match'
+              samePassword: v => v === getValues('password') || 'Mật khẩu không khớp'
             }
           })} />
-          {errors.confirmPassword && <span>{errors.confirmPassword.message}</span>}
+          {errors.confirmPassword && <ValidateMessage>{errors.confirmPassword.message}</ValidateMessage>}
         </div>
         <div className="group flex flex-col mb-8">
-          <AuthInput label="Full name:" {...register('fullName', { required: true })} />
-          {errors.fullName && <span>This field is required</span>}
+          <AuthInput label="Họ và tên:" {...register('fullName', { required: true })} />
+          {errors.fullName && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
         </div>
         <div className="group flex flex-col mb-10">
           <AuthInput label="Email:" {...register('email', { required: true })} />
-          {errors.email && <span>This field is required</span>}
+          {errors.email && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
         </div>
-        <input type="submit" value="Register" className="w-3/6 mx-auto block bg-lightBlue-300 py-3 text-white rounded-3xl font-medium" />
+        <input type="submit" value="Đăng ký" className="w-3/6 mx-auto block bg-lightBlue-300 py-3 text-white rounded-3xl font-medium" />
       </form>
     </div>
   )

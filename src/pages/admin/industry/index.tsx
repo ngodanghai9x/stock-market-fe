@@ -1,5 +1,5 @@
 import { Button } from '@mui/material';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,7 +9,8 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import CreateIndustryModal from './components/CreateIndustryModal';
-import { Industry } from '../../../services/api-admin.type';
+import { Industry, SearchPayload } from '../../../services/api-admin.type';
+import { searchIndustries } from '../../../services/api-admin.service';
 interface Column {
   id: keyof Industry;
   label: string;
@@ -40,30 +41,19 @@ const columns: readonly Column[] = [
   },
 ];
 
-function createData(
-  companyId: number,
-  companyName: string,
-  stockSymbol: string,
-  industryId: number,
-  websiteUrl: string,
-  numEmployees: number,
-  foundedDate: string,
-  ipoDate: string,
-  statusId: number
-): Industry {
-  return {} as Industry;
-}
-
-const rows = [
-  createData(1, 'companyName', 'stockSymbol', 142, 'websiteUrl', 1000, 'foundedDate', 'ipoDate', 1),
-  createData(1, 'companyName', 'stockSymbol', 142, 'websiteUrl', 1000, 'foundedDate', 'ipoDate', 1),
-  createData(1, 'companyName', 'stockSymbol', 142, 'websiteUrl', 1000, 'foundedDate', 'ipoDate', 1),
-];
-
 const IndustryPage = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [records, setRecords] = useState<Industry[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const list = await searchIndustries({} as SearchPayload);
+      setRecords(list);
+    };
+    fetchData();
+  }, []);
 
   const toggleModal = useCallback(() => {
     setIsOpenModal((p) => !p);
@@ -98,7 +88,7 @@ const IndustryPage = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                {records.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                   return (
                     <TableRow hover role="checkbox" tabIndex={-1} key={row.industryId}>
                       {columns.map((column) => {
@@ -118,7 +108,7 @@ const IndustryPage = () => {
           <TablePagination
             rowsPerPageOptions={[10, 25, 100]}
             component="div"
-            count={rows.length}
+            count={records.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

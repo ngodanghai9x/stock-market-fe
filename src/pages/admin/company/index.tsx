@@ -10,14 +10,16 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import CreateCompanyModal from './components/CreateCompanyModal';
 import { getAllCompany } from '../../../services/api-admin.service';
+import { Industry } from '../../../services/api-admin.type';
 
 interface Data {
   companyId: number;
   companyName: string;
   stockSymbol: string;
   industryId: number;
-  // websiteUrl: string;
-  // numEmployees: number;
+  industry: Industry;
+  websiteUrl: string;
+  numEmployees: number;
   foundedDate: string;
   ipoDate: string;
   statusId: number;
@@ -27,7 +29,7 @@ interface Column {
   label: string;
   minWidth?: number;
   align?: 'right';
-  format?: (value: number) => string;
+  format?: (value: string | number | Industry) => string;
 }
 
 const columns: readonly Column[] = [
@@ -78,17 +80,17 @@ const columns: readonly Column[] = [
   },
 ];
 
-function createData(
-  { companyId,
-    companyName,
-    stockSymbol,
-    industryId,
-    foundedDate,
-    ipoDate,
-    statusId }: Data
-) {
-  return { companyId, companyName, stockSymbol, industryId, foundedDate, ipoDate, statusId };
-}
+// function createData(
+//   { companyId,
+//     companyName,
+//     stockSymbol,
+//     industryId,
+//     foundedDate,
+//     ipoDate,
+//     statusId }: Data
+// ) {
+//   return { companyId, companyName, stockSymbol, industryId, foundedDate, ipoDate, statusId };
+// }
 
 const CompanyPage = () => {
   const [page, setPage] = React.useState(0);
@@ -98,10 +100,11 @@ const CompanyPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const listCompany = await getAllCompany()
-      setCompanies(listCompany.map((company: Data) => createData(company)))
-    }
-    fetchData()
+      const listCompany = await getAllCompany();
+      setCompanies(listCompany);
+      // setCompanies(listCompany.map((company: Data) => createData(company)))
+    };
+    fetchData();
   }, []);
 
   const toggleModal = useCallback(() => {
@@ -141,10 +144,10 @@ const CompanyPage = () => {
                   return (
                     <TableRow hover role="checkbox" tabIndex={-1} key={row.companyId}>
                       {columns.map((column) => {
-                        const value = row[column.id];
+                        const value = column.id === 'industryId' ? row.industry.industryName : row[column.id];
                         return (
                           <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === 'number' ? column.format(value) : value}
+                            {column.format ? column.format(value) : value}
                           </TableCell>
                         );
                       })}

@@ -3,7 +3,7 @@ export type Industry = {
   industryName: string;
   industryCode: string;
   description: string;
-  editable: number;
+  // editable: number;
   statusId: number;
 };
 
@@ -22,22 +22,27 @@ export type User = {
   createdAt: string | null;
 };
 
+export type Company = {
+  companyId: number;
+  companyName: string;
+  industryId: number;
+  websiteUrl: string | null;
+  contactEmail: string;
+  phoneNumber: string | null;
+  numEmployees: string | null;
+  foundedDate: Date;
+  ipoDate: Date;
+  statusId: number;
+  userId: number;
+};
+
 export type CreateCompanyPayload = {
   isIpo: boolean;
   needChangePw: boolean;
   account: {
     username: string;
   };
-  company: {
-    companyName: string;
-    industryId: number;
-    websiteUrl: string | null;
-    contactEmail: string;
-    phoneNumber: string | null;
-    numEmployees: string | null;
-    foundedDate: Date;
-    ipoDate: Date;
-  };
+  company: Omit<Company, 'companyId' | 'userId' | 'statusId'>;
   stock: {
     stockSymbol: string;
     quantity: number;
@@ -45,10 +50,24 @@ export type CreateCompanyPayload = {
   };
 };
 
-export type CreateIndustryPayload = {
-  industry: Partial<Industry>;
+export type EditCompanyPayload = {
+  company: Omit<Company, 'companyId' | 'userId' | 'statusId'>;
 };
 
-export type EditUserPayload = {
-  user: Partial<User>;
+export type CreateIndustryPayload = {
+  industry: Pick<Industry, 'industryCode' | 'industryName' | 'description'>;
+};
+
+export type EditIndustryPayload = {
+  industry: Omit<Industry, 'industryId'>;
+};
+
+export type AdminEditUserPayload = {
+  user: Pick<User, 'userStatus' | 'roleId'>;
+};
+
+export type SearchPayload = {
+  q: string;
+  page: number;
+  size: number;
 };

@@ -13,6 +13,13 @@ export type LoginPayload = {
   password: string;
 };
 
+export type ChangeForgotPwPayload = {
+  username: string;
+  otpForget: string;
+  password: string;
+  confirmPassword: string;
+};
+
 export type User = {
   userId: number;
   username: string;

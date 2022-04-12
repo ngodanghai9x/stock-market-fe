@@ -1,20 +1,43 @@
-import { useCallback, useState } from "react"
-import LoginLogo from "../../components/images/LoginLogo"
-import { LoginForm, RegisterForm } from "../../modules/auth";
+import { useCallback, useEffect, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import LoginLogo from '../../components/images/LoginLogo';
+import { PATH_NAMES } from '../../constants/path-name';
+import { ForgotPasswordForm, LoginForm, RegisterForm } from '../../modules/auth';
 
-enum Form {
-  LoginForm,
-  RegisterForm
-}
+const Menu: Record<string, string> = {
+  [PATH_NAMES.register]: 'Đăng ký',
+  [PATH_NAMES.login]: 'Đăng nhập',
+  [PATH_NAMES.forgotPassword]: 'Quên mật khảu',
+};
 
-const LoginPage = () => {
-  const [selectedForm, setSelectedForm] = useState<Form>(Form.LoginForm);
+const AuthPage = () => {
+  // const params = useParams();
+  const { pathname } = useLocation();
+  const navigation = useNavigate();
 
-  const setForm = (form: Form) => {
-    setSelectedForm(form)
-  }
+  // useEffect(() => {
+  //   if (Object.keys(params).length > 1) return;
+  //   const path = pathname.split('/');
+  //   if (path.length < 0) return;
+  // }, [params, pathname]);
 
-  const activeForm = selectedForm === Form.RegisterForm
+  const renderForm = () => {
+    switch (pathname) {
+      case PATH_NAMES.login: {
+        return <LoginForm />;
+      }
+      case PATH_NAMES.register: {
+        return <RegisterForm />;
+      }
+      case PATH_NAMES.forgotPassword: {
+        return <ForgotPasswordForm />;
+      }
+
+      default: {
+        return <LoginForm />;
+      }
+    }
+  };
 
   return (
     <div className="container mx-auto max-w-none flex items-center justify-center h-screen bg-gray-100">
@@ -27,15 +50,28 @@ const LoginPage = () => {
         <div className="col-span-4 bg-white my-5 rounded-tr-2xl rounded-br-2xl shadow-2xl px-10 py-8">
           <div className="flex mx-auto justify-center">
             <div className="flex font-bold text-base text-gray-300 mb-10 cursor-pointer">
-              <span className={`px-4 border-b-2 ${activeForm ? 'border-b-2 border-lightBlue-300 text-lightBlue-300 font-extrabold' : 'border-gray-300 '}`} onClick={() => setForm(Form.RegisterForm)} >Register</span>
-              <span className={`px-4 border-b-2 ${!activeForm ? 'border-b-2 border-lightBlue-300 text-lightBlue-300 font-extrabold' : 'border-gray-300 '}`} onClick={() => setForm(Form.LoginForm)}>Login</span>
+              {Object.keys(Menu).map((path) => {
+                const activeForm = pathname === path;
+                return (
+                  <span
+                    className={`px-3 mx-1 border-b-2 ${
+                      activeForm
+                        ? 'border-b-2 border-lightBlue-300 text-lightBlue-300 font-extrabold'
+                        : 'border-gray-300 '
+                    }`}
+                    onClick={() => navigation(path)}
+                  >
+                    {Menu[path]}
+                  </span>
+                );
+              })}
             </div>
           </div>
-          {selectedForm === Form.LoginForm ? <LoginForm /> : <RegisterForm />}
+          {renderForm()}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default LoginPage
+export default AuthPage;

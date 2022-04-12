@@ -233,6 +233,12 @@ export enum MatchedStatus {
   Partial = 'Partial',
 }
 
+export enum Gender {
+  Female = 0,
+  Male = 1,
+  Other = 2,
+}
+
 /* ------- Special case ------- */
 export const TABLE = {
   citizen_identity: 'citizen_identity',
@@ -251,6 +257,7 @@ export const USER_STATUS = {
   deleted: 'deleted',
   expired_password: 'expired_password',
 };
+
 // 2 way enum (special) => use PascalCase + camelCase/UPPERCASE
 export enum RoleIdType {
   user = 1,
@@ -258,12 +265,6 @@ export enum RoleIdType {
   admin = 3,
   moderator = 4,
 }
-
-export const RoleLabelType = {
-  '1': 'Người dùng',
-  // '3': 'Quản trị viên',
-  '4': 'Biên tập viên',
-};
 
 export enum OrderIdType {
   LO = 1,
@@ -280,6 +281,13 @@ export enum StatusIdType {
   pending = 5,
 }
 
+// object like array (use with enum)
+export const RoleLabelType = {
+  '1': 'Người dùng',
+  // '3': 'Quản trị viên',
+  '4': 'Biên tập viên',
+};
+
 export const StatusLabelType = {
   '1': 'Hoạt động',
   // '2': 'Đã xóa',
@@ -287,3 +295,5 @@ export const StatusLabelType = {
   '4': 'Đã duyệt',
   '5': 'Chờ duyệt',
 };
+
+export const GenderLabel = ['Nữ', 'Nam', 'Khác'];

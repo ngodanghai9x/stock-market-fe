@@ -1,6 +1,7 @@
 import { useContext } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { toast } from "react-toastify"
+import ValidateMessage from "../../../components/ValidateMessage"
 import { AuthContext } from "../../../context/auth/AuthContext"
 import { login } from "../../../lib/utils"
 import { LoginPayload } from "../../../services/api-auth.type"
@@ -25,14 +26,14 @@ export const LoginForm = () => {
   return (
     <form onSubmit={handleSubmit(loginHandle)} className="w-ful" >
       <div className="group flex flex-col mb-8">
-        <AuthInput label="User name" {...register('username', { required: true })} />
-        {errors.username && <span>This field is required</span>}
+        <AuthInput label="Tài khoản" {...register('username', { required: true })} />
+        {errors.username && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
       </div>
       <div className="group flex flex-col mb-10">
-        <AuthInput label="Password" type='password' {...register('password', { required: true })} />
-        {errors.password && <span>This field is required</span>}
+        <AuthInput label="Mật khẩu" type='password' {...register('password', { required: true })} />
+        {errors.password && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
       </div>
-      <input type="submit" value="Login" className="w-3/6 mx-auto block bg-lightBlue-300 py-3 text-white rounded-3xl font-medium" />
+      <input type="submit" value="Đăng nhập" className="w-3/6 mx-auto block bg-lightBlue-300 py-3 text-white rounded-3xl font-medium" />
     </form>
   )
 }

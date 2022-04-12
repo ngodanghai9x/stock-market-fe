@@ -28,7 +28,7 @@ const RegisterPage = () => {
           {/* <FCTextInput label='User name:' type='text' {...register('username', { required: true })} /> */}
           <label htmlFor="username">User name::</label>
           <input type="text" id='username' {...register('username', { required: true })} />
-          {errors.username && <span>This field is required</span>}
+          {errors.username && <span>Trường này bắt buộc phải nhập</span>}
         </div>
         <div>
           <label htmlFor="password">Password:</label>
@@ -37,14 +37,14 @@ const RegisterPage = () => {
               weakPassword: v => WEAK_PASSWORDS.includes(v) || 'Weak'
             }
           })} />
-          {errors.password && <span>This field is required</span>}
+          {errors.password && <span>Trường này bắt buộc phải nhập</span>}
         </div>
         <div>
           <label htmlFor="confirmPassword">Confirm password:</label>
           <input type="password" id='confirmPassword' {...register('confirmPassword', {
             required: {
               value: true,
-              message: 'This field is required'
+              message: 'Trường này bắt buộc phải nhập'
             }, validate: {
               samePassword: v => v === getValues('password') || 'Confirm password not match'
             }
@@ -54,12 +54,12 @@ const RegisterPage = () => {
         <div>
           <label htmlFor="fullname">Full name:</label>
           <input type="text" id='fullname' {...register('fullName', { required: true })} />
-          {errors.fullName && <span>This field is required</span>}
+          {errors.fullName && <span>Trường này bắt buộc phải nhập</span>}
         </div>
         <div>
           <label htmlFor="email">Email:</label>
           <input type="text" id='email' {...register('email', { required: true })} />
-          {errors.email && <span>This field is required</span>}
+          {errors.email && <span>Trường này bắt buộc phải nhập</span>}
         </div>
         <input type="submit" value='Register' />
       </form>

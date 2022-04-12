@@ -282,18 +282,24 @@ export enum StatusIdType {
 }
 
 // object like array (use with enum)
-export const RoleLabelType = {
+export const RoleLabelType: Record<string, string> = {
   '1': 'Người dùng',
   // '3': 'Quản trị viên',
   '4': 'Biên tập viên',
 };
 
-export const StatusLabelType = {
+export const StatusLabelType: Record<string, string> = {
   '1': 'Hoạt động',
   // '2': 'Đã xóa',
   // '3': 'Trùng lặp',
   '4': 'Đã duyệt',
   '5': 'Chờ duyệt',
+};
+
+export const UserStatusLabel: Record<string, string> = {
+  [USER_STATUS.activated]: 'Hoạt động',
+  [USER_STATUS.deleted]: 'Đã xóa',
+  [USER_STATUS.expired_password]: 'Hết hạn MK',
 };
 
 export const GenderLabel = ['Nữ', 'Nam', 'Khác'];

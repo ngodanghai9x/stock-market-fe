@@ -1,3 +1,18 @@
+export type StockOrder = {
+  orderId: number;
+  orderTypeId: number;
+  stockSymbol: string;
+  userId: number;
+  quantity: number;
+  price: number;
+  createdAt: string;
+  isBuy: number;
+  statusId: number;
+  isDone: number;
+  orderType: any;
+  user: any;
+};
+
 export type Industry = {
   industryId: number;
   industryName: string;
@@ -70,4 +85,23 @@ export type SearchPayload = {
   q: string;
   page: number;
   size: number;
+};
+
+export type GetReportResponse = {
+  company: {
+    records: Partial<Company>;
+    count: number;
+  };
+  industry: {
+    records: Partial<Industry>;
+    count: number;
+  };
+  user: {
+    records: Partial<User>;
+    count: number;
+  };
+  stockOrder: {
+    records: Partial<StockOrder>;
+    count: number;
+  };
 };

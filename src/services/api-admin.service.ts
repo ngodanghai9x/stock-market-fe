@@ -1,8 +1,21 @@
 import axios from 'axios';
 import { axiosClient } from '../lib/request';
-import { AdminEditUserPayload, CreateCompanyPayload, CreateIndustryPayload, EditCompanyPayload, EditIndustryPayload, SearchPayload } from './api-admin.type';
+import { MyResponse } from '../types';
+import {
+  AdminEditUserPayload,
+  CreateCompanyPayload,
+  CreateIndustryPayload,
+  EditCompanyPayload,
+  EditIndustryPayload,
+  SearchPayload,
+} from './api-admin.type';
 
 const adminBaseUrl = `${process.env.REACT_APP_API_HOST}`;
+
+export const getReport = async () => {
+  const res = await axios.get(`${adminBaseUrl}/report`);
+  return new MyResponse<GetAllStockOrderResponse>(res);
+};
 
 export const getAllIndustry = async () => {
   const res = await axios.get(`${adminBaseUrl}/companies/industries`);

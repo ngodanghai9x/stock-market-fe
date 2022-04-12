@@ -29,7 +29,7 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
         ipoDate: new Date(),
       },
       isIpo: false,
-    }
+    },
   });
   const onSubmit: SubmitHandler<CreateCompanyPayload> = async (data) => {
     try {
@@ -95,22 +95,21 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
               </div>
               <div className="my-1 mx-2">
                 <TextField
-                  id="website-url"
-                  required
-                  label="Website"
-                  variant="standard"
-                  className="w-full"
-                  {...register('company.websiteUrl', { required: false })}
-                />
-              </div>
-              <div className="my-1 mx-2">
-                <TextField
                   id="contact-email"
                   required
                   label="Email"
                   variant="standard"
                   className="w-full"
                   {...register('company.contactEmail', { required: true })}
+                />
+              </div>
+              <div className="my-1 mx-2">
+                <TextField
+                  id="website-url"
+                  label="Website"
+                  variant="standard"
+                  className="w-full"
+                  {...register('company.websiteUrl', { required: false })}
                 />
               </div>
               <div className="my-1 mx-2">
@@ -134,14 +133,13 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   orientation="portrait"
-                  label="Ngày niêm yết"
+                  label="Ngày thành lập"
                   inputFormat="MM/dd/yyyy"
-                  value={ipoDate}
+                  value={foundedDate}
                   className="w-full"
                   onChange={(newValue) => {
-                    setIpoDate(newValue);
+                    setFoundedDate(newValue);
                   }}
-                  disabled={getValues().isIpo}
                   renderInput={(params) => (
                     <div className="my-1 mx-2">
                       <TextField variant="standard" className="w-full" {...params} />
@@ -152,13 +150,14 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   orientation="portrait"
-                  label="Ngày thành lập"
+                  label="Ngày niêm yết"
                   inputFormat="MM/dd/yyyy"
-                  value={foundedDate}
+                  value={ipoDate}
                   className="w-full"
                   onChange={(newValue) => {
-                    setFoundedDate(newValue);
+                    setIpoDate(newValue);
                   }}
+                  disabled={getValues().isIpo}
                   renderInput={(params) => (
                     <div className="my-1 mx-2">
                       <TextField variant="standard" className="w-full" {...params} />
@@ -199,9 +198,13 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
               />
             </div>
             <div className="flex -ml-3">
-              <Checkbox id="isIpo" {...register('isIpo')} onClick={() => {
-                setIpoDate(new Date())
-              }} />
+              <Checkbox
+                id="isIpo"
+                {...register('isIpo')}
+                onClick={() => {
+                  setIpoDate(new Date());
+                }}
+              />
               <label className="mt-2 cursor-pointer select-none" htmlFor="isIpo">
                 Niêm yết ngay
               </label>

@@ -38,7 +38,7 @@ export const getForgotPwOtp = async (username: string) => {
   if (res.status !== 200) {
     throw Error(`Có lỗi xảy ra, vui lòng thử lại vào lúc khác`);
   }
-  return new MyResponse<any>(res.data, res.status);
+  return new MyResponse<any>(res);
 };
 
 export const refreshToken = async () => {
@@ -46,5 +46,5 @@ export const refreshToken = async () => {
   if (res.status !== 200) {
     throw Error(`Có lỗi xảy ra, vui lòng thử lại vào lúc khác`);
   }
-  return new MyResponse<{ token: string }>(res.data, res.status);
+  return new MyResponse<{ token: string }>(res);
 };

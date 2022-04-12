@@ -11,6 +11,7 @@ import TableRow from '@mui/material/TableRow';
 import CreateIndustryModal from './components/CreateIndustryModal';
 import { Industry, SearchPayload } from '../../../services/api-admin.type';
 import { searchIndustries } from '../../../services/api-admin.service';
+import { StatusLabelType } from '../../../constants';
 interface Column {
   id: keyof Industry;
   label: string;
@@ -38,6 +39,7 @@ const columns: readonly Column[] = [
     label: 'Trạng thái',
     minWidth: 90,
     align: 'left',
+    format: (id) => StatusLabelType[id],
   },
 ];
 
@@ -76,7 +78,7 @@ const IndustryPage = () => {
       </div>
       <div className="mt-5 px-4">
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-          <TableContainer sx={{ maxHeight: 660, minHeight: 660 }}>
+          <TableContainer sx={{ maxHeight: 545, minHeight: 545 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>
@@ -106,6 +108,7 @@ const IndustryPage = () => {
             </Table>
           </TableContainer>
           <TablePagination
+            labelRowsPerPage="Số bản ghi trên từng trang"
             rowsPerPageOptions={[10, 25, 100]}
             component="div"
             count={records.length}

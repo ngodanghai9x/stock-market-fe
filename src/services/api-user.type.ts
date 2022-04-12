@@ -1,19 +1,5 @@
 import { Gender } from '../constants';
-
-export type StockOrder = {
-  orderId: number;
-  orderTypeId: number;
-  stockSymbol: string;
-  userId: number;
-  quantity: number;
-  price: number;
-  createdAt: string;
-  isBuy: number;
-  statusId: number;
-  isDone: number;
-  orderType: any;
-  user: any;
-};
+import { StockOrder } from './api-admin.type';
 
 export type SymbolTradePurchase = {
   [price: string]: Partial<StockOrder>[];

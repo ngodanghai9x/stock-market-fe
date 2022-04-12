@@ -10,7 +10,7 @@ export const getAllOrder = async () => {
   if (res.status !== 200) {
     throw Error(`Có lỗi xảy ra, vui lòng thử lại vào lúc khác`);
   }
-  return new MyResponse<GetAllStockOrderResponse>(res.data, res.status);
+  return new MyResponse<GetAllStockOrderResponse>(res);
 };
 
 export const editUserInfo = (payload: EditUserPayload, userId: number) => {

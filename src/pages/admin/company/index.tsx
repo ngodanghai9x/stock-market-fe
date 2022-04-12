@@ -11,6 +11,7 @@ import TableRow from '@mui/material/TableRow';
 import CreateCompanyModal from './components/CreateCompanyModal';
 import { getAllCompany } from '../../../services/api-admin.service';
 import { Industry } from '../../../services/api-admin.type';
+import { StatusLabelType } from '../../../constants';
 
 interface Data {
   companyId: number;
@@ -28,7 +29,7 @@ interface Column {
   id: keyof Data;
   label: string;
   minWidth?: number;
-  align?: 'right';
+  align?: 'left';
   format?: (value: string | number | Industry) => string;
 }
 
@@ -39,44 +40,45 @@ const columns: readonly Column[] = [
     id: 'stockSymbol',
     label: 'Mã cổ phiếu',
     minWidth: 65,
-    align: 'right',
+    align: 'left',
   },
   {
     id: 'industryId',
     label: 'Ngành nghề',
     minWidth: 170,
-    align: 'right',
+    align: 'left',
   },
   // {
   //   id: 'websiteUrl',
   //   label: 'Website',
   //   minWidth: 170,
-  //   align: 'right',
+  //   align: 'left',
   // },
   // {
   //   id: 'numEmployees',
   //   label: 'Số nhân viên',
   //   minWidth: 170,
-  //   align: 'right',
+  //   align: 'left',
   //   format: (value: number) => value.toFixed(2),
   // },
   {
     id: 'foundedDate',
     label: 'Ngày thành lập',
     minWidth: 170,
-    align: 'right',
+    align: 'left',
   },
   {
     id: 'ipoDate',
     label: 'Ngày niêm yết',
     minWidth: 170,
-    align: 'right',
+    align: 'left',
   },
   {
     id: 'statusId',
     label: 'Trạng thái',
     minWidth: 170,
-    align: 'right',
+    align: 'left',
+    format: (id) => StatusLabelType[String(id)],
   },
 ];
 
@@ -128,7 +130,7 @@ const CompanyPage = () => {
       </div>
       <div className="mt-5 px-4">
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-          <TableContainer sx={{ maxHeight: 660, minHeight: 660 }}>
+          <TableContainer sx={{ maxHeight: 545, minHeight: 545 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>
@@ -158,6 +160,7 @@ const CompanyPage = () => {
             </Table>
           </TableContainer>
           <TablePagination
+            labelRowsPerPage="Số bản ghi trên từng trang"
             rowsPerPageOptions={[10, 25, 100]}
             component="div"
             count={companies.length}

@@ -11,12 +11,14 @@ import TableRow from '@mui/material/TableRow';
 import AdminEditUserModal from './components/AdminEditUserModal';
 import { User } from '../../../services/api-admin.type';
 import { getAllUser } from '../../../services/api-admin.service';
+import { Value } from '../../../types';
+import { RoleLabelType, StatusLabelType, UserStatusLabel } from '../../../constants';
 interface Column {
   id: keyof User;
   label: string;
   minWidth?: number;
-  align?: 'right';
-  format?: (value: number) => string;
+  align?: 'left';
+  format?: (value: string | number) => string;
 }
 
 const columns: readonly Column[] = [
@@ -26,31 +28,33 @@ const columns: readonly Column[] = [
     id: 'fullName',
     label: 'Họ và tên',
     minWidth: 65,
-    align: 'right',
+    align: 'left',
   },
   {
     id: 'roleId',
     label: 'Vai trò',
     minWidth: 170,
-    align: 'right',
+    align: 'left',
+    format: (id) => RoleLabelType[id],
   },
   {
     id: 'email',
     label: 'Email',
     minWidth: 170,
-    align: 'right',
+    align: 'left',
   },
   {
     id: 'birthday',
     label: 'Ngày sinh nhật',
     minWidth: 170,
-    align: 'right',
+    align: 'left',
   },
   {
     id: 'userStatus',
     label: 'Trạng thái',
     minWidth: 170,
-    align: 'right',
+    align: 'left',
+    format: (status) => UserStatusLabel[status],
   },
 ];
 
@@ -89,7 +93,7 @@ const UserPage = () => {
       </div>
       <div className="mt-5 px-4">
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-          <TableContainer sx={{ maxHeight: 660, minHeight: 660 }}>
+          <TableContainer sx={{ maxHeight: 545, minHeight: 545 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>
@@ -108,7 +112,7 @@ const UserPage = () => {
                         const value = row[column.id];
                         return (
                           <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === 'number' ? column.format(value) : value}
+                            {column.format ? column.format(value || '') : value}
                           </TableCell>
                         );
                       })}
@@ -119,6 +123,7 @@ const UserPage = () => {
             </Table>
           </TableContainer>
           <TablePagination
+            labelRowsPerPage="Số bản ghi trên từng trang"
             rowsPerPageOptions={[10, 25, 100]}
             component="div"
             count={records.length}

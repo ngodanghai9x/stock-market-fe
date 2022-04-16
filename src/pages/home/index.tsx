@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
 import ProtectedRoute from '../../components/auth/components/protected-route';
 import { AuthContext } from '../../context/auth/AuthContext';
-import { getAllOrder } from '../../services/api-user.service';
+import { getAllOrder, getUserById } from '../../services/api-user.service';
 
 const HomePage = () => {
   const { user } = useContext(AuthContext);
@@ -9,7 +9,11 @@ const HomePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await getAllOrder();
-      console.log('🚀 ~ file: index.tsx ~ line 12 ~ fetchData ~ list', res);
+      const res2 = await getUserById(1);
+      console.log('🚀 ~ file: index.tsx ~ line 12 ~ fetchData ~ list', {
+        res,
+        res2
+      });
     };
     fetchData();
   }, []);

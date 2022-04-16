@@ -1,3 +1,5 @@
+import { Gender } from "../constants";
+
 export type StockOrder = {
   orderId: number;
   orderTypeId: number;
@@ -51,6 +53,24 @@ export type Company = {
   userId: number;
 };
 
+export type CitizenIdentity = {
+  id: number;
+  number: string;
+  name: string;
+  birthday: string;
+  gender: Gender;
+  originAddress: string;
+  residenceAddress: string;
+  createDate: string;
+  expiryDate: string;
+  createBy: string;
+  modifiedAt?: string;
+  cardNumber: string;
+  cardExpiryDate: string;
+  userId: number;
+  user?: User
+};
+
 export type CreateCompanyPayload = {
   isIpo: boolean;
   needChangePw: boolean;
@@ -100,8 +120,8 @@ export type GetReportResponse = {
     records: Partial<User>;
     count: number;
   };
-  stockOrder: {
-    records: Partial<StockOrder>;
-    count: number;
-  };
+  // stockOrder: {
+  //   records: Partial<StockOrder>;
+  //   count: number;
+  // };
 };

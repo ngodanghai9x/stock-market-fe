@@ -5,6 +5,7 @@ import { customerChangePassword } from '../../services/api-auth.service';
 type RegisterForm = {
   oldPassword: string;
   password: string;
+  confirmPassword: string;
 }
 
 const ChangePassword = () => {
@@ -19,6 +20,7 @@ const ChangePassword = () => {
     <form onSubmit={handleSubmit(registerHandler)}>
       <input type="text" {...register('oldPassword')} />
       <input type="text" {...register('password')} />
+      <input type="text" {...register('confirmPassword')} />
       <input type="submit" value="oke" />
     </form>
   </div>;

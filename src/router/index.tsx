@@ -3,7 +3,7 @@ import HomePage from "../pages/home";
 import AuthPage from "../pages/auth";
 import NotFoundPage from "../pages/not-found";
 import RegisterPage from "../pages/register";
-import PrivateRouter from "./private-router";
+import UserRouter from "./user-router";
 import AdminRouter from "./admin-router";
 import UnauthorizedPage from "../pages/unauthorized";
 
@@ -11,7 +11,7 @@ const Routers = () => {
   let element = useRoutes([
     { path: "/", element: <HomePage /> },
     // { path: "register", element: <RegisterPage /> },
-    { path: "setting/*", element: <PrivateRouter /> },
+    { path: "user/*", element: <UserRouter /> },
     { path: "forgot-password", element: <AuthPage /> },
     { path: "register", element: <AuthPage /> },
     { path: "login", element: <AuthPage /> },

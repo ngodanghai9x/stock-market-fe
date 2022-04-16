@@ -1,6 +1,18 @@
 import React from 'react';
 import { Link, LinkProps, useMatch, useResolvedPath } from 'react-router-dom';
-import { SIDEBAR_OPTION } from '../../../constants/path-name';
+// import { SIDEBAR_OPTION } from '../../../constants/path-name';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import LocationCityIcon from '@mui/icons-material/LocationCity';
+import ConstructionIcon from '@mui/icons-material/Construction';
+import PersonIcon from '@mui/icons-material/Person';
+import { PATH_NAMES } from '../../../constants/path-name';
+
+export const ADMIN_SIDEBAR: Record<string, { label: string; render: () => React.ReactNode }> = {
+  [PATH_NAMES.dashboard.slice(1)]: { label: 'Trang chủ', render: () => <DashboardIcon /> },
+  [PATH_NAMES.companies.slice(1)]: { label: 'Công ty', render: () => <LocationCityIcon /> },
+  [PATH_NAMES.industries.slice(1)]: { label: 'Ngành nghề', render: () => <ConstructionIcon /> },
+  [PATH_NAMES.users.slice(1)]: { label: 'Người dùng', render: () => <PersonIcon /> },
+};
 
 const SideBar = () => {
   return (
@@ -10,9 +22,12 @@ const SideBar = () => {
       </div>
       <div>
         <ul className="flex flex-col">
-          {Object.keys(SIDEBAR_OPTION).map((option, index) => (
+          {Object.keys(ADMIN_SIDEBAR).map((option, index) => (
             <li key={index} className="text-base  hover:bg-gray-100">
-              <CustomLink to={option}>{SIDEBAR_OPTION[option]}</CustomLink>
+              <div className="flex items-center justify-center">
+                {ADMIN_SIDEBAR[option].render()}
+                <CustomLink to={option}>{ADMIN_SIDEBAR[option].label}</CustomLink>
+              </div>
             </li>
           ))}
         </ul>

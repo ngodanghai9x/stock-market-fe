@@ -1,5 +1,5 @@
 import { RegisterPayload, LoginPayload, ChangePasswordPayload, ChangeForgotPwPayload } from './api-auth.type';
-import { axiosClient } from '../lib/request';
+import axiosClient from '../lib/request';
 import axios from 'axios';
 import { MyResponse } from '../types';
 

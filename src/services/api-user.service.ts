@@ -1,4 +1,4 @@
-import { axiosClient } from '../lib/request';
+import axiosClient from '../lib/request';
 import axios from 'axios';
 import { MyResponse } from '../types';
 import { EditUserPayload, GetAllStockOrderResponse } from './api-user.type';

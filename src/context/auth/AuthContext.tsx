@@ -5,7 +5,7 @@ import { RoleIdType, STORAGE } from "../../constants"
 import { PATH_NAMES, PUBLIC_ROUTES } from "../../constants/path-name"
 import { tokenCookies } from "../../lib/token-cookies"
 import { User } from "../../services/api-auth.type"
-import { setupHeaderWithToken } from "../../lib/request";
+// import { setupHeaderWithToken } from "../../lib/request";
 
 const initialUser: User = {
   userId: 0,
@@ -62,7 +62,7 @@ export const AuthProvider = (props: { children: ReactElement }) => {
 
     setAuthenticated(result);
     if (result) {
-      setupHeaderWithToken()
+      // setupHeaderWithToken()
     }
   }, [location])
 

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { axiosClient } from '../lib/request';
+import axiosClient from '../lib/request';
 import { MyResponse } from '../types';
 import {
   AdminEditUserPayload,
@@ -14,37 +14,37 @@ import {
 const adminBaseUrl = `${process.env.REACT_APP_API_HOST}`;
 
 export const getReport = async () => {
-  const res = await axios.get(`${adminBaseUrl}/report`);
+  const res = await axiosClient.get(`${adminBaseUrl}/report`);
   return new MyResponse<GetReportResponse>(res);
 };
 
 export const getAllIndustry = async () => {
-  const res = await axios.get(`${adminBaseUrl}/companies/industries`);
+  const res = await axiosClient.get(`${adminBaseUrl}/companies/industries`);
   return res.data.data.industries;
 };
 
 export const getAllCompany = async () => {
-  const res = await axios.get(`${adminBaseUrl}/companies`);
+  const res = await axiosClient.get(`${adminBaseUrl}/companies`);
   return res.data.data.companies;
 };
 
 export const getAllUser = async () => {
-  const res = await axios.get(`${adminBaseUrl}/users`);
+  const res = await axiosClient.get(`${adminBaseUrl}/users`);
   return res.data.data.users;
 };
 
 export const searchIndustries = async ({ q = '', page = 1, size = 100 }: SearchPayload) => {
-  const res = await axios.get(`${adminBaseUrl}/companies/industries?q=${q}&page=${page}&size=${size}`);
+  const res = await axiosClient.get(`${adminBaseUrl}/companies/industries?q=${q}&page=${page}&size=${size}`);
   return res.data.data.industries;
 };
 
 export const searchCompanies = async ({ q = '', page = 1, size = 100 }: SearchPayload) => {
-  const res = await axios.get(`${adminBaseUrl}/companies?q=${q}&page=${page}&size=${size}`);
+  const res = await axiosClient.get(`${adminBaseUrl}/companies?q=${q}&page=${page}&size=${size}`);
   return res.data.data.companies;
 };
 
 export const searchUsers = async ({ q = '', page = 1, size = 100 }: SearchPayload) => {
-  const res = await axios.get(`${adminBaseUrl}/users?q=${q}&page=${page}&size=${size}`);
+  const res = await axiosClient.get(`${adminBaseUrl}/users?q=${q}&page=${page}&size=${size}`);
   return res.data.data.users;
 };
 

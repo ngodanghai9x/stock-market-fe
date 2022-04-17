@@ -8,12 +8,16 @@ import SecuritySvg from '../../../pages/user/Icon/SecuritySvg';
 import UserSvg from '../../../pages/user/Icon/UserSvg';
 import CustomLink from '../../CustomLink';
 import LetterAvatar from '../../LetterAvatar';
+import PaymentIcon from '@mui/icons-material/Payment';
+import BrandingWatermarkIcon from '@mui/icons-material/BrandingWatermark';
+import GppGoodIcon from '@mui/icons-material/GppGood';
+import PersonIcon from '@mui/icons-material/Person';
 
 export const USER_SIDEBAR: Record<string, { label: string; render: () => React.ReactNode }> = {
-  [PATH_NAMES.userInfo.slice(1)]: { label: 'Thông tin cơ bản', render: () => <UserSvg /> },
-  [PATH_NAMES.security.slice(1)]: { label: 'Bảo mật', render: () => <SecuritySvg /> },
-  [PATH_NAMES.identification.slice(1)]: { label: 'Căn cước công dân', render: () => <IdentificationSvg /> },
-  [PATH_NAMES.payment.slice(1)]: { label: 'Thanh toán', render: () => <PaymentSvg /> },
+  [PATH_NAMES.userInfo.slice(1)]: { label: 'Thông tin cơ bản', render: () => <PersonIcon /> },
+  [PATH_NAMES.security.slice(1)]: { label: 'Bảo mật', render: () => <GppGoodIcon /> },
+  [PATH_NAMES.identification.slice(1)]: { label: 'Căn cước công dân', render: () => <BrandingWatermarkIcon /> },
+  [PATH_NAMES.payment.slice(1)]: { label: 'Thanh toán', render: () => <PaymentIcon /> },
 };
 
 const UserSideBar = () => {
@@ -29,8 +33,8 @@ const UserSideBar = () => {
           {Object.keys(USER_SIDEBAR).map((option, index) => (
             <li key={`UserSideBar${option}`} className="text-base  hover:bg-gray-100">
               <CustomLink to={option}>
-                <span style={{ transform: 'scale(0.8)' }}>{USER_SIDEBAR[option].render()}</span>
-                <span className="ml-3">{USER_SIDEBAR[option].label}</span>
+                <span className="mr-3">{USER_SIDEBAR[option].render()}</span>
+                <span className="">{USER_SIDEBAR[option].label}</span>
               </CustomLink>
             </li>
           ))}

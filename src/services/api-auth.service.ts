@@ -17,6 +17,10 @@ export const customerLogin = (payload: LoginPayload) => {
   });
 };
 
+export const customerLogout = () => {
+  return axiosClient.post(`${authBaseUrl}/logout`, {});
+};
+
 export const customerChangeForgotPw = (payload: ChangeForgotPwPayload) => {
   return axiosClient.post(`${authBaseUrl}/forget-password`, {
     ...payload,

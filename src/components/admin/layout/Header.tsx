@@ -21,7 +21,7 @@ const Header = () => {
   return (
     <div className="bg-lightBlue-500 col-span-10 shadow-xl">
       <div className="py-3 px-5 flex justify-between text-justify">
-        <h1 className="text-white font-bold text-2xl">{ADMIN_SIDEBAR[currentPage]?.label}</h1>
+        <h1 className="text-white font-bold text-2xl pt-1">{ADMIN_SIDEBAR[currentPage]?.label}</h1>
         <AccountMenu />
       </div>
     </div>

@@ -82,8 +82,8 @@ export default function AccountMenu() {
         {/* <Divider /> */}
         {Object.keys(USER_MENU).map((option) => (
           <MenuItem>
-            <CustomLink to={`/user/${option}`}>
-              {/* <span style={{ transform: 'scale(0.5)' }}>{USER_SIDEBAR[option].render()}</span> */}
+            <CustomLink to={option === 'logout' ? `/${option}` : `/user/${option}`}>
+              <span className="mr-3">{USER_MENU[option].render()}</span>
               <span className="">{USER_MENU[option].label}</span>
             </CustomLink>
           </MenuItem>

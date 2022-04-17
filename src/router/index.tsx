@@ -11,10 +11,13 @@ const Routers = () => {
   let element = useRoutes([
     { path: "/", element: <HomePage /> },
     // { path: "register", element: <RegisterPage /> },
-    { path: "user/*", element: <UserRouter /> },
+    // just temporary
     { path: "forgot-password", element: <AuthPage /> },
     { path: "register", element: <AuthPage /> },
     { path: "login", element: <AuthPage /> },
+    { path: "logout", element: <AuthPage /> },
+
+    { path: "user/*", element: <UserRouter /> },
     { path: "admin/*", element: <AdminRouter /> },
     { path: "unauthorized", element: <UnauthorizedPage /> },
     { path: "*", element: <NotFoundPage /> }

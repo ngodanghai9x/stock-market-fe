@@ -18,7 +18,9 @@ const checkAuthenticated = () => {
   const { token, expiresIn } = tokenCookies.get()
   if (!token) return { result: false }
   if (Date.now() > expiresIn) {
-    Cookies.remove(STORAGE.jwtToken)
+    Cookies.remove(STORAGE.jwtToken);
+    localStorage.removeItem(STORAGE.userData)
+
     return { result: false }
   }
   const userData = localStorage.getItem(STORAGE.userData)

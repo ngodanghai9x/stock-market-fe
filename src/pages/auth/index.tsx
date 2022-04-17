@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import LoginLogo from '../../components/images/LoginLogo';
 import { PATH_NAMES } from '../../constants/path-name';
-import { ForgotPasswordForm, LoginForm, RegisterForm } from '../../modules/auth';
+import { ForgotPasswordForm, LoginForm, RegisterForm, LogoutForm } from '../../modules/auth';
 
 const Menu: Record<string, string> = {
   [PATH_NAMES.register]: 'Đăng ký',
@@ -25,6 +25,9 @@ const AuthPage = () => {
     switch (pathname) {
       case PATH_NAMES.login: {
         return <LoginForm />;
+      }
+      case PATH_NAMES.logout: {
+        return <LogoutForm />;
       }
       case PATH_NAMES.register: {
         return <RegisterForm />;

@@ -1,6 +1,7 @@
 export const PATH_NAMES = {
   // public
   login: '/login',
+  logout: '/logout',
   register: '/register',
   forgotPassword: '/forgot-password',
 

@@ -6,6 +6,8 @@ import LocationCityIcon from '@mui/icons-material/LocationCity';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import PersonIcon from '@mui/icons-material/Person';
 import { PATH_NAMES } from '../../../constants/path-name';
+import LetterAvatar from '../../LetterAvatar';
+import CustomLink from '../../CustomLink';
 
 export const ADMIN_SIDEBAR: Record<string, { label: string; render: () => React.ReactNode }> = {
   [PATH_NAMES.dashboard.slice(1)]: { label: 'Trang chủ', render: () => <DashboardIcon /> },
@@ -17,17 +19,21 @@ export const ADMIN_SIDEBAR: Record<string, { label: string; render: () => React.
 const SideBar = () => {
   return (
     <div className="col-span-2 h-screen border-r">
-      <div className="p-4 text-white font-bold text-2xl border-b">
-        <p>Thu gon</p>
+      <div className="py-3 text-white font-bold text-2xl border-b">
+        <div className="opacity-0 ">
+          <LetterAvatar name={'H a i'} />
+        </div>
       </div>
       <div>
         <ul className="flex flex-col">
-          {Object.keys(ADMIN_SIDEBAR).map((option, index) => (
-            <li key={index} className="text-base  hover:bg-gray-100">
-              <div className="flex items-center justify-center">
+          {Object.keys(ADMIN_SIDEBAR).map((option) => (
+            <li key={`SideBar${option}`} className="text-base  hover:bg-gray-100">
+              {/* <div className="flex items-center justify-center"> */}
+              <CustomLink to={option}>
                 {ADMIN_SIDEBAR[option].render()}
-                <CustomLink to={option}>{ADMIN_SIDEBAR[option].label}</CustomLink>
-              </div>
+                <span className="ml-3">{ADMIN_SIDEBAR[option].label}</span>
+              </CustomLink>
+              {/* </div> */}
             </li>
           ))}
         </ul>
@@ -35,18 +41,5 @@ const SideBar = () => {
     </div>
   );
 };
-
-function CustomLink({ children, to, ...props }: LinkProps) {
-  let resolved = useResolvedPath(to);
-  let match = useMatch({ path: resolved.pathname, end: true });
-
-  return (
-    <div>
-      <Link to={to} {...props} className={`block w-full h-full py-3  px-4 ${match ? 'font-bold' : ''}`}>
-        {children}
-      </Link>
-    </div>
-  );
-}
 
 export default SideBar;

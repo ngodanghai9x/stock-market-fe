@@ -135,7 +135,7 @@ const CompanyPage = () => {
               <TableHead>
                 <TableRow>
                   {columns.map((column) => (
-                    <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth }}>
+                    <TableCell key={column.id + 'th'} align={column.align} style={{ minWidth: column.minWidth }}>
                       {column.label}
                     </TableCell>
                   ))}
@@ -148,7 +148,7 @@ const CompanyPage = () => {
                       {columns.map((column) => {
                         const value = column.id === 'industryId' ? row.industry.industryName : row[column.id];
                         return (
-                          <TableCell key={column.id} align={column.align}>
+                          <TableCell key={column.id + 'tr'} align={column.align}>
                             {column.format ? column.format(value) : value}
                           </TableCell>
                         );

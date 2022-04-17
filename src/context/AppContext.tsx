@@ -29,9 +29,9 @@ function reducer(state: State, action: Action): State {
       return {
         ...state,
         [symbol]: {
-          ...state[symbol],
+          ...(state[symbol] || {}),
           [purchase]: {
-            ...state[symbol][purchase],
+            ...(state[symbol][purchase] || {}),
             [price]: [...(state[symbol][purchase][price] || []), stockOrder],
           },
         },
@@ -45,9 +45,9 @@ function reducer(state: State, action: Action): State {
       return {
         ...state,
         [symbol]: {
-          ...state[symbol],
+          ...(state[symbol] || {}),
           [purchase]: {
-            ...state[symbol][purchase],
+            ...(state[symbol][purchase] || {}),
             [price]: clonePrices,
           },
         },
@@ -57,9 +57,9 @@ function reducer(state: State, action: Action): State {
       return {
         ...state,
         [symbol]: {
-          ...state[symbol],
+          ...(state[symbol] || {}),
           [purchase]: {
-            ...state[symbol][purchase],
+            ...(state[symbol][purchase] || {}),
             [price]: (state[symbol][purchase][price] || []).filter((so) => so.orderId !== stockOrder.orderId),
           },
         },
@@ -85,7 +85,7 @@ export const AppContext = createContext<{
   dispatch: (a: Action) => {},
 });
 
-export const AppContextProvider = ({ children }: { children: ReactNode }) => {
+export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState, initializeState);
 
   useEffect(() => {

@@ -83,7 +83,7 @@ const IndustryPage = () => {
               <TableHead>
                 <TableRow>
                   {columns.map((column) => (
-                    <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth }}>
+                    <TableCell key={'th' + column.id} align={column.align} style={{ minWidth: column.minWidth }}>
                       {column.label}
                     </TableCell>
                   ))}
@@ -96,7 +96,7 @@ const IndustryPage = () => {
                       {columns.map((column) => {
                         const value = row[column.id];
                         return (
-                          <TableCell key={column.id} align={column.align}>
+                          <TableCell key={'tr' + column.id} align={column.align}>
                             {column.format && typeof value === 'number' ? column.format(value) : value}
                           </TableCell>
                         );

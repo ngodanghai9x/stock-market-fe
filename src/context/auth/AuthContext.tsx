@@ -71,7 +71,7 @@ export const AuthProvider = (props: { children: ReactElement }) => {
       return navigation(PATH_NAMES.user)
     }
 
-  }, [isAuthenticated, location, navigation])
+  }, [isAuthenticated, location, navigation, user.roleId])
 
   return (
     <AuthContext.Provider value={

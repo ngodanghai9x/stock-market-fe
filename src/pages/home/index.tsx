@@ -1,16 +1,18 @@
 import { useContext, useEffect } from 'react';
 import ProtectedRoute from '../../components/auth/components/protected-route';
 import { ActionTypes } from '../../constants';
-import { AppContext } from '../../context';
+import { AppContext, SocketContext } from '../../context';
 import { AuthContext } from '../../context/auth/AuthContext';
 import { getAllOrder, getUserById } from '../../services/api-user.service';
 
 const HomePage = () => {
   const { user } = useContext(AuthContext);
   const { store, dispatch } = useContext(AppContext);
+  const { socket } = useContext(SocketContext);
   console.log('🚀 ~ file: index.tsx ~ line 11 ~ HomePage ~ store', {
     store,
     dispatch,
+    socket
   });
   useEffect(() => {
     const fetchData = async () => {

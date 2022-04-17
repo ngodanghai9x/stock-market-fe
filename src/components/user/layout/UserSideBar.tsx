@@ -6,6 +6,8 @@ import IdentificationSvg from '../../../pages/user/Icon/IdentificationSvg';
 import PaymentSvg from '../../../pages/user/Icon/PaymentSvg';
 import SecuritySvg from '../../../pages/user/Icon/SecuritySvg';
 import UserSvg from '../../../pages/user/Icon/UserSvg';
+import CustomLink from '../../CustomLink';
+import LetterAvatar from '../../LetterAvatar';
 
 export const USER_SIDEBAR: Record<string, { label: string; render: () => React.ReactNode }> = {
   [PATH_NAMES.userInfo.slice(1)]: { label: 'Thông tin cơ bản', render: () => <UserSvg /> },
@@ -17,17 +19,19 @@ export const USER_SIDEBAR: Record<string, { label: string; render: () => React.R
 const UserSideBar = () => {
   return (
     <div className="col-span-2 h-screen border-r">
-      <div className="p-4 text-white font-bold text-2xl border-b">
-        <p>Thu gon</p>
+      <div className="py-3 text-white font-bold text-2xl border-b">
+        <div className="opacity-0 ">
+          <LetterAvatar name={'H a i'} />
+        </div>
       </div>
       <div>
         <ul className="flex flex-col">
           {Object.keys(USER_SIDEBAR).map((option, index) => (
-            <li key={index} className="text-base  hover:bg-gray-100">
-              <div className="flex items-center justify-center">
-                {USER_SIDEBAR[option].render()}
-                <CustomLink to={option}>{USER_SIDEBAR[option].label}</CustomLink>
-              </div>
+            <li key={`UserSideBar${option}`} className="text-base  hover:bg-gray-100">
+              <CustomLink to={option}>
+                <span style={{ transform: 'scale(0.8)' }}>{USER_SIDEBAR[option].render()}</span>
+                <span className="ml-3">{USER_SIDEBAR[option].label}</span>
+              </CustomLink>
             </li>
           ))}
         </ul>
@@ -35,18 +39,5 @@ const UserSideBar = () => {
     </div>
   );
 };
-
-function CustomLink({ children, to, ...props }: LinkProps) {
-  let resolved = useResolvedPath(to);
-  let match = useMatch({ path: resolved.pathname, end: true });
-
-  return (
-    <div>
-      <Link to={to} {...props} className={`block w-full h-full py-3  px-4 ${match ? 'font-bold' : ''}`}>
-        {children}
-      </Link>
-    </div>
-  );
-}
 
 export default UserSideBar;

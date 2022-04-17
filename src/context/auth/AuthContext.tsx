@@ -26,6 +26,12 @@ const checkAuthenticated = () => {
   return { result: true, userData: JSON.parse(userData) };
 }
 
+const initUser = () => {
+  const userData = localStorage.getItem(STORAGE.userData)
+  if (!userData) return initialUser
+  return JSON.parse(userData)
+}
+
 export const AuthContext = createContext<{
   isAuthenticated: boolean;
   setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -33,7 +39,7 @@ export const AuthContext = createContext<{
   setUser: React.Dispatch<React.SetStateAction<User>>
 }>({
   isAuthenticated: false,
-  user: initialUser,
+  user: initUser(),
   setAuthenticated: () => { },
   setUser: () => { }
 })
@@ -43,8 +49,7 @@ export const AuthProvider = (props: { children: ReactElement }) => {
   const [isAuthenticated, setAuthenticated] = useState<boolean>(() => {
     return checkAuthenticated().result
   })
-  const [user, setUser] = useState<User>(initialUser)
-
+  const [user, setUser] = useState<User>(initUser())
   const location = useLocation()
   const navigation = useNavigate()
 
@@ -62,7 +67,8 @@ export const AuthProvider = (props: { children: ReactElement }) => {
   useEffect(() => {
     const pathname = location.pathname;
     if (PUBLIC_ROUTES.includes(pathname) && isAuthenticated) {
-      navigation(PATH_NAMES.home)
+      if ([RoleIdType.admin, RoleIdType.moderator].includes(user.roleId)) return navigation(PATH_NAMES.admin)
+      return navigation(PATH_NAMES.user)
     }
 
   }, [isAuthenticated, location, navigation])

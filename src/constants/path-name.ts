@@ -8,6 +8,7 @@ export const PATH_NAMES = {
   unauthorized: '/unauthorized',
 
   // admin
+  admin: '/admin/dashboard',
   dashboard: '/dashboard',
   companies: '/companies',
   industries: '/industries',
@@ -17,16 +18,17 @@ export const PATH_NAMES = {
   userDetail: '/users/:userId',
 
   // user
+  user: '/user',
   priceTable: '/price-table',
   userInfo: '/info',
   security: '/security',
   identification: '/identification',
   payment: '/payment',
   changePassword: '/security/change-password',
-  changeAntiPhishingCode: '/security/change-anti-phishing-code'
+  changeAntiPhishingCode: '/security/change-anti-phishing-code',
 };
 
-export const PUBLIC_ROUTES = [PATH_NAMES.login, PATH_NAMES.register];
+export const PUBLIC_ROUTES = [PATH_NAMES.login, PATH_NAMES.register, PATH_NAMES.home];
 
 export const SIDEBAR_OPTION: Record<string, string> = {
   dashboard: 'Trang chủ',

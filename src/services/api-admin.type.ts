@@ -1,4 +1,4 @@
-import { Gender } from "../constants";
+import { Gender } from '../constants';
 
 export type StockOrder = {
   orderId: number;
@@ -11,8 +11,8 @@ export type StockOrder = {
   isBuy: number;
   statusId: number;
   isDone: number;
-  orderType: any;
-  user: any;
+  orderType?: any;
+  user?: any;
 };
 
 export type Industry = {
@@ -47,8 +47,8 @@ export type Company = {
   contactEmail: string;
   phoneNumber: string | null;
   numEmployees: string | null;
-  foundedDate: Date;
-  ipoDate: Date;
+  foundedDate: Date | string;
+  ipoDate: Date | string;
   statusId: number;
   userId: number;
 };
@@ -68,7 +68,7 @@ export type CitizenIdentity = {
   cardNumber: string;
   cardExpiryDate: string;
   userId: number;
-  user?: User
+  user?: User;
 };
 
 export type CreateCompanyPayload = {

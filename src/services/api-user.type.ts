@@ -8,7 +8,7 @@ export type SymbolTradePurchase = {
 export type Purchase = 'buy' | 'sell';
 
 export type GroupedStockOrders = {
-  [symbol: string]: { [purchase: string | Purchase]: { [price: string]: Partial<StockOrder>[] } };
+  [symbol: string]: { [purchase: Purchase | string]: { [price: string]: Partial<StockOrder>[] } };
   // [symbol: string]: Record<Purchase, { [price: string]: StockOrder[] }>;
 };
 

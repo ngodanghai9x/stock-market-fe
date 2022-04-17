@@ -239,6 +239,13 @@ export enum Gender {
   Other = 2,
 }
 
+export enum ActionTypes {
+  Initialize = 'Initialize',
+  AddStockOrder = 'AddStockOrder',
+  EditStockOrder = 'EditStockOrder',
+  DeleteStockOrder = 'DeleteStockOrder',
+}
+
 /* ------- Special case ------- */
 export const TABLE = {
   citizen_identity: 'citizen_identity',
@@ -260,6 +267,7 @@ export const USER_STATUS = {
 
 // 2 way enum (special) => use PascalCase + camelCase/UPPERCASE
 export enum RoleIdType {
+  nothing = 0,
   user = 1,
   company = 2,
   admin = 3,

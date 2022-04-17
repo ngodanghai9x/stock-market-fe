@@ -11,7 +11,7 @@ const initialUser: User = {
   userId: 0,
   fullName: '',
   username: '',
-  roleId: RoleIdType.admin
+  roleId: RoleIdType.nothing
 }
 
 const checkAuthenticated = () => {

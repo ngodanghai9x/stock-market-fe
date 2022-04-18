@@ -1,6 +1,8 @@
 import React, { createContext, ReactElement, useEffect, useState, useCallback, useContext } from 'react';
 import { io, Socket } from 'socket.io-client';
+import { ActionTypes, RoleIdType } from '../constants';
 import { StockOrder } from '../services/api-admin.type';
+import { AppContext } from './AppContext';
 import { AuthContext } from './auth/AuthContext';
 
 const SOCKET_ENDPOINT = process.env.REACT_APP_API_HOST || '';
@@ -26,6 +28,16 @@ export const SocketContext = createContext<{
 
 export const SocketProvider = (props: { children: ReactElement }) => {
   const { user } = useContext(AuthContext);
+  const { store, dispatch } = useContext(AppContext);
+
+  const isIgnoreSocket = useCallback(
+    (stockOrder: StockOrder): boolean => {
+      if ([RoleIdType.admin, RoleIdType.moderator].includes(user.roleId)) return true;
+      if (stockOrder.userId === user.userId) return true;
+      return false;
+    },
+    [user.roleId, user.userId]
+  );
 
   useEffect(() => {
     socket.on('connect', () => {
@@ -37,18 +49,18 @@ export const SocketProvider = (props: { children: ReactElement }) => {
 
     // subscribe to socket events
     socket.on('AddStockOrder', (stockOrder) => {
-      if (stockOrder.userId === user.userId) return;
-      console.log('🚀 ~ file: SocketContext.tsx ~ line 34 ~ socket.on ~ stockOrder', stockOrder);
+      if (isIgnoreSocket(stockOrder)) return;
+      dispatch({ type: ActionTypes.AddStockOrder, payload: stockOrder });
     });
 
     socket.on('EditStockOrder', (stockOrder) => {
-      if (stockOrder.userId === user.userId) return;
-      console.log('🚀 ~ file: SocketContext.tsx ~ line 34 ~ socket.on ~ stockOrder', stockOrder);
+      if (isIgnoreSocket(stockOrder)) return;
+      dispatch({ type: ActionTypes.EditStockOrder, payload: stockOrder });
     });
 
     socket.on('DeleteStockOrder', (stockOrder) => {
-      if (stockOrder.userId === user.userId) return;
-      console.log('🚀 ~ file: SocketContext.tsx ~ line 34 ~ socket.on ~ stockOrder', stockOrder);
+      if (isIgnoreSocket(stockOrder)) return;
+      dispatch({ type: ActionTypes.DeleteStockOrder, payload: stockOrder });
     });
 
     return () => {
@@ -56,7 +68,7 @@ export const SocketProvider = (props: { children: ReactElement }) => {
       // unbind all event handlers used in this component
       // socket.off('JOIN_REQUEST_ACCEPTED', handleInviteAccepted);
     };
-  }, [user.userId]);
+  }, [dispatch, isIgnoreSocket]);
 
   return (
     <SocketContext.Provider

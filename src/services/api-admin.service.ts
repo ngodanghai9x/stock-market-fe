@@ -1,4 +1,3 @@
-import axios from 'axios';
 import axiosClient from '../lib/request';
 import { MyResponse } from '../types';
 import {

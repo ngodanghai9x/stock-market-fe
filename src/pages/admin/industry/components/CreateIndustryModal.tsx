@@ -1,33 +1,52 @@
 import { Button, Input, TextField } from '@mui/material';
+import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import CustomModal from '../../../../components/CustomModal';
-import { CreateIndustryPayload } from '../../../../services/api-admin.type';
+import ValidateMessage from '../../../../components/ValidateMessage';
+import { createIndustry, editIndustry } from '../../../../services/api-admin.service';
+import { CreateIndustryPayload, Industry } from '../../../../services/api-admin.type';
 
 type CreateIndustryModalProps = {
   isOpen: boolean;
   onClose: () => void;
+  editRecord?: Industry;
 };
 
-const CreateIndustryModal = ({ isOpen, onClose }: CreateIndustryModalProps) => {
+const CreateIndustryModal = ({ isOpen, onClose, editRecord }: CreateIndustryModalProps) => {
   const {
     register,
     handleSubmit,
     getValues,
     formState: { errors },
-  } = useForm<CreateIndustryPayload>();
+    reset,
+  } = useForm<CreateIndustryPayload>({
+    mode: 'onBlur',
+    defaultValues: { industry: editRecord },
+  });
+
+  React.useEffect(() => {
+    reset({ industry: editRecord });
+  }, [reset, editRecord]);
+
   const onSubmit: SubmitHandler<CreateIndustryPayload> = async (data) => {
     try {
       console.log(data);
+      if (editRecord) {
+        await editIndustry(data, data.industry.industryId);
+      } else {
+        await createIndustry(data);
+      }
     } catch (error: any) {
       console.log(error);
       toast(error.response.data.message);
     }
   };
+
   return (
     <div>
       <CustomModal
-        modalTitle="Thêm mới ngành nghề"
+        modalTitle={`${editRecord ? 'Chỉnh sửa' : 'Thêm mới'} ngành nghề`}
         open={isOpen}
         onClose={onClose}
         aria-labelledby="modal-modal-title"
@@ -37,12 +56,22 @@ const CreateIndustryModal = ({ isOpen, onClose }: CreateIndustryModalProps) => {
           <div className="mx-10 mb-10">
             <div className="my-2">
               <TextField
+                disabled
+                label="ID"
+                variant="standard"
+                className="w-full"
+                {...register('industry.industryId')}
+              />
+            </div>
+            <div className="mb-2">
+              <TextField
                 required
                 label="Tên ngành nghề"
                 variant="standard"
                 className="w-full"
                 {...register('industry.industryName', { required: true })}
               />
+              {errors?.industry?.industryName && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
             </div>
             <div className="mb-2">
               <TextField
@@ -52,6 +81,7 @@ const CreateIndustryModal = ({ isOpen, onClose }: CreateIndustryModalProps) => {
                 className="w-full"
                 {...register('industry.industryCode', { required: true })}
               />
+              {errors?.industry?.industryCode && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
             </div>
             <div className="mb-2">
               <TextField

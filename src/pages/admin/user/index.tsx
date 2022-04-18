@@ -63,6 +63,7 @@ const UserPage = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [records, setRecords] = useState<User[]>([]);
+  const [editRecord, setEditRecord] = useState<User | undefined>(undefined);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,6 +72,12 @@ const UserPage = () => {
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (!isOpenModal) {
+      setEditRecord(undefined);
+    }
+  }, [isOpenModal]);
 
   const toggleModal = useCallback(() => {
     setIsOpenModal((p) => !p);
@@ -84,6 +91,12 @@ const UserPage = () => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  const handleDoubleClick = (record?: User) => {
+    setEditRecord(record);
+    setIsOpenModal(true);
+  };
+
   return (
     <div className="bg-white h-full w-11/12">
       <div className="flex justify-end mt-4 mr-4">
@@ -107,7 +120,13 @@ const UserPage = () => {
               <TableBody>
                 {records.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                   return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={row.userId}>
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={row.userId}
+                      onDoubleClick={() => handleDoubleClick(row)}
+                    >
                       {columns.map((column) => {
                         const value = row[column.id];
                         return (
@@ -134,7 +153,7 @@ const UserPage = () => {
           />
         </Paper>
       </div>
-      <AdminEditUserModal isOpen={isOpenModal} onClose={toggleModal} defaultValues={{}} />
+      <AdminEditUserModal isOpen={isOpenModal} onClose={toggleModal} editRecord={editRecord} />
     </div>
   );
 };

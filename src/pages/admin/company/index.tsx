@@ -10,27 +10,27 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import CreateCompanyModal from './components/CreateCompanyModal';
 import { getAllCompany } from '../../../services/api-admin.service';
-import { Industry } from '../../../services/api-admin.type';
+import { Company, Industry } from '../../../services/api-admin.type';
 import { StatusLabelType } from '../../../constants';
 
-interface Data {
-  companyId: number;
-  companyName: string;
-  stockSymbol: string;
-  industryId: number;
-  industry: Industry;
-  websiteUrl: string;
-  numEmployees: number;
-  foundedDate: string;
-  ipoDate: string;
-  statusId: number;
-}
+// export interface CompanyData {
+//   companyId: number;
+//   companyName: string;
+//   stockSymbol: string;
+//   industryId: number;
+//   industry: Industry;
+//   websiteUrl: string;
+//   numEmployees: number;
+//   foundedDate: string;
+//   ipoDate: string;
+//   statusId: number;
+// }
 interface Column {
-  id: keyof Data;
+  id: keyof Company;
   label: string;
   minWidth?: number;
   align?: 'left';
-  format?: (value: string | number | Industry) => string;
+  format?: (value?: string | number) => string;
 }
 
 const columns: readonly Column[] = [
@@ -82,32 +82,26 @@ const columns: readonly Column[] = [
   },
 ];
 
-// function createData(
-//   { companyId,
-//     companyName,
-//     stockSymbol,
-//     industryId,
-//     foundedDate,
-//     ipoDate,
-//     statusId }: Data
-// ) {
-//   return { companyId, companyName, stockSymbol, industryId, foundedDate, ipoDate, statusId };
-// }
-
 const CompanyPage = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
-  const [companies, setCompanies] = useState<Data[]>([]);
+  const [companies, setCompanies] = useState<Company[]>([]);
+  const [editRecord, setEditRecord] = useState<Company | undefined>(undefined);
 
   useEffect(() => {
     const fetchData = async () => {
       const listCompany = await getAllCompany();
       setCompanies(listCompany);
-      // setCompanies(listCompany.map((company: Data) => createData(company)))
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (!isOpenModal) {
+      setEditRecord(undefined);
+    }
+  }, [isOpenModal]);
 
   const toggleModal = useCallback(() => {
     setIsOpenModal((p) => !p);
@@ -121,6 +115,12 @@ const CompanyPage = () => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  const handleDoubleClick = (record?: Company) => {
+    setEditRecord(record);
+    setIsOpenModal(true);
+  };
+
   return (
     <div className="bg-white h-full w-11/12">
       <div className="flex justify-end mt-4 mr-4">
@@ -144,12 +144,18 @@ const CompanyPage = () => {
               <TableBody>
                 {companies.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                   return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={row.companyId}>
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={row.companyId}
+                      onDoubleClick={() => handleDoubleClick(row)}
+                    >
                       {columns.map((column) => {
                         const value = column.id === 'industryId' ? row.industry.industryName : row[column.id];
                         return (
                           <TableCell key={column.id + 'tr'} align={column.align}>
-                            {column.format ? column.format(value) : value}
+                            {column.format ? column.format(value?.toString()) : value}
                           </TableCell>
                         );
                       })}
@@ -171,7 +177,7 @@ const CompanyPage = () => {
           />
         </Paper>
       </div>
-      <CreateCompanyModal isOpen={isOpenModal} onClose={toggleModal} />
+      <CreateCompanyModal isOpen={isOpenModal} onClose={toggleModal} editRecord={editRecord} />
     </div>
   );
 };

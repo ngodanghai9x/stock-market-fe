@@ -1,6 +1,5 @@
 import { RegisterPayload, LoginPayload, ChangePasswordPayload, ChangeForgotPwPayload } from './api-auth.type';
 import axiosClient from '../lib/request';
-import axios from 'axios';
 import { MyResponse } from '../types';
 
 const authBaseUrl = `${process.env.REACT_APP_API_HOST}/auth`;
@@ -38,7 +37,7 @@ export const customerChangePassword = (payload: ChangePasswordPayload) => {
 // }
 
 export const getForgotPwOtp = async (username: string) => {
-  const res = await axios.get(`${authBaseUrl}/otp-forget?username=${username}`);
+  const res = await axiosClient.get(`${authBaseUrl}/otp-forget?username=${username}`);
   if (res.status !== 200) {
     throw Error(`Có lỗi xảy ra, vui lòng thử lại vào lúc khác`);
   }
@@ -46,7 +45,7 @@ export const getForgotPwOtp = async (username: string) => {
 };
 
 export const refreshToken = async () => {
-  const res = await axios.get(`${authBaseUrl}/refresh-token`);
+  const res = await axiosClient.get(`${authBaseUrl}/refresh-token`);
   if (res.status !== 200) {
     throw Error(`Có lỗi xảy ra, vui lòng thử lại vào lúc khác`);
   }

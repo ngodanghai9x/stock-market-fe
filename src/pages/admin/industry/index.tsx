@@ -48,6 +48,7 @@ const IndustryPage = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [records, setRecords] = useState<Industry[]>([]);
+  const [editRecord, setEditRecord] = useState<Industry | undefined>(undefined);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,12 +58,23 @@ const IndustryPage = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (!isOpenModal) {
+      setEditRecord(undefined);
+    }
+  }, [isOpenModal]);
+
   const toggleModal = useCallback(() => {
     setIsOpenModal((p) => !p);
   }, []);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
+  };
+
+  const handleDoubleClick = (record?: Industry) => {
+    setEditRecord(record);
+    setIsOpenModal(true);
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,7 +104,13 @@ const IndustryPage = () => {
               <TableBody>
                 {records.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                   return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={row.industryId}>
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={row.industryId}
+                      onDoubleClick={() => handleDoubleClick(row)}
+                    >
                       {columns.map((column) => {
                         const value = row[column.id];
                         return (
@@ -119,7 +137,7 @@ const IndustryPage = () => {
           />
         </Paper>
       </div>
-      <CreateIndustryModal isOpen={isOpenModal} onClose={toggleModal} />
+      <CreateIndustryModal isOpen={isOpenModal} onClose={toggleModal} editRecord={editRecord} />
     </div>
   );
 };

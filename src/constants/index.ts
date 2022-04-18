@@ -1,3 +1,5 @@
+import { UseFormProps } from 'react-hook-form';
+
 const { EMAIL_USERNAME, EMAIL_NAME } = process.env;
 
 /* ------- Constant ------- */
@@ -225,6 +227,19 @@ export const NUMBER = {
 export const PERCENT = {
   fee: 0.01,
   priceRange: 0.1,
+};
+
+export const OPTIONS_USE_FORM: UseFormProps = {
+  mode: 'onSubmit',
+  reValidateMode: 'onBlur',
+  defaultValues: {},
+  resolver: undefined,
+  context: undefined,
+  criteriaMode: 'firstError',
+  shouldFocusError: true,
+  shouldUnregister: false,
+  shouldUseNativeValidation: false,
+  delayError: undefined,
 };
 
 /* ------- Enum ------- */

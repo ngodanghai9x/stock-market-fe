@@ -42,7 +42,9 @@ export type User = {
 export type Company = {
   companyId: number;
   companyName: string;
+  stockSymbol: string;
   industryId: number;
+  industry: Industry;
   websiteUrl: string | null;
   contactEmail: string;
   phoneNumber: string | null;
@@ -77,7 +79,7 @@ export type CreateCompanyPayload = {
   account: {
     username: string;
   };
-  company: Omit<Company, 'companyId' | 'userId' | 'statusId'>;
+  company: Omit<Company, 'userId' | 'statusId'>;
   stock: {
     stockSymbol: string;
     quantity: number;
@@ -90,15 +92,16 @@ export type EditCompanyPayload = {
 };
 
 export type CreateIndustryPayload = {
-  industry: Pick<Industry, 'industryCode' | 'industryName' | 'description'>;
+  industry: Pick<Industry, 'industryId' | 'industryCode' | 'industryName' | 'description'>;
 };
 
 export type EditIndustryPayload = {
-  industry: Omit<Industry, 'industryId'>;
+  industry: Partial<Industry>;
+  // industry: Omit<Industry, 'industryId'>;
 };
 
 export type AdminEditUserPayload = {
-  user: Pick<User, 'userStatus' | 'roleId'>;
+  user: Pick<User, 'userStatus' | 'roleId'> & User;
 };
 
 export type SearchPayload = {

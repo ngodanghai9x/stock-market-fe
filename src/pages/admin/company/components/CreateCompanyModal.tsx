@@ -7,7 +7,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { useEffect, useState } from 'react';
-import { getAllIndustry } from '../../../../services/api-admin.service';
+import { createCompany, getAllIndustry } from '../../../../services/api-admin.service';
 
 type CreateCompanyModalProps = {
   isOpen: boolean;
@@ -18,6 +18,11 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
   const [ipoDate, setIpoDate] = useState<Date | null>(null);
   const [foundedDate, setFoundedDate] = useState<Date | null>(null);
   const [industries, setIndustries] = useState<Industry[]>([]);
+
+  const listIndustry = new Map<string, number>(industries.map((el) => {
+    return [el.industryName, el.industryId]
+  }))
+
   const {
     register,
     handleSubmit,
@@ -33,7 +38,17 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
   });
   const onSubmit: SubmitHandler<CreateCompanyPayload> = async (data) => {
     try {
-      console.log(data);
+      const formData = {
+        ...data,
+        account: {
+          username: data.company.companyName,
+        },
+        company: {
+          ...data.company,
+          industryId: listIndustry.get(getValues('company.industryId').toString()) || 0
+        },
+      };
+      const res = await createCompany(formData);
     } catch (error: any) {
       console.log(error);
       toast(error.response.data.message);
@@ -81,6 +96,7 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
                     <div className="">
                       <TextField
                         {...params}
+                        {...register('company.industryId')}
                         required
                         label="Ngành nghề"
                         variant="standard"
@@ -184,6 +200,7 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
                 label="Số lượng cổ phiếu"
                 variant="standard"
                 className="w-full"
+                type="number"
                 {...register('stock.quantity', { required: true })}
               />
             </div>
@@ -194,6 +211,7 @@ const CreateCompanyModal = ({ isOpen, onClose }: CreateCompanyModalProps) => {
                 label="Giá cổ phiếu"
                 variant="standard"
                 className="w-full"
+                type="number"
                 {...register('stock.price', { required: true })}
               />
             </div>

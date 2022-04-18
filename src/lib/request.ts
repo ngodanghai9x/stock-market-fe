@@ -19,11 +19,8 @@ axiosClient.interceptors.request.use(
     if (token) {
       config.headers = {
         [AUTHORIZATION_HEADER_KEY]: `Bearer ${token}`,
-        Accept: 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded',
       };
     }
-    console.log(config);
     return config;
   },
   (error) => {

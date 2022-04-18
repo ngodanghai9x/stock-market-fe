@@ -8,15 +8,19 @@ import { AdminEditUserPayload } from '../../../../services/api-admin.type';
 type AdminEditUserModalProps = {
   isOpen: boolean;
   onClose: () => void;
+  defaultValues: any,
 };
 
-const AdminEditUserModal = ({ isOpen, onClose }: AdminEditUserModalProps) => {
+const AdminEditUserModal = ({ isOpen, onClose, defaultValues }: AdminEditUserModalProps) => {
   const {
     register,
     handleSubmit,
     getValues,
     formState: { errors },
-  } = useForm<AdminEditUserPayload>();
+  } = useForm<AdminEditUserPayload>({
+    mode: 'onBlur',
+    defaultValues,
+  });
   const onSubmit: SubmitHandler<AdminEditUserPayload> = async (data) => {
     try {
       console.log(data);

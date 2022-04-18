@@ -134,7 +134,7 @@ const UserPage = () => {
           />
         </Paper>
       </div>
-      <AdminEditUserModal isOpen={isOpenModal} onClose={toggleModal} />
+      <AdminEditUserModal isOpen={isOpenModal} onClose={toggleModal} defaultValues={{}} />
     </div>
   );
 };

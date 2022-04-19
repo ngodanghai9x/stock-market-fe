@@ -122,7 +122,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                     <div className="">
                       <TextField
                         {...params}
-                        {...register('company.industryId')}
+                        {...register('company.industryId', { valueAsNumber: true })}
                         required
                         label="Ngành nghề"
                         variant="standard"
@@ -143,9 +143,13 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                   label="Email"
                   variant="standard"
                   className="w-full"
-                  {...register('company.contactEmail', { required: true })}
+                  {...register('company.contactEmail', {
+                    required: true,
+                    pattern: /^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/i,
+                    // /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                  })}
                 />
-                {errors?.company?.contactEmail && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
+                {errors?.company?.contactEmail && <ValidateMessage>Email không đúng định dạng</ValidateMessage>}
               </div>
               <div className="my-1 mx-2">
                 <TextField
@@ -153,9 +157,13 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                   label="Website"
                   variant="standard"
                   className="w-full"
-                  {...register('company.websiteUrl', { required: false })}
+                  {...register('company.websiteUrl', {
+                    required: false,
+                    pattern:
+                      /^((http:|https:|http:|https:)\/\/(www\.)?)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,255}(:[0-9]{1,5})?(\/.*)?$/i,
+                  })}
                 />
-                {errors?.company?.websiteUrl && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
+                {errors?.company?.websiteUrl && <ValidateMessage>URL không đúng định dạng</ValidateMessage>}
               </div>
               <div className="my-1 mx-2">
                 <TextField
@@ -163,9 +171,14 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                   label="Số điện thoại"
                   variant="standard"
                   className="w-full"
-                  {...register('company.phoneNumber', { required: false })}
+                  {...register('company.phoneNumber', {
+                    required: false,
+                    maxLength: 10,
+                    minLength: 10,
+                    pattern: /^((09|03|07|08|05)+([0-9]{8})\b)$/,
+                  })}
                 />
-                {errors?.company?.phoneNumber && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
+                {errors?.company?.phoneNumber && <ValidateMessage>Số điện thoại không đúng định dạng</ValidateMessage>}
               </div>
               <div className="my-1 mx-2">
                 <TextField
@@ -173,7 +186,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                   label="Số lượng nhân viên"
                   variant="standard"
                   className="w-full"
-                  {...register('company.numEmployees', { required: false })}
+                  {...register('company.numEmployees', { required: false, valueAsNumber: true })}
                 />
                 {errors?.company?.numEmployees && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
               </div>
@@ -225,7 +238,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                     label="Mã cổ phiếu"
                     variant="standard"
                     className="w-full"
-                    {...register('stock.stockSymbol', { required: true })}
+                    {...register('stock.stockSymbol', { required: true, pattern: /^[A-Z]{3,5}$/ })}
                   />
                   {errors?.stock?.stockSymbol && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
                 </div>
@@ -237,7 +250,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                     variant="standard"
                     className="w-full"
                     type="number"
-                    {...register('stock.quantity', { required: true })}
+                    {...register('stock.quantity', { required: true, valueAsNumber: true })}
                   />
                   {errors?.stock?.quantity && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
                 </div>
@@ -249,7 +262,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                     variant="standard"
                     className="w-full"
                     type="number"
-                    {...register('stock.price', { required: true })}
+                    {...register('stock.price', { required: true, valueAsNumber: true })}
                   />
                   {errors?.stock?.price && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
                 </div>

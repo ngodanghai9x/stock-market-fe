@@ -42,8 +42,12 @@ export const ForgotPasswordForm = () => {
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="group flex flex-col mb-8">
-          <AuthInput label="Tài khoản:" {...register('username', { required: true })} />
-          {errors.username && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
+          <AuthInput label="Tài khoản:" {...register('username', { required: true, pattern: /^[a-z_\d]{6,255}$/i })} />
+          {errors.username && (
+            <ValidateMessage>
+              Tên tài khoản chỉ bao gồm chữ cái, chữ số, dấu _, độ dài tối thiểu là 6 kí tự
+            </ValidateMessage>
+          )}
         </div>
         <div className="group flex flex-col mb-8">
           <AuthInput label="Mã OTP:" {...register('otpForget', { required: true })} />
@@ -56,8 +60,10 @@ export const ForgotPasswordForm = () => {
             {...register('password', {
               required: true,
               validate: {
-                weakPassword: (v) => !WEAK_PASSWORDS.includes(v) || 'Weak',
+                weakPassword: (v) =>
+                  !WEAK_PASSWORDS.includes(v) || 'Mật khẩu không được nằm trong danh sách mật khẩu yếu',
               },
+              pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#?!@$%^&*+='"<>\]\[\|-]).{8,}$/i,
             })}
           />
           {errors.password && <ValidateMessage>{errors.password.message}</ValidateMessage>}

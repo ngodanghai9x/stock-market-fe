@@ -89,11 +89,12 @@ const CompanyPage = () => {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [editRecord, setEditRecord] = useState<Company | undefined>(undefined);
 
+  const fetchData = async () => {
+    const listCompany = await getAllCompany();
+    setCompanies(listCompany);
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const listCompany = await getAllCompany();
-      setCompanies(listCompany);
-    };
     fetchData();
   }, []);
 
@@ -177,7 +178,7 @@ const CompanyPage = () => {
           />
         </Paper>
       </div>
-      <CreateCompanyModal isOpen={isOpenModal} onClose={toggleModal} editRecord={editRecord} />
+      <CreateCompanyModal isOpen={isOpenModal} onClose={toggleModal} editRecord={editRecord} fetchData={fetchData} />
     </div>
   );
 };

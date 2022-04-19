@@ -48,19 +48,19 @@ export const searchUsers = async ({ q = '', page = 1, size = 100 }: SearchPayloa
 };
 
 export const editUserByAdmin = (payload: AdminEditUserPayload, userId: number) => {
-  return axiosClient.post(`${adminBaseUrl}/user/admin/${userId}`, {
+  return axiosClient.put(`${adminBaseUrl}/user/admin/${userId}`, {
     ...payload,
   });
 };
 
 export const editCompany = (payload: EditCompanyPayload, companyId: number) => {
-  return axiosClient.post(`${adminBaseUrl}/company/${companyId}`, {
+  return axiosClient.put(`${adminBaseUrl}/company/${companyId}`, {
     ...payload,
   });
 };
 
 export const editIndustry = (payload: EditIndustryPayload, industryId: number) => {
-  return axiosClient.post(`${adminBaseUrl}/company/industry/${industryId}`, {
+  return axiosClient.put(`${adminBaseUrl}/company/industry/${industryId}`, {
     ...payload,
   });
 };

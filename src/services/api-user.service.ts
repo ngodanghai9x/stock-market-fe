@@ -24,7 +24,7 @@ export const getUserById = async (userId: number = 1, username?: string) => {
 };
 
 export const editUserInfo = (payload: EditUserPayload, userId: number) => {
-  return axiosClient.post(`${baseUrl}/user/${userId}`, {
+  return axiosClient.put(`${baseUrl}/user/${userId}`, {
     ...payload,
   });
 };

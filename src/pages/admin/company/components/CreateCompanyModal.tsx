@@ -14,16 +14,19 @@ type CreateCompanyModalProps = {
   isOpen: boolean;
   onClose: () => void;
   editRecord?: Company;
+  fetchData: () => Promise<void>;
 };
 
-const CreateCompanyModal = ({ isOpen, onClose, editRecord }: CreateCompanyModalProps) => {
+const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCompanyModalProps) => {
   const [ipoDate, setIpoDate] = useState<Date | null>(null);
   const [foundedDate, setFoundedDate] = useState<Date | null>(null);
   const [industries, setIndustries] = useState<Industry[]>([]);
 
-  const listIndustry = new Map<string, number>(industries.map((el) => {
-    return [el.industryName, el.industryId]
-  }))
+  const listIndustry = new Map<string, number>(
+    industries.map((el) => {
+      return [el.industryName, el.industryId];
+    })
+  );
 
   const {
     register,
@@ -50,15 +53,18 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord }: CreateCompanyModalP
         },
         company: {
           ...data.company,
-          industryId: listIndustry.get(getValues('company.industryId').toString()) || 0
+          industryId: listIndustry.get(getValues('company.industryId').toString()) || 0,
         },
       };
-      
+      let res = { data: { message: '' } };
+
       if (editRecord) {
-        await editCompany(formData, formData.company.companyId);
+        res = await editCompany(formData, formData.company.companyId);
       } else {
-        await createCompany(formData);
+        res = await createCompany(formData);
       }
+      toast(res.data?.message);
+      fetchData();
     } catch (error: any) {
       console.log(error);
       toast(error.response.data.message);
@@ -230,7 +236,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord }: CreateCompanyModalP
                     label="Số lượng cổ phiếu"
                     variant="standard"
                     className="w-full"
-                type="number"
+                    type="number"
                     {...register('stock.quantity', { required: true })}
                   />
                   {errors?.stock?.quantity && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
@@ -242,7 +248,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord }: CreateCompanyModalP
                     label="Giá cổ phiếu"
                     variant="standard"
                     className="w-full"
-                type="number"
+                    type="number"
                     {...register('stock.price', { required: true })}
                   />
                   {errors?.stock?.price && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}

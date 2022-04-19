@@ -50,11 +50,12 @@ const IndustryPage = () => {
   const [records, setRecords] = useState<Industry[]>([]);
   const [editRecord, setEditRecord] = useState<Industry | undefined>(undefined);
 
+  const fetchData = async () => {
+    const list = await searchIndustries({} as SearchPayload);
+    setRecords(list);
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const list = await searchIndustries({} as SearchPayload);
-      setRecords(list);
-    };
     fetchData();
   }, []);
 
@@ -137,7 +138,7 @@ const IndustryPage = () => {
           />
         </Paper>
       </div>
-      <CreateIndustryModal isOpen={isOpenModal} onClose={toggleModal} editRecord={editRecord} />
+      <CreateIndustryModal isOpen={isOpenModal} onClose={toggleModal} editRecord={editRecord} fetchData={fetchData} />
     </div>
   );
 };

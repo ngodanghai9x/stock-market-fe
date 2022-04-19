@@ -11,9 +11,10 @@ type CreateIndustryModalProps = {
   isOpen: boolean;
   onClose: () => void;
   editRecord?: Industry;
+  fetchData: () => Promise<void>;
 };
 
-const CreateIndustryModal = ({ isOpen, onClose, editRecord }: CreateIndustryModalProps) => {
+const CreateIndustryModal = ({ isOpen, onClose, editRecord, fetchData }: CreateIndustryModalProps) => {
   const {
     register,
     handleSubmit,
@@ -32,11 +33,15 @@ const CreateIndustryModal = ({ isOpen, onClose, editRecord }: CreateIndustryModa
   const onSubmit: SubmitHandler<CreateIndustryPayload> = async (data) => {
     try {
       console.log(data);
+      let res = { data: { message: ''} };
       if (editRecord) {
-        await editIndustry(data, data.industry.industryId);
+        res = await editIndustry(data, data.industry.industryId);
       } else {
-        await createIndustry(data);
+        res = await createIndustry(data);
       }
+      toast(res.data?.message);
+
+      fetchData();
     } catch (error: any) {
       console.log(error);
       toast(error.response.data.message);

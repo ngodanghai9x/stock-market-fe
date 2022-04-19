@@ -13,7 +13,7 @@ import BrandingWatermarkIcon from '@mui/icons-material/BrandingWatermark';
 import GppGoodIcon from '@mui/icons-material/GppGood';
 import PersonIcon from '@mui/icons-material/Person';
 
-export const USER_SIDEBAR: Record<string, { label: string; render: () => React.ReactNode }> = {
+export const USER_SIDEBAR: Record<string, { label: string; render: () => React.ReactNode; exact?: boolean }> = {
   [PATH_NAMES.userInfo.slice(1)]: { label: 'Thông tin cơ bản', render: () => <PersonIcon /> },
   [PATH_NAMES.security.slice(1)]: { label: 'Bảo mật', render: () => <GppGoodIcon /> },
   [PATH_NAMES.identification.slice(1)]: { label: 'Căn cước công dân', render: () => <BrandingWatermarkIcon /> },

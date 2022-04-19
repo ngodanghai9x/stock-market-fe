@@ -12,10 +12,12 @@ import LetterAvatar from './LetterAvatar';
 import { USER_SIDEBAR } from './user/layout/UserSideBar';
 import { PATH_NAMES } from '../constants/path-name';
 import CustomLink from './CustomLink';
+import PersonIcon from '@mui/icons-material/Person';
 
 const USER_MENU = {
+  [PATH_NAMES.admin.slice(1)]: { label: 'Trang quản lý', render: () => <PersonIcon />, exact: true },
   ...USER_SIDEBAR,
-  [PATH_NAMES.logout.slice(1)]: { label: 'Đăng xuất', render: () => <Logout fontSize="small" /> },
+  [PATH_NAMES.logout.slice(1)]: { label: 'Đăng xuất', render: () => <Logout fontSize="small" />, exact: true },
 };
 
 export default function AccountMenu() {
@@ -82,7 +84,7 @@ export default function AccountMenu() {
         {/* <Divider /> */}
         {Object.keys(USER_MENU).map((option) => (
           <MenuItem>
-            <CustomLink to={option === 'logout' ? `/${option}` : `/user/${option}`}>
+            <CustomLink to={USER_MENU[option].exact ? `/${option}` : `/user/${option}`}>
               <span className="mr-3">{USER_MENU[option].render()}</span>
               <span className="">{USER_MENU[option].label}</span>
             </CustomLink>

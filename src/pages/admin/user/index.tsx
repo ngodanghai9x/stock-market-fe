@@ -65,11 +65,12 @@ const UserPage = () => {
   const [records, setRecords] = useState<User[]>([]);
   const [editRecord, setEditRecord] = useState<User | undefined>(undefined);
 
+  const fetchData = async () => {
+    const list = await getAllUser();
+    setRecords(list);
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const list = await getAllUser();
-      setRecords(list);
-    };
     fetchData();
   }, []);
 
@@ -100,9 +101,9 @@ const UserPage = () => {
   return (
     <div className="bg-white h-full w-11/12">
       <div className="flex justify-end mt-4 mr-4">
-        <Button variant="outlined" onClick={toggleModal}>
+        {/* <Button variant="outlined" onClick={toggleModal}>
           Thêm mới
-        </Button>
+        </Button> */}
       </div>
       <div className="mt-5 px-4">
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -153,7 +154,7 @@ const UserPage = () => {
           />
         </Paper>
       </div>
-      <AdminEditUserModal isOpen={isOpenModal} onClose={toggleModal} editRecord={editRecord} />
+      <AdminEditUserModal isOpen={isOpenModal} onClose={toggleModal} editRecord={editRecord} fetchData={fetchData}/>
     </div>
   );
 };

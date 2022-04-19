@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import CustomModal from '../../../../components/CustomModal';
 import ValidateMessage from '../../../../components/ValidateMessage';
-import { RoleLabelType, StatusLabelType } from '../../../../constants';
+import { RoleLabelType, StatusLabelType, UserStatusLabel } from '../../../../constants';
 import { editUserByAdmin } from '../../../../services/api-admin.service';
 import { AdminEditUserPayload, User } from '../../../../services/api-admin.type';
 
@@ -12,9 +12,10 @@ type AdminEditUserModalProps = {
   isOpen: boolean;
   onClose: () => void;
   editRecord?: User;
+  fetchData: () => Promise<void>;
 };
 
-const AdminEditUserModal = ({ isOpen, onClose, editRecord }: AdminEditUserModalProps) => {
+const AdminEditUserModal = ({ isOpen, onClose, editRecord, fetchData }: AdminEditUserModalProps) => {
   const {
     register,
     handleSubmit,
@@ -33,7 +34,9 @@ const AdminEditUserModal = ({ isOpen, onClose, editRecord }: AdminEditUserModalP
   const onSubmit: SubmitHandler<AdminEditUserPayload> = async (data) => {
     try {
       console.log(data);
-      await editUserByAdmin(data, data.user.userId);
+      const res = await editUserByAdmin(data, data.user.userId);
+      toast(res.data?.message);
+      fetchData();
     } catch (error: any) {
       console.log(error);
       toast(error.response.data.message);
@@ -95,7 +98,7 @@ const AdminEditUserModal = ({ isOpen, onClose, editRecord }: AdminEditUserModalP
               <Autocomplete
                 freeSolo
                 disableClearable
-                options={Object.values(StatusLabelType)}
+                options={Object.keys(StatusLabelType)}
                 renderInput={(params) => (
                   <div className="">
                     <TextField
@@ -103,6 +106,7 @@ const AdminEditUserModal = ({ isOpen, onClose, editRecord }: AdminEditUserModalP
                       required
                       label="Vai trò"
                       variant="standard"
+                      {...register('user.roleId', { required: true })}
                       InputProps={{
                         ...params.InputProps,
                         type: 'search',
@@ -116,11 +120,12 @@ const AdminEditUserModal = ({ isOpen, onClose, editRecord }: AdminEditUserModalP
               <Autocomplete
                 freeSolo
                 disableClearable
-                options={Object.values(RoleLabelType)}
+                options={Object.keys(UserStatusLabel)}
                 renderInput={(params) => (
                   <div className="">
                     <TextField
                       {...params}
+                      {...register('user.userStatus', { required: true })}
                       required
                       label="Trạng thái"
                       variant="standard"

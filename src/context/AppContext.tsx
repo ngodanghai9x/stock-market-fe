@@ -3,8 +3,10 @@ import { ActionTypes } from '../constants';
 import { StockOrder } from '../services/api-admin.type';
 import { getAllOrder } from '../services/api-user.service';
 import { GroupedStockOrders, Purchase } from '../services/api-user.type';
+import appContextMock from './mock/appContext';
 
-const initialState = { HNG: {} } as GroupedStockOrders;
+// const initialState = { HNG: {} } as GroupedStockOrders;
+const initialState = appContextMock.grouped as GroupedStockOrders;
 const initializeState = (store: GroupedStockOrders) => store;
 type Action = {
   type: ActionTypes;

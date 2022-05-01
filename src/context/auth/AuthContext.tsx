@@ -70,7 +70,8 @@ export const AuthProvider = (props: { children: ReactElement }) => {
     const pathname = location.pathname;
     if (PUBLIC_ROUTES.includes(pathname) && isAuthenticated) {
       if ([RoleIdType.admin, RoleIdType.moderator].includes(user.roleId)) return navigation(PATH_NAMES.admin)
-      return navigation(PATH_NAMES.user)
+      if ([RoleIdType.company, RoleIdType.user].includes(user.roleId)) return navigation(PATH_NAMES.priceTable)
+      return navigation(PATH_NAMES.login)
     }
 
   }, [isAuthenticated, location, navigation, user.roleId])

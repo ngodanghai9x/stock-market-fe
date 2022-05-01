@@ -254,11 +254,29 @@ export enum Gender {
   Other = 2,
 }
 
+export enum DerivativeIndex {
+  MYINDEX = -1,
+
+  VNI = 1,
+  VN30 = 2,
+  HNX = 3,
+  HNX30 = 4,
+  UPCOM = 5,
+  VN100 = 11,
+
+  MIDCAP = 10,
+  SMALLCAP = 13,
+  ALLSHARE = 12,
+
+  VNX50 = 15,
+}
+
 export enum ActionTypes {
   Initialize = 'Initialize',
   AddStockOrder = 'AddStockOrder',
   EditStockOrder = 'EditStockOrder',
   DeleteStockOrder = 'DeleteStockOrder',
+  MatchingStockOrder = 'MatchingStockOrder'
 }
 
 /* ------- Special case ------- */

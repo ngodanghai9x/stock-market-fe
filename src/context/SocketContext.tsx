@@ -13,6 +13,7 @@ export interface ServerToClientEvents {
   AddStockOrder: (order: StockOrder) => void;
   EditStockOrder: (order: StockOrder) => void;
   DeleteStockOrder: (order: StockOrder) => void;
+  MatchingStockOrder: () => void;
 }
 
 export interface ClientToServerEvents {
@@ -28,7 +29,7 @@ export const SocketContext = createContext<{
 
 export const SocketProvider = (props: { children: ReactElement }) => {
   const { user } = useContext(AuthContext);
-  const { store, dispatch } = useContext(AppContext);
+  const { store, dispatch, fetchData } = useContext(AppContext);
 
   const isIgnoreSocket = useCallback(
     (stockOrder: StockOrder): boolean => {
@@ -63,12 +64,16 @@ export const SocketProvider = (props: { children: ReactElement }) => {
       dispatch({ type: ActionTypes.DeleteStockOrder, payload: stockOrder });
     });
 
+    socket.on('MatchingStockOrder', async () => {
+      await fetchData();
+    });
+
     return () => {
       // before the component is destroyed
       // unbind all event handlers used in this component
       // socket.off('JOIN_REQUEST_ACCEPTED', handleInviteAccepted);
     };
-  }, [dispatch, isIgnoreSocket]);
+  }, [dispatch, isIgnoreSocket, fetchData]);
 
   return (
     <SocketContext.Provider

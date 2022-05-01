@@ -1,9 +1,18 @@
-import React, { Children, createContext, Dispatch, ReactNode, useEffect, useReducer } from 'react';
+import React, {
+  Children,
+  createContext,
+  Dispatch,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useReducer,
+  useState,
+} from 'react';
 import { ActionTypes } from '../constants';
 import { StockOrder } from '../services/api-admin.type';
 import { getAllOrder } from '../services/api-user.service';
-import { GroupedStockOrders, Purchase } from '../services/api-user.type';
-import appContextMock from './mock/appContext';
+import { GroupedHistory, GroupedStockOrders, MatchingGroupedStockOrders, Purchase } from '../services/api-user.type';
+import appContextMock from './mock/appContextMock';
 
 // const initialState = { HNG: {} } as GroupedStockOrders;
 const initialState = appContextMock.grouped as GroupedStockOrders;
@@ -81,34 +90,48 @@ function withLogger(dispatch: React.Dispatch<Action>): React.Dispatch<Action> {
 
 export const AppContext = createContext<{
   store: GroupedStockOrders;
+  marketHistory: GroupedHistory;
+  matchingGrouped: MatchingGroupedStockOrders;
   dispatch: React.Dispatch<Action>;
+  fetchData: () => Promise<void>;
 }>({
   store: initialState,
+  marketHistory: {},
+  matchingGrouped: {},
   dispatch: (a: Action) => {},
+  fetchData: async () => {},
 });
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState, initializeState);
+  const [matchingState, setMatchingState] = useState<MatchingGroupedStockOrders>({});
+  const [marketHistory, setMarketHistory] = useState<GroupedHistory>({});
+
+  const fetchData = useCallback(async () => {
+    const {
+      data: { grouped, matchingGrouped, history },
+    } = await getAllOrder();
+    setMatchingState(matchingGrouped);
+    setMarketHistory(history)
+    dispatch({
+      type: ActionTypes.Initialize,
+      initialState: grouped,
+      payload: null,
+    });
+  }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const {
-        data: { grouped },
-      } = await getAllOrder();
-      dispatch({
-        type: ActionTypes.Initialize,
-        initialState: grouped,
-        payload: null,
-      });
-    };
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   return (
     <AppContext.Provider
       value={{
         store: state,
+        matchingGrouped: matchingState,
+        marketHistory,
         dispatch: withLogger(dispatch),
+        fetchData,
       }}
     >
       {children}

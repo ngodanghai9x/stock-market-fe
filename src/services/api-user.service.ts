@@ -28,3 +28,71 @@ export const editUserInfo = (payload: EditUserPayload, userId: number) => {
     ...payload,
   });
 };
+
+export const getWorldIndexes = async () => {
+  const res = await axiosClient.get(`https://athenaaws.tcbs.com.vn/athena/v1/worldIndexes`);
+  return new MyResponse<{
+    data: {
+      symbol: string;
+      value: number;
+      changePercent: number;
+      enName: string;
+      viName: string;
+    }[];
+  }>(res).data;
+};
+
+export const getProductIndexes = async () => {
+  const res = await axiosClient.get(`https://athenaaws.tcbs.com.vn/athena/v1/futureIndexes`);
+  return new MyResponse<{
+    data: {
+      symbol: string;
+      value: number;
+      changePercent: number;
+      enName: string;
+      viName: string;
+    }[];
+  }>(res).data;
+};
+
+export const getDerivativeIndexes = async () => {
+  const res = await axiosClient.get(`https://athenaaws.tcbs.com.vn/athena/v1/indexSnaps?indexes=1,2,3,4,5`);
+  return new MyResponse<{
+    data: {
+      indexNumber: number;
+      index: number;
+      change: number;
+      changePercent: number;
+      volume: number;
+      value: number;
+      increase: number;
+      decrease: number;
+      notChange: number;
+      session: string;
+      ceilIncrease: number;
+      floorDecrease: number;
+      preIndex: number;
+    }[];
+  }>(res).data;
+};
+
+export const getCurrencyIndexes = async () => {
+  // ,EUR_USD,USD_JPY,USD_CNY
+  const res = await axiosClient.get(
+    `https://finfo-api.vndirect.com.vn/v4/currencies/latest?order=tradingDate&where=locale:VN&filter=code:USD_VND,EUR_VND,CNY_VND,JPY_VND`
+  );
+  return new MyResponse<{
+    data: {
+      code: 'USD_VND';
+      codeName: 'Tỷ giá USD/VND';
+      tradingDate: '2022-04-28';
+      openPrice: 22950.0;
+      highPrice: 22967.0;
+      lowPrice: 22950.0;
+      closePrice: 22958.0;
+      change: -18.0;
+      changePct: -0.0783;
+      locale: 'VN';
+    }[];
+  }>(res);
+};

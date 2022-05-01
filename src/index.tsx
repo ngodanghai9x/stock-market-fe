@@ -3,10 +3,15 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
+import { StyledEngineProvider } from '@mui/material/styles';
+import { CssBaseline } from '@mui/material';
 ReactDOM.render(
   <BrowserRouter>
-    <App />
+    <StyledEngineProvider injectFirst>
+      <CssBaseline />
+      <App />
+    </StyledEngineProvider>
+
   </BrowserRouter>,
   document.getElementById('root')
 );

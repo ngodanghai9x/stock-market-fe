@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import moment from 'moment';
 import { StatusIdType, StatusLabelType, STORAGE } from '../constants';
 import { LoginPayload } from '../services/api-auth.type';
 import { GroupedStockOrders, MatchingGroupedStockOrders, PriceItem, GroupedHistory } from '../services/api-user.type';
@@ -169,4 +170,8 @@ export const formatPrice = (v: number): string | number => {
 export const formatAmount = (v: number): string | number => {
   if (!v) return '--';
   return parseFloat((v / 100).toFixed(3));
+};
+
+export const formatDate = (v: string | Date, format: string = 'DD/MM/YYYY'): string => {
+  return moment(v).format(format);
 };

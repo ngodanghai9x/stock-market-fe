@@ -1,5 +1,17 @@
 import { Gender, MatchedStatus } from '../constants';
 
+export type MarketHistory = {
+  id: number;
+  date: string;
+  stockSymbol: string;
+  openPrice: number;
+  closePrice: number;
+  highPrice: number;
+  lowPrice: number;
+  totalQuantity: number;
+  company?: Company;
+};
+
 export type StockOrder = {
   orderId: number;
   orderTypeId: number;
@@ -13,6 +25,7 @@ export type StockOrder = {
   isDone: number;
   orderType?: any;
   user?: any;
+  orderMatchings?: StockOrderMatching[];
 };
 
 export type StockOrderMatching = {
@@ -26,17 +39,7 @@ export type StockOrderMatching = {
   order?: StockOrder;
 };
 
-export type MarketHistory = {
-  id: number;
-  date: string;
-  stockSymbol: string;
-  openPrice: number;
-  closePrice: number;
-  highPrice: number;
-  lowPrice: number;
-  totalQuantity: number;
-  company?: Company;
-};
+
 
 export type Industry = {
   industryId: number;

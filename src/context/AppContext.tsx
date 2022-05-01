@@ -108,11 +108,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [marketHistory, setMarketHistory] = useState<GroupedHistory>({});
 
   const fetchData = useCallback(async () => {
-    const {
-      data: { grouped, matchingGrouped, history },
-    } = await getAllOrder();
+    const { grouped, matchingGrouped, history } = await getAllOrder();
     setMatchingState(matchingGrouped);
-    setMarketHistory(history)
+    setMarketHistory(history);
     dispatch({
       type: ActionTypes.Initialize,
       initialState: grouped,

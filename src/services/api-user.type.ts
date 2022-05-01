@@ -55,6 +55,11 @@ export type GetAllStockOrderResponse = {
   // orders: StockOrder[];
 };
 
+export type GetUserOrdersResponse = {
+  total: number;
+  orders: StockOrder[];
+};
+
 export type EditableUser = {
   fullName: string;
   email: string;

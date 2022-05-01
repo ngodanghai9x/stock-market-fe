@@ -7,30 +7,21 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
-
-function createData(name: string, calories: number, fat: number, carbs: number, protein: number) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+import { AuthContext } from '../../../context/auth/AuthContext';
+import { getUserOrders } from '../../../services/api-user.service';
+import { StockOrder, StockOrderMatching } from '../../../services/api-admin.type';
+import { formatDate } from '../../../lib/utils';
 
 const tableHeadings = [
   'Mã',
-  'Trần',
-  'Sàn',
-  'TC',
-  'Giá M 3',
-  'KL M 3',
-  'Giá M 2',
-  'KL M 2',
-  'Giá M 1',
-  'KL M 1',
+  'Loại lệnh',
+  'Giao dịch',
+  'KL đặt',
+  'KL khớp',
+  'Giá đặt',
+  'Giá khớp',
+  'Ngày đặt',
+  'Trạng thái',
 ];
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -48,32 +39,72 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     backgroundColor: '#262626',
   },
   '&:last-child td, &:last-child th': {
-    border: 0,
+    borderBottom: 0,
+    borderTop: 0,
   },
 }));
 
-
 const OrderBook = () => {
+  const { user } = React.useContext(AuthContext);
+  const [list, setList] = React.useState<StockOrder[]>([]);
+
+  const fetchData = React.useCallback(async () => {
+    const { total, orders } = await getUserOrders(user.userId);
+    setList(orders);
+  }, [user]);
+
+  React.useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  const otherData = React.useMemo(() => {
+    let quantity = 0,
+      price = 0,
+      matchedQuantity = 0,
+      matchedPrice = 0;
+    list.forEach((order) => {
+      price += order.price;
+      quantity += order.quantity;
+      order.orderMatchings?.forEach((m) => {
+        matchedQuantity += m.quantity;
+        matchedPrice += m.price;
+      });
+    });
+
+    return {
+      price,
+      quantity,
+      matchedQuantity,
+      matchedPrice,
+    };
+  }, [list]);
+
   return (
     <div>
-      <div className='flex m-4'>
-        <span className='font-semibold block mr-4'>Sổ lệnh</span>
-        <ul className='flex'>
-          <li className='px-4 border-b text-red-500 border-red-500'>
+      <div className="flex m-4">
+        <span className="font-semibold block mr-4">Sổ lệnh</span>
+        <ul className="flex">
+          <li className="px-4 border-b text-red-500 border-red-500">
             <button>Thường</button>
+          </li>
+          <li className="px-4 border-b opacity-70">
+            <button disabled>Điều khiện</button>
           </li>
         </ul>
       </div>
-      <div className='m-2'>
-        <ul className='flex'>
+      <div className="m-2">
+        <ul className="flex">
           <li>
-            <span>KL đặt: 600</span>
+            <span>KL đặt: {otherData.quantity}</span>
           </li>
-          <li className='mx-2 border-x px-2'>
-            <span>KL đặt: 600</span>
+          <li className="ml-3 border-l pl-3">
+            <span>GT đặt: {otherData.price}</span>
           </li>
-          <li>
-            <span>KL đặt: 600</span>
+          <li className="ml-3 border-l pl-3">
+            <span>KL khớp: {otherData.matchedQuantity}</span>
+          </li>
+          <li className="ml-3 border-l pl-3">
+            <span>GT khớp: {otherData.matchedPrice}</span>
           </li>
         </ul>
       </div>
@@ -90,9 +121,9 @@ const OrderBook = () => {
                       backgroundColor: 'gray',
                       '&:nth-child(2)': {
                         borderLeft: '1px solid lightgray',
-                      }
+                      },
                     }}
-                    align='center'
+                    align="center"
                   >
                     {tableHeading}
                   </TableCell>
@@ -100,97 +131,96 @@ const OrderBook = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
-                <StyledTableRow key={row.name}>
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
-                    }}
-                  >
-                    {row.calories}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
-                      borderLeft: '1px solid lightgray',
-                    }}
-                  >
-                    {row.calories}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
-                    }}
-                  >
-                    {row.calories}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
-                    }}
-                  >
-                    {row.calories}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
-                    }}
-                  >
-                    {row.calories}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
-                    }}
-                  >
-                    {row.calories}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
-                    }}
-                  >
-                    {row.calories}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
-                    }}
-                  >
-                    {row.calories}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
-                    }}
-                  >
-                    {row.calories}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
-                    }}
-                  >
-                    {row.calories}
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
+              {list.map((row) => {
+                const orderMatchings = row?.orderMatchings?.length
+                  ? row?.orderMatchings
+                  : ([{}] as StockOrderMatching[]);
+                return orderMatchings.map((order) => {
+                  return (
+                    <StyledTableRow key={row.orderId}>
+                      <StyledTableCell
+                        align="center"
+                        sx={{
+                          color: 'white',
+                        }}
+                      >
+                        {row.stockSymbol} ({row.orderId})
+                      </StyledTableCell>
+                      <StyledTableCell
+                        align="center"
+                        sx={{
+                          color: 'white',
+                          borderLeft: '1px solid lightgray',
+                        }}
+                      >
+                        {row.orderTypeId === 1 && 'Lệnh thường'}
+                      </StyledTableCell>
+                      <StyledTableCell
+                        align="center"
+                        sx={{
+                          color: 'white',
+                        }}
+                      >
+                        {row.isBuy ? 'Mua' : 'Bán'}
+                      </StyledTableCell>
+                      <StyledTableCell
+                        align="center"
+                        sx={{
+                          color: 'white',
+                        }}
+                      >
+                        {row.quantity}
+                      </StyledTableCell>
+                      <StyledTableCell
+                        align="center"
+                        sx={{
+                          color: 'white',
+                        }}
+                      >
+                        {order.quantity}
+                      </StyledTableCell>
+                      <StyledTableCell
+                        align="center"
+                        sx={{
+                          color: 'white',
+                        }}
+                      >
+                        {row.price}
+                      </StyledTableCell>
+                      <StyledTableCell
+                        align="center"
+                        sx={{
+                          color: 'white',
+                        }}
+                      >
+                        {order.price}
+                      </StyledTableCell>
+                      <StyledTableCell
+                        align="center"
+                        sx={{
+                          color: 'white',
+                        }}
+                      >
+                        {formatDate(row.createdAt)}
+                      </StyledTableCell>
+                      <StyledTableCell
+                        align="center"
+                        sx={{
+                          color: 'white',
+                        }}
+                      >
+                        {row.isDone ? 'Hoàn thành' : 'Chờ khớp'}
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  );
+                });
+              })}
             </TableBody>
           </Table>
         </TableContainer>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default OrderBook
+export default OrderBook;

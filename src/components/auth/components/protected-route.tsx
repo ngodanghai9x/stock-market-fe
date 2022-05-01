@@ -12,7 +12,7 @@ const ProtectedRoute = (props: { children: ReactElement }) => {
     if (!isAuthenticated) {
       navigation(PATH_NAMES.login)
     };
-  }, [])
+  }, [isAuthenticated, navigation])
 
   return props.children;
 };

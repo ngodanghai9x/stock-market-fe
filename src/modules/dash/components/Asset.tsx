@@ -5,6 +5,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AssetInfo } from './AssetInfo';
+import { AuthContext } from '../../../context/auth/AuthContext';
 
 enum CurrentTab {
   Asset = 'Asset',
@@ -12,7 +13,7 @@ enum CurrentTab {
   LoanAmount = 'LoanAmount',
 }
 
-const tabs = [{
+const TABS = [{
   title: 'Tài sản',
   key: CurrentTab.Asset
 }, {
@@ -63,6 +64,19 @@ const DebtsTab = () => {
 
 const Asset = () => {
   const [currentTab, setCurrentTab] = React.useState<CurrentTab>(CurrentTab.Debts);
+
+  const { user } = React.useContext(AuthContext);
+  const [marketHistory, setMarketHistory] = React.useState({});
+
+  const fetchData = React.useCallback(async () => {
+    // const { grouped, matchingGrouped, history } = await getAllOrder();
+  }, []);
+
+  React.useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+
   return (
     <div className="flex flex-col bg-trueGray-800 text-white border-t row-span-2 h-full w-full">
       <div className="flex flex-1 w-full">
@@ -108,7 +122,7 @@ const Asset = () => {
         </div>
         <div className='flex-1'>
           <div className="flex mx-2">
-            {tabs.map(tab => <button className={`px-4 py-2 border-b font-semibold	 min-w-[90px] ${currentTab === tab.key ? 'border-red-500 text-red-500 ' : ''}`} key={tab.key} onClick={() => setCurrentTab(tab.key)}>{tab.title}</button>)}
+            {TABS.map(tab => <button className={`px-4 py-2 border-b font-semibold	 min-w-[90px] ${currentTab === tab.key ? 'border-red-500 text-red-500 ' : ''}`} key={tab.key} onClick={() => setCurrentTab(tab.key)}>{tab.title}</button>)}
           </div>
           {currentTab === CurrentTab.Debts && <DebtsTab />}
           {currentTab === CurrentTab.Asset && <AssetInfo />}

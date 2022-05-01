@@ -11,6 +11,7 @@ import PriceTableDashboard from "../pages/user/PriceTableDashboard";
 const Routers = () => {
   let element = useRoutes([
     { path: "/", element: <HomePage /> },
+
     // { path: "register", element: <RegisterPage /> },
     // just temporary
     { path: "forgot-password", element: <AuthPage /> },

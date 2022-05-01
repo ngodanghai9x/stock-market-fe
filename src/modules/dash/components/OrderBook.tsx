@@ -51,7 +51,7 @@ const OrderBook = () => {
   const fetchData = React.useCallback(async () => {
     const { total, orders } = await getUserOrders(user.userId);
     setList(orders);
-  }, [user]);
+  }, [user.userId]);
 
   React.useEffect(() => {
     fetchData();

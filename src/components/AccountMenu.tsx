@@ -33,7 +33,7 @@ export default function AccountMenu() {
       ...USER_SIDEBAR,
       [PATH_NAMES.logout.slice(1)]: { label: 'Đăng xuất', render: () => <Logout fontSize="small" />, exact: true },
     };
-  }, [user]);
+  }, [user.roleId]);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);

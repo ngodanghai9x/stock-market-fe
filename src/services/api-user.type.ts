@@ -1,5 +1,5 @@
 import { Gender } from '../constants';
-import { StockOrder, StockOrderMatching, MarketHistory } from './api-admin.type';
+import { StockOrder, StockOrderMatching, MarketHistory, User, CitizenIdentity } from './api-admin.type';
 
 export type SymbolTradePurchase = {
   [price: string]: Partial<StockOrder>[];
@@ -59,6 +59,8 @@ export type GetUserOrdersResponse = {
   total: number;
   orders: StockOrder[];
 };
+
+export type GetUser = { user: User; citizenIdentity: CitizenIdentity | null };
 
 export type EditableUser = {
   fullName: string;

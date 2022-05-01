@@ -4,14 +4,22 @@ import React, {
   Dispatch,
   ReactNode,
   useCallback,
+  useContext,
   useEffect,
   useReducer,
   useState,
 } from 'react';
 import { ActionTypes } from '../constants';
 import { StockOrder } from '../services/api-admin.type';
-import { getAllOrder } from '../services/api-user.service';
-import { GroupedHistory, GroupedStockOrders, MatchingGroupedStockOrders, Purchase } from '../services/api-user.type';
+import { getAllOrder, getUserById } from '../services/api-user.service';
+import {
+  GetUser,
+  GroupedHistory,
+  GroupedStockOrders,
+  MatchingGroupedStockOrders,
+  Purchase,
+} from '../services/api-user.type';
+import { AuthContext } from './auth/AuthContext';
 import appContextMock from './mock/appContextMock';
 
 // const initialState = { HNG: {} } as GroupedStockOrders;
@@ -92,12 +100,14 @@ export const AppContext = createContext<{
   store: GroupedStockOrders;
   marketHistory: GroupedHistory;
   matchingGrouped: MatchingGroupedStockOrders;
+  userInfo: GetUser;
   dispatch: React.Dispatch<Action>;
   fetchData: () => Promise<void>;
 }>({
   store: initialState,
   marketHistory: {},
   matchingGrouped: {},
+  userInfo: {} as GetUser,
   dispatch: (a: Action) => {},
   fetchData: async () => {},
 });
@@ -106,6 +116,11 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState, initializeState);
   const [matchingState, setMatchingState] = useState<MatchingGroupedStockOrders>({});
   const [marketHistory, setMarketHistory] = useState<GroupedHistory>({});
+  const [userInfo, setUserInfo] = useState<GetUser>({} as GetUser);
+
+  const {
+    user: { userId },
+  } = useContext(AuthContext);
 
   const fetchData = useCallback(async () => {
     const { grouped, matchingGrouped, history } = await getAllOrder();
@@ -122,12 +137,24 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     fetchData();
   }, [fetchData]);
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { user, citizenIdentity } = await getUserById(userId);
+      setUserInfo({
+        user,
+        citizenIdentity,
+      });
+    };
+    fetchUser();
+  }, [userId]);
+
   return (
     <AppContext.Provider
       value={{
         store: state,
         matchingGrouped: matchingState,
         marketHistory,
+        userInfo,
         dispatch: withLogger(dispatch),
         fetchData,
       }}

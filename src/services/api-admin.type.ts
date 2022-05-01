@@ -39,8 +39,6 @@ export type StockOrderMatching = {
   order?: StockOrder;
 };
 
-
-
 export type Industry = {
   industryId: number;
   industryName: string;
@@ -60,6 +58,7 @@ export type User = {
   phone: string | null;
   birthday: string | null;
   money: number;
+  lockedMoney: number;
   antiPhishingCode: string;
   userStatus: string;
   createdAt: string | null;

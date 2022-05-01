@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import LoginLogo from '../../components/images/LoginLogo';
 import { PATH_NAMES } from '../../constants/path-name';
 import { ForgotPasswordForm, LoginForm, RegisterForm, LogoutForm } from '../../modules/auth';
-import Table1 from '../../modules/dash/components/Table';
+import PriceTableDashboard from '../user/PriceTableDashboard';
 
 const Menu: Record<string, string> = {
   [PATH_NAMES.register]: 'Đăng ký',
@@ -14,7 +14,7 @@ const Menu: Record<string, string> = {
 const AuthPage = () => {
   return (
     <div>
-      <Table1 />
+      <PriceTableDashboard />
     </div>
   )
 }

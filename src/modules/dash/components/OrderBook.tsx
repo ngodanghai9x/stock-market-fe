@@ -59,13 +59,7 @@ const OrderBook = () => {
       <div className='flex m-4'>
         <span className='font-semibold block mr-4'>Sổ lệnh</span>
         <ul className='flex'>
-          <li className='border-b'>
-            <button>Thường</button>
-          </li>
           <li className='px-4 border-b text-red-500 border-red-500'>
-            <button>Thường</button>
-          </li>
-          <li className='border-b'>
             <button>Thường</button>
           </li>
         </ul>
@@ -84,7 +78,7 @@ const OrderBook = () => {
         </ul>
       </div>
       <div>
-        <TableContainer component={Paper} sx={{ backgroundColor: 'black', maxHeight: '300px' }}>
+        <TableContainer component={Paper} sx={{ backgroundColor: 'black', maxHeight: '250px' }}>
           <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>

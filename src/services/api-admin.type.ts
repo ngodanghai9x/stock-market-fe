@@ -1,4 +1,4 @@
-import { Gender } from '../constants';
+import { Gender, MatchedStatus } from '../constants';
 
 export type StockOrder = {
   orderId: number;
@@ -13,6 +13,29 @@ export type StockOrder = {
   isDone: number;
   orderType?: any;
   user?: any;
+};
+
+export type StockOrderMatching = {
+  id: number;
+  orderId: number;
+  status: MatchedStatus;
+  quantity: number;
+  price: number;
+  fee: number;
+  createdAt: string;
+  order?: StockOrder;
+};
+
+export type MarketHistory = {
+  id: number;
+  date: string;
+  stockSymbol: string;
+  openPrice: number;
+  closePrice: number;
+  highPrice: number;
+  lowPrice: number;
+  totalQuantity: number;
+  company?: Company;
 };
 
 export type Industry = {

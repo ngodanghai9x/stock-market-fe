@@ -1,3 +1,5 @@
+import { MatchedStatus } from "../../constants";
+
 const grouped = {
   HNG: {
     buy: {
@@ -130,6 +132,44 @@ const grouped = {
         },
       ],
     },
+    sell: {},
+  },
+};
+
+const matchingGrouped = {
+  HNG: {
+    matchingOrders: [
+      {
+        id: 6,
+        orderId: 6,
+        status: MatchedStatus.Partial,
+        quantity: 800,
+        price: 9800,
+        fee: 784,
+        createdAt: '2022-02-06T03:44:49.000Z',
+      },
+      {
+        id: 4,
+        orderId: 9,
+        status: MatchedStatus.Fulfilled,
+        quantity: 100,
+        price: 8800,
+        fee: 88,
+        createdAt: '2022-02-06T03:43:58.000Z',
+      },
+      {
+        id: 2,
+        orderId: 5,
+        status: MatchedStatus.Fulfilled,
+        quantity: 100,
+        price: 8800,
+        fee: 88,
+        createdAt: '2022-02-06T03:43:58.000Z',
+      },
+    ],
+  },
+  VNM: {
+    matchingOrders: [],
   },
 };
 
@@ -246,5 +286,6 @@ const orders = [
 const appContextMock = {
   grouped,
   orders,
+  matchingGrouped,
 };
 export default appContextMock;

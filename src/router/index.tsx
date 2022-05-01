@@ -6,6 +6,7 @@ import RegisterPage from "../pages/register";
 import UserRouter from "./user-router";
 import AdminRouter from "./admin-router";
 import UnauthorizedPage from "../pages/unauthorized";
+import PriceTableDashboard from "../pages/user/PriceTableDashboard";
 
 const Routers = () => {
   let element = useRoutes([
@@ -17,6 +18,7 @@ const Routers = () => {
     { path: "login", element: <AuthPage /> },
     { path: "logout", element: <AuthPage /> },
 
+    { path: "price-table/*", element: <PriceTableDashboard /> },
     { path: "user/*", element: <UserRouter /> },
     { path: "admin/*", element: <AdminRouter /> },
     { path: "unauthorized", element: <UnauthorizedPage /> },

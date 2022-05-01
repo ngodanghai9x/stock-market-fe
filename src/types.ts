@@ -29,7 +29,7 @@ export class MyResponse<T> {
   data: T;
   constructor(res: AxiosResponse<any, any>) {
     this.statusCode = res.status;
-    this.data = res.data.data;
-    this.message = res.data.message;
+    this.data = res.data?.data;
+    this.message = res.data?.message;
   }
 }

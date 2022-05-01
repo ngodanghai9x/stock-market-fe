@@ -8,6 +8,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import MoneyInfo from './MoneyInfo';
+import { PriceItem } from '../../../services/api-user.type';
+import { formatAmount, formatPrice } from '../../../lib/utils';
 
 function createData(name: string, calories: number, fat: number, carbs: number, protein: number) {
   return { name, calories, fat, carbs, protein };
@@ -63,7 +65,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const Table1 = () => {
+type PriceTableProps = {
+  list: PriceItem[];
+};
+
+const PriceTable = ({ list = [] }: PriceTableProps) => {
+  console.log('🚀 ~ file: PriceTable.tsx ~ line 72 ~ PriceTable ~ list', list);
   return (
     <div className="w-screen h-screen bg-trueGray-800 grid grid-rows-4 grid-flow-col">
       <div className="row-span-2">
@@ -86,8 +93,8 @@ const Table1 = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
-                <StyledTableRow key={row.name}>
+              {list.map((row) => (
+                <StyledTableRow key={row.symbol}>
                   <StyledTableCell
                     align="center"
                     sx={{
@@ -95,7 +102,7 @@ const Table1 = () => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.calories}
+                    {row.symbol || '--'}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -104,7 +111,7 @@ const Table1 = () => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.calories}
+                    {formatPrice(row.ceilPrice)}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -113,7 +120,7 @@ const Table1 = () => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.calories}
+                    {formatPrice(row.floorPrice)}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -122,7 +129,7 @@ const Table1 = () => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.calories}
+                    {formatPrice(row.refPrice)}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -131,7 +138,7 @@ const Table1 = () => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.calories}
+                    {formatPrice(row.thirdBuy.price) || '--'}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -140,7 +147,7 @@ const Table1 = () => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.calories}
+                    {row.thirdBuy.amount || '--'}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -149,7 +156,7 @@ const Table1 = () => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.calories}
+                    {formatPrice(row.secondBuy.price) || '--'}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -158,7 +165,7 @@ const Table1 = () => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.calories}
+                    {row.secondBuy.amount || '--'}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -167,7 +174,7 @@ const Table1 = () => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.calories}
+                    {formatPrice(row.bestBuy.price) || '--'}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -176,7 +183,7 @@ const Table1 = () => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.calories}
+                    {row.bestBuy.amount || '--'}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -185,7 +192,7 @@ const Table1 = () => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.calories}
+                    {formatPrice(row.matchingPrice) || '--'}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -194,7 +201,7 @@ const Table1 = () => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.calories}
+                    {row.matchingAmount || '--'}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -203,7 +210,7 @@ const Table1 = () => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.calories}
+                    {formatPrice(row.matchingChange) || '--'}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -212,7 +219,7 @@ const Table1 = () => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.calories}
+                    {formatPrice(row.bestSell.price) || '--'}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -221,7 +228,7 @@ const Table1 = () => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.calories}
+                    {row.bestSell.amount || '--'}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -230,7 +237,7 @@ const Table1 = () => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.calories}
+                    {formatPrice(row.secondSell.price) || '--'}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -239,7 +246,7 @@ const Table1 = () => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.calories}
+                    {row.secondSell.amount || '--'}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -248,7 +255,7 @@ const Table1 = () => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.calories}
+                    {formatPrice(row.thirdSell.price) || '--'}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -257,7 +264,7 @@ const Table1 = () => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.calories}
+                    {row.thirdSell.amount || '--'}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -266,7 +273,7 @@ const Table1 = () => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.calories}
+                    {formatPrice(row.matchedHigh) || '--'}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -275,7 +282,7 @@ const Table1 = () => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.calories}
+                    {formatPrice(row.matchedAvg) || '--'}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -284,7 +291,7 @@ const Table1 = () => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.calories}
+                    {formatPrice(row.matchedLow) || '--'}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -293,7 +300,8 @@ const Table1 = () => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.calories}
+                    {row.matchedTotal || '--'}
+                    {/* {formatAmount(row.matchedTotal) || '--'} */}
                   </StyledTableCell>
                 </StyledTableRow>
               ))}
@@ -306,4 +314,4 @@ const Table1 = () => {
   );
 };
 
-export default Table1;
+export default PriceTable;

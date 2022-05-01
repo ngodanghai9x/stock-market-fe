@@ -13,22 +13,35 @@ import { USER_SIDEBAR } from './user/layout/UserSideBar';
 import { PATH_NAMES } from '../constants/path-name';
 import CustomLink from './CustomLink';
 import PersonIcon from '@mui/icons-material/Person';
-
-const USER_MENU = {
-  [PATH_NAMES.admin.slice(1)]: { label: 'Trang quản lý', render: () => <PersonIcon />, exact: true },
-  ...USER_SIDEBAR,
-  [PATH_NAMES.logout.slice(1)]: { label: 'Đăng xuất', render: () => <Logout fontSize="small" />, exact: true },
-};
+import { AuthContext } from '../context/auth/AuthContext';
+import { RoleIdType } from '../constants';
 
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const { user } = React.useContext(AuthContext);
   const open = Boolean(anchorEl);
+
+  const USER_MENU = React.useMemo(() => {
+    if ([RoleIdType.admin, RoleIdType.moderator].includes(user.roleId)) {
+      return {
+        [PATH_NAMES.admin.slice(1)]: { label: 'Trang quản lý', render: () => <PersonIcon />, exact: true },
+        ...USER_SIDEBAR,
+        [PATH_NAMES.logout.slice(1)]: { label: 'Đăng xuất', render: () => <Logout fontSize="small" />, exact: true },
+      };
+    }
+    return {
+      ...USER_SIDEBAR,
+      [PATH_NAMES.logout.slice(1)]: { label: 'Đăng xuất', render: () => <Logout fontSize="small" />, exact: true },
+    };
+  }, [user]);
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>

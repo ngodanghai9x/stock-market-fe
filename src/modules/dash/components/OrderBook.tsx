@@ -7,7 +7,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
-
 function createData(name: string, calories: number, fat: number, carbs: number, protein: number) {
   return { name, calories, fat, carbs, protein };
 }
@@ -55,7 +54,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const OrderBook = () => {
   return (
-    <div>
+    <div className='h-full'>
       <div className='flex m-4'>
         <span className='font-semibold block mr-4'>Sổ lệnh</span>
         <ul className='flex'>
@@ -79,7 +78,7 @@ const OrderBook = () => {
       </div>
       <div>
         <TableContainer component={Paper} sx={{ backgroundColor: 'black', maxHeight: '250px' }}>
-          <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table">
+          <Table stickyHeader sx={{ minWidth: 650 }}>
             <TableHead>
               <TableRow>
                 {tableHeadings.map((tableHeading) => (

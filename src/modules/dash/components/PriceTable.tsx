@@ -72,7 +72,7 @@ type PriceTableProps = {
 const PriceTable = ({ list = [] }: PriceTableProps) => {
   console.log('🚀 ~ file: PriceTable.tsx ~ line 72 ~ PriceTable ~ list', list);
   return (
-    <div className="w-screen h-screen bg-trueGray-800 grid grid-rows-4 grid-flow-col">
+    <div className="w-screen h-screen overflow-y-hidden bg-trueGray-800 grid grid-rows-4 grid-flow-col">
       <div className="row-span-2">
         <TableContainer component={Paper} sx={{ backgroundColor: 'black' }}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">

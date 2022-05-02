@@ -1,5 +1,5 @@
 import { Gender } from '../constants';
-import { StockOrder, StockOrderMatching, MarketHistory, User, CitizenIdentity } from './api-admin.type';
+import { StockOrder, StockOrderMatching, MarketHistory, User, CitizenIdentity, UserStorage } from './api-admin.type';
 
 export type SymbolTradePurchase = {
   [price: string]: Partial<StockOrder>[];
@@ -8,7 +8,7 @@ export type SymbolTradePurchase = {
 export type Purchase = 'buy' | 'sell';
 
 export type GroupedStockOrders = {
-  [symbol: string]: { [purchase: Purchase | string]: { [price: string]: Partial<StockOrder>[] } };
+  [symbol: string]: { [purchase: Purchase | string]: { [price: string]: StockOrder[] } };
   // [symbol: string]: Record<Purchase, { [price: string]: StockOrder[] }>;
 };
 
@@ -18,6 +18,10 @@ export type MatchingGroupedStockOrders = {
 
 export type GroupedHistory = {
   [symbol: string]: MarketHistory;
+};
+
+export type GroupedStorage = {
+  [symbol: string]: UserStorage;
 };
 
 export type PriceOrders = {
@@ -47,6 +51,24 @@ export type PriceItem = {
   matchedTotal: number;
 };
 
+export type CreateStockOrder = {
+  orderId?: number;
+  orderTypeId: number;
+  stockSymbol: string;
+  userId: number;
+  quantity: number;
+  price: number;
+  isBuy: boolean;
+  currentQuantity?: number;
+  currentPrice?: number;
+  statusId?: number;
+};
+
+export type CreateStockOrderPayload = {
+  order: CreateStockOrder;
+  otpTrading: string;
+};
+
 export type GetAllStockOrderResponse = {
   grouped: GroupedStockOrders;
   history: GroupedHistory;
@@ -60,7 +82,7 @@ export type GetUserOrdersResponse = {
   orders: StockOrder[];
 };
 
-export type GetUser = { user: User; citizenIdentity: CitizenIdentity | null };
+export type GetUser = { user: User; citizenIdentity: CitizenIdentity | null, storage: GroupedStorage };
 
 export type EditableUser = {
   fullName: string;

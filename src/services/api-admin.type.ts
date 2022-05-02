@@ -12,6 +12,16 @@ export type MarketHistory = {
   company?: Company;
 };
 
+export type UserStorage = {
+  userId: number;
+  stockSymbol: string;
+  quantity: number;
+  originQuantity: number;
+  price: number;
+  modifiedAt: string;
+  user?: User;
+};
+
 export type StockOrder = {
   orderId: number;
   orderTypeId: number;
@@ -105,6 +115,7 @@ export type CreateCompanyPayload = {
   needChangePw: boolean;
   account: {
     username: string;
+    password?: string;
   };
   company: Omit<Company, 'userId' | 'statusId'>;
   stock: {

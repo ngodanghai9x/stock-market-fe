@@ -31,6 +31,12 @@ type Action = {
   initialState?: GroupedStockOrders;
 };
 
+const initUserInfo = {
+  user: {},
+  citizenIdentity: null,
+  storage: {},
+};
+
 // An interface for our state
 type State = GroupedStockOrders;
 
@@ -107,7 +113,7 @@ export const AppContext = createContext<{
   store: initialState,
   marketHistory: {},
   matchingGrouped: {},
-  userInfo: {} as GetUser,
+  userInfo: initUserInfo as GetUser,
   dispatch: (a: Action) => {},
   fetchData: async () => {},
 });
@@ -116,7 +122,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState, initializeState);
   const [matchingState, setMatchingState] = useState<MatchingGroupedStockOrders>({});
   const [marketHistory, setMarketHistory] = useState<GroupedHistory>({});
-  const [userInfo, setUserInfo] = useState<GetUser>({} as GetUser);
+  const [userInfo, setUserInfo] = useState<GetUser>(initUserInfo as GetUser);
 
   const {
     user: { userId },
@@ -139,10 +145,11 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const { user, citizenIdentity } = await getUserById(userId);
+      const { user, citizenIdentity, storage } = await getUserById(userId);
       setUserInfo({
         user,
         citizenIdentity,
+        storage,
       });
     };
     fetchUser();

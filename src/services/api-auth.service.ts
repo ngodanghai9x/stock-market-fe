@@ -1,6 +1,7 @@
 import { RegisterPayload, LoginPayload, ChangePasswordPayload, ChangeForgotPwPayload } from './api-auth.type';
 import axiosClient from '../lib/request';
 import { MyResponse } from '../types';
+import { STORAGE } from '../constants';
 
 const authBaseUrl = `${process.env.REACT_APP_API_HOST}/auth`;
 
@@ -41,6 +42,23 @@ export const getForgotPwOtp = async (username: string) => {
   if (res.status !== 200) {
     throw Error(`Có lỗi xảy ra, vui lòng thử lại vào lúc khác`);
   }
+  return new MyResponse<any>(res).data;
+};
+
+export const getTradingOtp = async () => {
+  const res = await axiosClient.get(`${authBaseUrl}/otp-trading`);
+  if (res.status !== 200) {
+    throw Error(`Có lỗi xảy ra, vui lòng thử lại vào lúc khác`);
+  }
+  return new MyResponse<any>(res);
+};
+
+export const verifyTradingOtp = async (otpTrading: string) => {
+  const res = await axiosClient.post(`${authBaseUrl}/otp-trading`, { otpTrading });
+  // if (res.status !== 200) {
+  //   throw Error(`Có lỗi xảy ra, vui lòng thử lại vào lúc khác`);
+  // }
+  localStorage.setItem(STORAGE.otpTrading, otpTrading);
   return new MyResponse<any>(res);
 };
 

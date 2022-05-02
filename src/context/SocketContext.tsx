@@ -34,7 +34,7 @@ export const SocketProvider = (props: { children: ReactElement }) => {
   const isIgnoreSocket = useCallback(
     (stockOrder: StockOrder): boolean => {
       if ([RoleIdType.admin, RoleIdType.moderator].includes(user.roleId)) return true;
-      if (stockOrder.userId === user.userId) return true;
+      // if (stockOrder.userId === user.userId) return true;
       return false;
     },
     [user.roleId, user.userId]
@@ -50,6 +50,7 @@ export const SocketProvider = (props: { children: ReactElement }) => {
 
     // subscribe to socket events
     socket.on('AddStockOrder', (stockOrder) => {
+      console.log("🚀 ~ file: SocketContext.tsx ~ line 53 ~ socket.on ~ stockOrder", stockOrder)
       if (isIgnoreSocket(stockOrder)) return;
       dispatch({ type: ActionTypes.AddStockOrder, payload: stockOrder });
     });

@@ -80,7 +80,7 @@ const AdminEditUserModal = ({ isOpen, onClose, editRecord, fetchData }: AdminEdi
                 label="Vai trò"
                 variant="standard"
                 className="w-full"
-                {...register('user.roleId', { required: true })}
+                {...register('user.roleId', { required: true, valueAsNumber: true })}
               />
               {errors?.user?.roleId && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
             </div>

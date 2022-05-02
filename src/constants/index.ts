@@ -217,6 +217,7 @@ export const WEAK_PASSWORDS = [
 export const STORAGE = {
   userData: 'user-data',
   jwtToken: 'jwt-token',
+  otpTrading: 'trading-otp'
 };
 
 export const NUMBER = {

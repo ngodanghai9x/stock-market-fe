@@ -8,8 +8,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import MoneyInfo from './MoneyInfo';
-import { PriceItem } from '../../../services/api-user.type';
-import { formatAmount, formatPrice } from '../../../lib/utils';
+import { CreateStockOrder, PriceItem } from '../../../services/api-user.type';
+import { formatAmount, formatPrice, formatTotal } from '../../../lib/utils';
 import PriceTableHeader from './PriceTableHeader';
 
 const tableHeadings = [
@@ -50,7 +50,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
-    backgroundColor: '#262626',
+    backgroundColor: '#171717',
   },
 }));
 
@@ -59,21 +59,27 @@ type PriceTableProps = {
 };
 
 const PriceTable = ({ list = [] }: PriceTableProps) => {
-  console.log('🚀 ~ file: PriceTable.tsx ~ line 72 ~ PriceTable ~ list', list);
+  const [currentStock, setCurrentStock] = React.useState<PriceItem>({} as PriceItem);
+  const handleClickStock = (item: PriceItem) => {
+    setCurrentStock(item);
+  };
+
   return (
     <div className="w-screen h-screen overflow-y-hidden bg-trueGray-800 grid grid-rows-4 grid-flow-col">
       <div className="row-span-2">
-        <PriceTableHeader />
-        <TableContainer component={Paper} sx={{ backgroundColor: '#363636' }}>
+        <PriceTableHeader currentStock={currentStock} />
+        <TableContainer component={Paper} sx={{ backgroundColor: '#363636', boxShadow: '0 2px 4px 0 #000000cc' }}>
           <Table sx={{ minWidth: 650 }}>
             <TableHead>
               <TableRow>
                 {tableHeadings.map((tableHeading) => (
                   <TableCell
+                    key={tableHeading}
                     sx={{
                       color: 'white',
                       fontWeight: '600',
                       backgroundColor: '#363636',
+                      boxShadow: '0 2px 4px 0 #000000cc',
                       borderLeft: '1px solid lightgray',
                     }}
                   >
@@ -83,8 +89,12 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {list.map((row) => (
-                <StyledTableRow hover key={row.symbol}>
+              {list.map((row, i) => (
+                <StyledTableRow
+                  key={'PriceTable' + row.symbol + i}
+                  sx={{ cursor: 'pointer' }}
+                  onClick={() => handleClickStock(row)}
+                >
                   <StyledTableCell
                     align="center"
                     sx={{
@@ -137,7 +147,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.thirdBuy.amount || '--'}
+                    {formatAmount(row.thirdBuy.amount) || '--'}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -155,7 +165,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.secondBuy.amount || '--'}
+                    {formatAmount(row.secondBuy.amount) || '--'}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -173,7 +183,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.bestBuy.amount || '--'}
+                    {formatAmount(row.bestBuy.amount) || '--'}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -218,7 +228,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.bestSell.amount || '--'}
+                    {formatAmount(row.bestSell.amount) || '--'}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -236,7 +246,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.secondSell.amount || '--'}
+                    {formatAmount(row.secondSell.amount) || '--'}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -254,7 +264,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.thirdSell.amount || '--'}
+                    {formatAmount(row.thirdSell.amount) || '--'}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -290,8 +300,8 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                       borderLeft: '1px solid lightgray',
                     }}
                   >
-                    {row.matchedTotal || '--'}
-                    {/* {formatAmount(row.matchedTotal) || '--'} */}
+                    {/* {row.matchedTotal || '--'} */}
+                    {formatTotal(row.matchedTotal) || '--'}
                   </StyledTableCell>
                 </StyledTableRow>
               ))}

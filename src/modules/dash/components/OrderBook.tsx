@@ -36,7 +36,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
-    backgroundColor: '#262626',
+    backgroundColor: '#171717',
   },
   '&:last-child td, &:last-child th': {
     borderBottom: 0,
@@ -129,6 +129,7 @@ const OrderBook = () => {
               <TableRow>
                 {tableHeadings.map((tableHeading) => (
                   <TableCell
+                    key={'orderBook' + tableHeading}
                     sx={{
                       color: 'white',
                       fontWeight: '600',
@@ -151,7 +152,7 @@ const OrderBook = () => {
                 //   : ([{}] as StockOrderMatching[]);
                 // return orderMatchings.map((order) => {
                 return (
-                  <StyledTableRow key={row.orderId}>
+                  <StyledTableRow key={'orderBook' + row.orderId}>
                     <StyledTableCell
                       align="center"
                       sx={{

@@ -41,7 +41,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
-    backgroundColor: '#262626',
+    backgroundColor: '#171717',
   },
   '&:last-child td, &:last-child th': {
     borderBottom: 0,
@@ -135,6 +135,7 @@ const History = () => {
               <TableRow>
                 {tableHeadings.map((tableHeading) => (
                   <TableCell
+                    key={tableHeading}
                     sx={{
                       color: 'white',
                       fontWeight: '600',

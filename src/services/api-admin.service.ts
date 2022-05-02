@@ -76,3 +76,9 @@ export const createCompany = (payload: CreateCompanyPayload) => {
     ...payload,
   });
 };
+
+export const createCompanyNoAuth = (payload: CreateCompanyPayload) => {
+  return axiosClient.post(`${adminBaseUrl}/company/no-auth`, {
+    ...payload,
+  });
+};

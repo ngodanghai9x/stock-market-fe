@@ -1,18 +1,18 @@
-import React, { useState } from 'react'
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import InputBooking from './InputBooking';
+import React, { useState } from 'react';
+import { CreateStockOrder, PriceItem } from '../../../services/api-user.type';
+import { formatAmount, formatPrice, isFloat, numberWithCommas } from '../../../lib/utils';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { AppContext } from '../../../context';
+import { STORAGE } from '../../../constants';
+import { toast } from 'react-toastify';
+import { createStockOrder } from '../../../services/api-user.service';
+import VerifyTradingOtpModal from './VerifyTradingOtpModal';
+import { getTradingOtp } from '../../../services/api-auth.service';
 
-type OrderValueType = {
-  orderQtn: number;
-  orderPrice: number;
-}
+type TStockOrder = Pick<CreateStockOrder, 'price' | 'quantity'>;
+
 const CssTextField = styled(TextField)({
   '& label': {
     color: 'white',
@@ -32,42 +32,101 @@ const CssTextField = styled(TextField)({
     },
     '&.Mui-focused fieldset': {
       borderColor: 'white',
-    }
+    },
   },
 });
 
-
-const PriceTableHeader = () => {
+const PriceTableHeader = ({ currentStock }: { currentStock: PriceItem }) => {
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
-  } = useForm<OrderValueType>({
-    reValidateMode: 'onBlur',
+  } = useForm<TStockOrder>({
+    // reValidateMode: 'onBlur',
+    mode: 'onBlur',
+    defaultValues: {
+      quantity: 0,
+      price: currentStock.refPrice || 0,
+    },
   });
-  const [account, setAccount] = React.useState('');
-  const [orderValue, setOrderValue] = useState<Number>(0)
-  const handleChange = (event: SelectChangeEvent) => {
-    setAccount(event.target.value as string);
-  };
 
-  const orderValueHandle: SubmitHandler<OrderValueType> = async (data) => {
-    console.log(data)
-  };
+  const {
+    userInfo: { user, storage },
+  } = React.useContext(AppContext);
+
+  const [orderValue, setOrderValue] = useState<number>(0);
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+
   React.useEffect(() => {
-    const subscription = watch(({ orderQtn, orderPrice }) => {
-      if (orderQtn && orderPrice) setOrderValue(orderQtn * orderPrice)
+    reset({
+      quantity: 0,
+      price: currentStock.refPrice || 0,
+    });
+  }, [reset, currentStock]);
+
+  React.useEffect(() => {
+    const subscription = watch(({ quantity, price }) => {
+      if (quantity && price) setOrderValue(quantity * price);
     });
     return () => subscription.unsubscribe();
   }, [watch]);
+
+  const fetchOTP = async () => {
+    return await getTradingOtp();
+  };
+
+  // Type: SubmitHandler<TStockOrder>
+  const handleCreateOrder = async (data: TStockOrder, isBuy: boolean) => {
+    const maxQuantity = storage[currentStock.symbol]?.quantity || 0;
+    const otpTrading = localStorage.getItem(STORAGE.otpTrading);
+    if (!otpTrading) {
+      setIsOpenModal(true);
+      fetchOTP();
+      return;
+    }
+    if (!data.price || !data.quantity || isFloat(data.price) || isFloat(data.quantity) || data.quantity % 100 !== 0) {
+      toast(`Giá đặt mua/bán phải là số nguyên dương, số lượng cổ phiếu phải là bội của 100`);
+      return;
+    }
+    if (data.price > currentStock.ceilPrice || data.price < currentStock.floorPrice) {
+      toast(`Giá đặt mua/bán phải nằm trong khoảng giá trần - giá sàn`);
+      return;
+    }
+    if (!isBuy && data.quantity > maxQuantity) {
+      toast(`Không thể bán số lượng cổ phiếu lớn hơn số lượng hiện có`);
+      return;
+    }
+    if (isBuy && user.money < data.price * data.quantity * 1.01) {
+      toast(`Không đủ số dư`);
+      return;
+    }
+    const order: CreateStockOrder = {
+      ...data,
+      isBuy,
+      stockSymbol: currentStock.symbol,
+      orderTypeId: 1,
+      userId: user.userId,
+    };
+    const res = await createStockOrder({ order, otpTrading });
+    toast(res.data?.message);
+  };
+
   return (
-    <div className='text-white bg-trueGray-800'>
-      <div className='flex p-4 items-center'>
-        <span>VHM</span>
-        <div className='mx-6'>
-          {/* <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">TK</InputLabel>
+    <div className="text-white bg-trueGray-800">
+      <div className="flex p-4 items-center justify-between">
+        <div className="flex items-center">
+          <CssTextField
+            sx={{ maxWidth: 160, minWidth: 160, opacity: '70%' }}
+            value={currentStock.symbol || ''}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+          <div className="">
+            {/* <FormControl fullWidth>
+            <InputLabel>TK</InputLabel>
             <Select
               value={account}
               label="TK"
@@ -76,51 +135,78 @@ const PriceTableHeader = () => {
               <MenuItem>Thường</MenuItem>
             </Select>
           </FormControl> */}
+          </div>
+          <div className="flex flex-col mx-6">
+            <span>Sức mua</span>
+            <span>{numberWithCommas(user.money)}</span>
+          </div>
+          <div className="flex flex-col mx-6">
+            <span>Ký quỹ</span>
+            <span>0%</span>
+          </div>
+          <div className="mx-6">
+            <form
+              // onSubmit={handleSubmit(submitForm)}
+              className="w-ful flex"
+            >
+              <div className="flex items-center">
+                <button
+                  className="font-bold text-black bg-green-400 px-4 py-2 rounded mr-4"
+                  onClick={handleSubmit((data) => handleCreateOrder(data, true))}
+                >
+                  Mua
+                </button>
+                <CssTextField
+                  sx={{ color: 'red', maxWidth: 160, minWidth: 160 }}
+                  label="KL đặt"
+                  type="number"
+                  inputProps={{ min: 0, max: 100000000, step: 100 }}
+                  {...register('quantity', { required: true, valueAsNumber: true })}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </div>
+              <div className="flex items-center ml-3">
+                <CssTextField
+                  sx={{ maxWidth: 160, minWidth: 160 }}
+                  label="Giá đặt"
+                  type="number"
+                  inputProps={{ min: currentStock.floorPrice || 0, max: currentStock.ceilPrice || 0, step: 100 }}
+                  {...register('price', { required: true, valueAsNumber: true })}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+                <button
+                  className="font-bold bg-red-500 px-4 py-2 rounded ml-4"
+                  onClick={handleSubmit((data) => handleCreateOrder(data, false))}
+                >
+                  Bán
+                </button>
+              </div>
+            </form>
+          </div>
+          <div className="flex flex-col mx-5">
+            <span className="">Giá trị lệnh</span>
+            <span>{numberWithCommas(orderValue)}</span>
+          </div>
         </div>
-        <div className='flex flex-col mx-6'>
-          <span>Sức mua</span>
-          <span>19,679</span>
-        </div>
-        <div className='flex flex-col mx-6'>
-          <span>Ký quỹ</span>
-          <span>0%</span>
-        </div>
-        <div className='mx-6' >
-          <form onSubmit={handleSubmit(orderValueHandle)} className="w-ful flex">
-            <div className='flex items-center'>
-              <button className='font-bold text-black bg-green-400 px-4 py-2 rounded mr-4'>Mua</button>
-              <CssTextField
-                sx={{ color: 'red' }}
-                id="outlined-number"
-                label="KL Đặt"
-                type="number"
-                {...register('orderQtn', { required: true })}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </div>
-            <div className='flex items-center ml-3'>
-              <CssTextField
-                id="outlined-number"
-                label="Giá trị đặt"
-                type="number"
-                {...register('orderPrice', { required: true })}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-              <button className='font-bold bg-red-500 px-4 py-2 rounded ml-4'>Bán</button>
-            </div>
-          </form>
-        </div>
-        <div className=''>
-          <span className='block mr-5'>Giá trị lệnh</span>
-          <span>{orderValue}</span>
-        </div>
-      </div >
-    </div >
-  )
-}
 
-export default PriceTableHeader
+        <div className="flex items-center">
+          <div className="flex flex-col mx-5">
+            <span className="">Khối lượng</span>
+            <span>x100</span>
+          </div>
+          <div className="flex flex-col mx-5">
+            <span className="">Giá tiền</span>
+            <span>x1000</span>
+          </div>
+        </div>
+      </div>
+      <VerifyTradingOtpModal fetchOTP={fetchOTP} isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} />
+    </div>
+  );
+};
+
+export default PriceTableHeader;

@@ -22,6 +22,7 @@ export const LogoutForm = () => {
     const logout = async () => {
       Cookies.remove(STORAGE.jwtToken);
       localStorage.removeItem(STORAGE.userData);
+      localStorage.removeItem(STORAGE.otpTrading);
       await customerLogout();
       navigate(PATH_NAMES.login);
     };

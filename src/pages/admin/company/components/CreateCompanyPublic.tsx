@@ -1,4 +1,4 @@
-import { Autocomplete, Button, Checkbox, Input, TextField } from '@mui/material';
+import { Autocomplete, Button, Checkbox, Divider, Input, TextField, Typography } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import CustomModal from '../../../../components/CustomModal';
@@ -7,17 +7,12 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import React, { useEffect, useState } from 'react';
-import { createCompany, editCompany, getAllIndustry } from '../../../../services/api-admin.service';
+import { createCompanyNoAuth, getAllIndustry } from '../../../../services/api-admin.service';
 import ValidateMessage from '../../../../components/ValidateMessage';
 
-type CreateCompanyModalProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  editRecord?: Company;
-  fetchData: () => Promise<void>;
-};
+type CreateCompanyPublicProps = {};
 
-const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCompanyModalProps) => {
+const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
   const [ipoDate, setIpoDate] = useState<Date | null>(null);
   const [foundedDate, setFoundedDate] = useState<Date | null>(null);
   const [industries, setIndustries] = useState<Industry[]>([]);
@@ -37,34 +32,42 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
   } = useForm<CreateCompanyPayload>({
     mode: 'onBlur',
     defaultValues: {
-      company: editRecord || {
+      company: {
         ipoDate: new Date(),
       },
       isIpo: true,
     },
   });
 
+  const resetForm = () => {
+    reset({
+      company: {
+        ipoDate: new Date(),
+      },
+      isIpo: true,
+    });
+  };
+
   const onSubmit: SubmitHandler<CreateCompanyPayload> = async (data) => {
     try {
       const formData = {
         ...data,
-        account: {
-          username: data.company.companyName,
-        },
+        needChangePw: false,
+        // account: {
+        //   ...data.account,
+        //   username: data.company.companyName,
+        // },
         company: {
           ...data.company,
           industryId: listIndustry.get(getValues('company.industryId').toString()) || 0,
         },
       };
-      let res = { data: { message: '' } };
-
-      if (editRecord) {
-        res = await editCompany(formData, formData.company.companyId);
-      } else {
-        res = await createCompany(formData);
+      const res = await createCompanyNoAuth(formData);
+      if (res.status === 200) {
+        resetForm();
       }
+
       toast(res.data?.message);
-      fetchData();
     } catch (error: any) {
       console.log(error);
       toast(error.response.data.message);
@@ -81,24 +84,50 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
 
   React.useEffect(() => {
     reset({
-      company: editRecord || {
+      company: {
         ipoDate: new Date(),
       },
       isIpo: true,
     });
-  }, [reset, editRecord]);
+  }, [reset]);
 
   return (
-    <div>
-      <CustomModal
-        modalTitle={`${editRecord ? 'Chỉnh sửa' : 'Thêm mới'} công ty`}
-        open={isOpen}
-        onClose={onClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+    <div className="mx-20 mt-2">
+      <Typography align="center" variant="h4">
+        Đăng ký niêm yết công ty
+      </Typography>
+      <Divider className="my-2" />
+      <div>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mx-10 mb-10">
+          <div className="mb-4">
+            <>
+              <p className="mt-2 font-medium">Tài khoản: </p>
+              <div className="grid grid-cols-2 gap-0 ml-[-0.5rem] mr-[-0.5rem]">
+                <div className="my-1 mx-2">
+                  <TextField
+                    id="account-username"
+                    required
+                    label="Tài khoản"
+                    variant="standard"
+                    className="w-full"
+                    {...register('account.username', { required: true })}
+                  />
+                  {errors?.account?.username && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
+                </div>
+                <div className="my-1 mx-2">
+                  <TextField
+                    id="account-password"
+                    type="password"
+                    required
+                    label="Mật khẩu"
+                    variant="standard"
+                    className="w-full"
+                    {...register('account.password', { required: true })}
+                  />
+                  {errors?.account?.password && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
+                </div>
+              </div>
+            </>
             <p className="mt-2 font-medium">Công ty: </p>
             <div className="grid grid-cols-2 gap-0 ml-[-0.5rem] mr-[-0.5rem]">
               <div className="my-1 mx-2">
@@ -115,6 +144,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
               <div className="my-1 mx-2">
                 <Autocomplete
                   freeSolo
+                  id="free-solo-2-demo"
                   disableClearable
                   options={industries.map((option) => option.industryName)}
                   renderInput={(params) => (
@@ -214,69 +244,61 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                 />
               </LocalizationProvider>
             </div>
-            {!editRecord && (
-              <>
-                <p className="mt-2 font-medium">Cố phiếu: </p>
-                <div className="my-2">
-                  <TextField
-                    id="stock-symbol"
-                    required
-                    label="Mã cổ phiếu"
-                    variant="standard"
-                    className="w-full"
-                    {...register('stock.stockSymbol', { required: true })}
-                  />
-                  {errors?.stock?.stockSymbol && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
-                </div>
-                <div className="mb-2">
-                  <TextField
-                    id="quantity"
-                    required
-                    label="Số lượng cổ phiếu"
-                    variant="standard"
-                    className="w-full"
-                    type="number"
-                    {...register('stock.quantity', { required: true, valueAsNumber: true })}
-                  />
-                  {errors?.stock?.quantity && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
-                </div>
-                <div className="mb-2">
-                  <TextField
-                    id="price"
-                    required
-                    label="Giá cổ phiếu"
-                    variant="standard"
-                    className="w-full"
-                    type="number"
-                    {...register('stock.price', { required: true, valueAsNumber: true })}
-                  />
-                  {errors?.stock?.price && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
-                </div>
-                <div className="flex -ml-3">
-                  <Checkbox
-                    id="isIpo"
-                    {...register('isIpo')}
-                    checked={getValues('isIpo')}
-                    onClick={() => {
-                      setIpoDate(new Date());
-                    }}
-                  />
-                  <label className="mt-2 cursor-pointer select-none" htmlFor="isIpo">
-                    Niêm yết ngay
-                  </label>
-                </div>
-                <div className="flex -ml-3">
-                  <Checkbox id="newChangePW" {...register('needChangePw')} />
-                  <label className="mt-2 cursor-pointer select-none" htmlFor="newChangePW">
-                    Cần thay đổi mật khẩu
-                  </label>
-                </div>
-              </>
-            )}
+            <>
+              <p className="mt-2 font-medium">Cố phiếu: </p>
+              <div className="my-2">
+                <TextField
+                  id="stock-symbol"
+                  required
+                  label="Mã cổ phiếu"
+                  variant="standard"
+                  className="w-full"
+                  {...register('stock.stockSymbol', { required: true })}
+                />
+                {errors?.stock?.stockSymbol && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
+              </div>
+              <div className="mb-2">
+                <TextField
+                  id="quantity"
+                  required
+                  label="Số lượng cổ phiếu"
+                  variant="standard"
+                  className="w-full"
+                  type="number"
+                  {...register('stock.quantity', { required: true, valueAsNumber: true })}
+                />
+                {errors?.stock?.quantity && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
+              </div>
+              <div className="mb-2">
+                <TextField
+                  id="price"
+                  required
+                  label="Giá cổ phiếu"
+                  variant="standard"
+                  className="w-full"
+                  type="number"
+                  {...register('stock.price', { required: true, valueAsNumber: true })}
+                />
+                {errors?.stock?.price && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
+              </div>
+              <div className="flex -ml-3">
+                <Checkbox
+                  id="isIpo"
+                  {...register('isIpo')}
+                  checked={getValues('isIpo')}
+                  onClick={() => {
+                    setIpoDate(new Date());
+                  }}
+                />
+                <label className="mt-2 cursor-pointer select-none" htmlFor="isIpo">
+                  Niêm yết ngay
+                </label>
+              </div>
+            </>
           </div>
           <div className="flex justify-end px-6 pb-6">
             <div className="mr-3">
-              <Button type="button" variant="outlined" className="mr-3" onClick={onClose}>
+              <Button type="button" variant="outlined" className="mr-3" onClick={resetForm}>
                 Hủy
               </Button>
             </div>
@@ -285,9 +307,9 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
             </Button>
           </div>
         </form>
-      </CustomModal>
+      </div>
     </div>
   );
 };
 
-export default CreateCompanyModal;
+export default CreateCompanyPublic;

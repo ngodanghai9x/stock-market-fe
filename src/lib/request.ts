@@ -34,7 +34,7 @@ axiosClient.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.warn('Error status', error.response.status);
+    console.warn('Error status', error?.response?.status);
     // return Promise.reject(error)
     if (error.response) {
       return error.response;

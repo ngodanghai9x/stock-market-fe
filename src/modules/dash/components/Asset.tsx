@@ -110,11 +110,10 @@ const Asset = () => {
             <span>-</span>
           </div> */}
           <div className="">
-            <Accordion sx={{ backgroundColor: '#262626', color: 'white', py: '2px' }}>
+            <Accordion sx={{ backgroundColor: '#171717', color: 'white', py: '2px' }}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}
                 aria-controls="panel1a-content"
-                id="panel1a-header"
               >
                 <Typography>Tài khoản</Typography>
               </AccordionSummary>

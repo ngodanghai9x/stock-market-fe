@@ -118,8 +118,11 @@ export const flatGrouped = (
     matchingOrders.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     const matchingInfo = {
       matchingPrice: +matchingOrders[0]?.price,
-      matchingAmount: 123,
       matchingChange: +matchingOrders[0]?.price - refPrice,
+      matchingAmount: (matchingOrders.filter((i) => i.price === +matchingOrders[0]?.price && i.fee > 0) || []).reduce(
+        (sum, obj) => sum + obj.quantity,
+        0
+      ),
       // matchingOrders: matchingOrders.filter((i) => i.price === +matchingOrders[0]?.price && i.fee > 0),
     };
     const prices = matchingOrders.map((o) => o.price);
@@ -147,12 +150,12 @@ export const flatGrouped = (
         ...toReturn,
         [`${word}Buy`]: {
           price: +buyPrices[i],
-          amount: 456,
+          amount: (symbolArr.buy?.[buyPrices[i]] || []).reduce((sum, obj) => sum + obj.quantity, 0),
           // orders: symbolArr.buy?.[buyPrices[i]] || [],
         },
         [`${word}Sell`]: {
           price: +sellPrices[i],
-          amount: 789,
+          amount: (symbolArr.sell?.[sellPrices[i]] || []).reduce((sum, obj) => sum + obj.quantity, 0),
           // orders: symbolArr.sell?.[sellPrices[i]] || [],
         },
       };
@@ -164,18 +167,34 @@ export const flatGrouped = (
 
 export const formatPrice = (v: number): string | number => {
   if (!v) return '--';
-  return parseFloat((v / 1000).toFixed(3));
+  return (v / 1000).toFixed(2);
+  // return parseFloat((v / 1000).toFixed(3));
 };
 
 export const formatAmount = (v: number): string | number => {
   if (!v) return '--';
-  return parseFloat((v / 100).toFixed(3));
+  return (v / 100).toFixed(2);
+  // return parseFloat((v / 100).toFixed(3));
 };
+
+export function formatTotal(num: number) {
+  if (num > 999 && num < 1000000) {
+    return (num / 1000).toFixed(1) + 'K'; // convert to K for number from > 1000 < 1 million
+  } else if (num > 1000000) {
+    return (num / 1000000).toFixed(1) + 'M'; // convert to M for number from > 1 million
+  } else if (num < 900) {
+    return num; // if value < 1000, nothing to do
+  }
+}
 
 export const formatDate = (v: string | Date, format: string = 'DD/MM/YYYY'): string => {
   return moment(v).format(format);
 };
 
 export function numberWithCommas(x: number) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return x?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+export function isFloat(n: number) {
+  return Number(n) === n && n % 1 !== 0;
 }

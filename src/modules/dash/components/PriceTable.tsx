@@ -11,6 +11,7 @@ import MoneyInfo from './MoneyInfo';
 import { CreateStockOrder, PriceItem } from '../../../services/api-user.type';
 import { formatAmount, formatPrice, formatTotal } from '../../../lib/utils';
 import PriceTableHeader from './PriceTableHeader';
+import SubHeader from './SubHeader';
 
 const tableHeadings = [
   'Mã',
@@ -52,6 +53,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
     backgroundColor: '#171717',
   },
+  "&:hover": {
+    backgroundColor: "#808080"
+  }
 }));
 
 type PriceTableProps = {
@@ -68,6 +72,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
     <div className="w-screen h-screen overflow-y-hidden bg-trueGray-800 grid grid-rows-4 grid-flow-col">
       <div className="row-span-2">
         <PriceTableHeader currentStock={currentStock} />
+        <SubHeader />
         <TableContainer component={Paper} sx={{ backgroundColor: '#363636', boxShadow: '0 2px 4px 0 #000000cc' }}>
           <Table sx={{ minWidth: 650 }}>
             <TableHead>

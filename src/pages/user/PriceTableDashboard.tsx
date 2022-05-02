@@ -19,6 +19,15 @@ const PriceTableDashboard = () => {
   return (
     <div>
       <PriceTable list={list} />
+      {/* <TextField
+          id="outlined-number"
+          label="Number"
+          type="number"
+          inputProps={{ min: "0", max: "10000", step: "100" }}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        /> */}
     </div>
   );
 };

@@ -18,6 +18,11 @@ export const getUserOrders = async (userId: number) => {
   return new MyResponse<GetUserOrdersResponse>(res).data;
 };
 
+export const getUserHistory = async (userId: number) => {
+  const res = await axiosClient.get(`${baseUrl}/stock-orders/user-history/${userId}`);
+  return new MyResponse<GetUserOrdersResponse>(res).data;
+};
+
 export const getUserById = async (userId: number, username?: string) => {
   const res = await axiosClient.get(`${baseUrl}/user/${userId}?username=${encodeURIComponent(username || '')}`);
   const data = new MyResponse<GetUser>(res).data;

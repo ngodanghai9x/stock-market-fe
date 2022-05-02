@@ -19,6 +19,8 @@ export type StockOrder = {
   userId: number;
   quantity: number;
   price: number;
+  currentQuantity?: number;
+  currentPrice?: number;
   createdAt: string;
   isBuy: number;
   statusId: number;

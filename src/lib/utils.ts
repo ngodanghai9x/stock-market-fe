@@ -175,3 +175,7 @@ export const formatAmount = (v: number): string | number => {
 export const formatDate = (v: string | Date, format: string = 'DD/MM/YYYY'): string => {
   return moment(v).format(format);
 };
+
+export function numberWithCommas(x: number) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}

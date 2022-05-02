@@ -10,7 +10,7 @@ import { styled } from '@mui/material/styles';
 import { AuthContext } from '../../../context/auth/AuthContext';
 import { getUserOrders } from '../../../services/api-user.service';
 import { StockOrder, StockOrderMatching } from '../../../services/api-admin.type';
-import { formatDate } from '../../../lib/utils';
+import { formatDate, numberWithCommas } from '../../../lib/utils';
 
 const tableHeadings = [
   'Mã',
@@ -19,9 +19,9 @@ const tableHeadings = [
   'KL đặt',
   'KL khớp',
   'Giá đặt',
-  'Giá khớp',
   'Ngày đặt',
   'Trạng thái',
+  'Số hiệu lệnh',
 ];
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -58,17 +58,30 @@ const OrderBook = () => {
   }, [fetchData]);
 
   const otherData = React.useMemo(() => {
+    let mapOrder = {} as Record<string, { orderQuantity: number; orderPrice: number }>;
     let quantity = 0,
       price = 0,
       matchedQuantity = 0,
       matchedPrice = 0;
+
     list.forEach((order) => {
       price += order.price;
       quantity += order.quantity;
+
+      let orderQuantity = 0,
+        orderPrice = 0;
+
       order.orderMatchings?.forEach((m) => {
+        orderQuantity += m.quantity;
+        orderPrice += m.price;
         matchedQuantity += m.quantity;
         matchedPrice += m.price;
       });
+
+      mapOrder[order.orderId] = {
+        orderQuantity,
+        orderPrice,
+      };
     });
 
     return {
@@ -76,18 +89,19 @@ const OrderBook = () => {
       quantity,
       matchedQuantity,
       matchedPrice,
+      mapOrder,
     };
   }, [list]);
 
   return (
-    <div className='h-full'>
-      <div className='flex m-4'>
-        <span className='font-semibold block mr-4'>Sổ lệnh</span>
-        <ul className='flex'>
-          <li className='px-4 border-b text-red-500 border-red-500'>
+    <div className="h-full">
+      <div className="flex m-4">
+        <span className="font-semibold block mr-4">Sổ lệnh</span>
+        <ul className="flex">
+          <li className="px-4 border-b text-red-500 border-red-500">
             <button>Thường</button>
           </li>
-          <li className="px-4 border-b opacity-70">
+          <li className="px-4 border-b opacity-70 cursor-not-allowed">
             <button disabled>Điều khiện</button>
           </li>
         </ul>
@@ -95,17 +109,17 @@ const OrderBook = () => {
       <div className="m-2">
         <ul className="flex">
           <li>
-            <span>KL đặt: {otherData.quantity}</span>
+            <span>KL đặt: {numberWithCommas(otherData.quantity)}</span>
           </li>
           <li className="ml-3 border-l pl-3">
-            <span>GT đặt: {otherData.price}</span>
+            <span>GT đặt: {numberWithCommas(otherData.price)}</span>
           </li>
           <li className="ml-3 border-l pl-3">
-            <span>KL khớp: {otherData.matchedQuantity}</span>
+            <span>KL khớp: {numberWithCommas(otherData.matchedQuantity)}</span>
           </li>
-          <li className="ml-3 border-l pl-3">
-            <span>GT khớp: {otherData.matchedPrice}</span>
-          </li>
+          {/* <li className="ml-3 border-l pl-3">
+            <span>GT khớp: {numberWithCommas(otherData.matchedPrice)}</span>
+          </li> */}
         </ul>
       </div>
       <div>
@@ -132,88 +146,88 @@ const OrderBook = () => {
             </TableHead>
             <TableBody>
               {list.map((row) => {
-                const orderMatchings = row?.orderMatchings?.length
-                  ? row?.orderMatchings
-                  : ([{}] as StockOrderMatching[]);
-                return orderMatchings.map((order) => {
-                  return (
-                    <StyledTableRow key={row.orderId}>
-                      <StyledTableCell
-                        align="center"
-                        sx={{
-                          color: 'white',
-                        }}
-                      >
-                        {row.stockSymbol} ({row.orderId})
-                      </StyledTableCell>
-                      <StyledTableCell
-                        align="center"
-                        sx={{
-                          color: 'white',
-                          borderLeft: '1px solid lightgray',
-                        }}
-                      >
-                        {row.orderTypeId === 1 && 'Lệnh thường'}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        align="center"
-                        sx={{
-                          color: 'white',
-                        }}
-                      >
-                        {row.isBuy ? 'Mua' : 'Bán'}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        align="center"
-                        sx={{
-                          color: 'white',
-                        }}
-                      >
-                        {row.quantity}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        align="center"
-                        sx={{
-                          color: 'white',
-                        }}
-                      >
-                        {order.quantity}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        align="center"
-                        sx={{
-                          color: 'white',
-                        }}
-                      >
-                        {row.price}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        align="center"
-                        sx={{
-                          color: 'white',
-                        }}
-                      >
-                        {order.price}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        align="center"
-                        sx={{
-                          color: 'white',
-                        }}
-                      >
-                        {formatDate(row.createdAt)}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        align="center"
-                        sx={{
-                          color: 'white',
-                        }}
-                      >
-                        {row.isDone ? 'Hoàn thành' : 'Chờ khớp'}
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  );
-                });
+                // const orderMatchings = row?.orderMatchings?.length
+                //   ? row?.orderMatchings
+                //   : ([{}] as StockOrderMatching[]);
+                // return orderMatchings.map((order) => {
+                return (
+                  <StyledTableRow key={row.orderId}>
+                    <StyledTableCell
+                      align="center"
+                      sx={{
+                        color: 'white',
+                      }}
+                    >
+                      {row.stockSymbol}
+                    </StyledTableCell>
+                    <StyledTableCell
+                      align="center"
+                      sx={{
+                        color: 'white',
+                        borderLeft: '1px solid lightgray',
+                      }}
+                    >
+                      {row.orderTypeId === 1 && 'Lệnh thường'}
+                    </StyledTableCell>
+                    <StyledTableCell
+                      align="center"
+                      sx={{
+                        color: 'white',
+                      }}
+                    >
+                      {row.isBuy ? 'Mua' : 'Bán'}
+                    </StyledTableCell>
+                    <StyledTableCell
+                      align="center"
+                      sx={{
+                        color: 'white',
+                      }}
+                    >
+                      {numberWithCommas(row.quantity)}
+                    </StyledTableCell>
+                    <StyledTableCell
+                      align="center"
+                      sx={{
+                        color: 'white',
+                      }}
+                    >
+                      {numberWithCommas(otherData.mapOrder[row.orderId]?.orderQuantity)}
+                    </StyledTableCell>
+                    <StyledTableCell
+                      align="center"
+                      sx={{
+                        color: 'white',
+                      }}
+                    >
+                      {numberWithCommas(row.price)}
+                    </StyledTableCell>
+                    <StyledTableCell
+                      align="center"
+                      sx={{
+                        color: 'white',
+                      }}
+                    >
+                      {formatDate(row.createdAt)}
+                    </StyledTableCell>
+                    <StyledTableCell
+                      align="center"
+                      sx={{
+                        color: 'white',
+                      }}
+                    >
+                      {row.isDone ? 'Hoàn thành' : 'Chờ khớp'}
+                    </StyledTableCell>
+                    <StyledTableCell
+                      align="center"
+                      sx={{
+                        color: 'white',
+                      }}
+                    >
+                      {row.orderId}
+                    </StyledTableCell>
+                  </StyledTableRow>
+                );
+                // });
               })}
             </TableBody>
           </Table>

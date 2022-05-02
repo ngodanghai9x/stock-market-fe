@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Asset from './Asset';
 import OrderBook from './OrderBook';
+import History from './History';
 import CloseIcon from '@mui/icons-material/Close';
 
 enum CurrentTab {
@@ -39,6 +40,7 @@ const MoneyInfo = () => {
           <div className='h-full '>
             {currentTab === CurrentTab.OrderBook && <OrderBook />}
             {currentTab === CurrentTab.Asset && <Asset />}
+            {currentTab === CurrentTab.History && <History />}
           </div>
         </div>
       </div>}

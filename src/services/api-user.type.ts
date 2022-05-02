@@ -103,6 +103,6 @@ export type EditableIdentity = {
 };
 
 export type EditUserPayload = {
-  user: EditableUser;
-  citizenIdentity: EditableIdentity;
+  user?: EditableUser;
+  citizenIdentity?: EditableIdentity;
 };

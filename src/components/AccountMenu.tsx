@@ -8,11 +8,11 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import PersonIcon from '@mui/icons-material/Person';
 import LetterAvatar from './LetterAvatar';
 import { USER_SIDEBAR } from './user/layout/UserSideBar';
 import { PATH_NAMES } from '../constants/path-name';
 import CustomLink from './CustomLink';
-import PersonIcon from '@mui/icons-material/Person';
 import { AuthContext } from '../context/auth/AuthContext';
 import { RoleIdType } from '../constants';
 

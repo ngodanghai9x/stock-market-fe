@@ -50,7 +50,6 @@ export const SocketProvider = (props: { children: ReactElement }) => {
 
     // subscribe to socket events
     socket.on('AddStockOrder', (stockOrder) => {
-      console.log("🚀 ~ file: SocketContext.tsx ~ line 53 ~ socket.on ~ stockOrder", stockOrder)
       if (isIgnoreSocket(stockOrder)) return;
       dispatch({ type: ActionTypes.AddStockOrder, payload: stockOrder });
     });
@@ -74,7 +73,7 @@ export const SocketProvider = (props: { children: ReactElement }) => {
       // unbind all event handlers used in this component
       // socket.off('JOIN_REQUEST_ACCEPTED', handleInviteAccepted);
     };
-  }, [dispatch, isIgnoreSocket, fetchData]);
+  }, []);
 
   return (
     <SocketContext.Provider

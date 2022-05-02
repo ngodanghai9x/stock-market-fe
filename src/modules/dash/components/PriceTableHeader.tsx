@@ -48,7 +48,7 @@ const PriceTableHeader = ({ currentStock }: { currentStock: PriceItem }) => {
     mode: 'onBlur',
     defaultValues: {
       quantity: 0,
-      price: currentStock.refPrice || 0,
+      price: currentStock.refPrice / 1000 || 0,
     },
   });
 
@@ -62,13 +62,13 @@ const PriceTableHeader = ({ currentStock }: { currentStock: PriceItem }) => {
   React.useEffect(() => {
     reset({
       quantity: 0,
-      price: currentStock.refPrice || 0,
+      price: currentStock.refPrice / 1000 || 0,
     });
   }, [reset, currentStock]);
 
   React.useEffect(() => {
     const subscription = watch(({ quantity, price }) => {
-      if (quantity && price) setOrderValue(quantity * price);
+      if (quantity && price) setOrderValue(quantity * price * 1000);
     });
     return () => subscription.unsubscribe();
   }, [watch]);
@@ -86,11 +86,12 @@ const PriceTableHeader = ({ currentStock }: { currentStock: PriceItem }) => {
       fetchOTP();
       return;
     }
-    if (!data.price || !data.quantity || isFloat(data.price) || isFloat(data.quantity) || data.quantity % 100 !== 0) {
+    const realPrice = data.price * 1000;
+    if (!realPrice || !data.quantity || isFloat(realPrice) || isFloat(data.quantity) || data.quantity % 100 !== 0) {
       toast(`Giá đặt mua/bán phải là số nguyên dương, số lượng cổ phiếu phải là bội của 100`);
       return;
     }
-    if (data.price > currentStock.ceilPrice || data.price < currentStock.floorPrice) {
+    if (realPrice > currentStock.ceilPrice || realPrice < currentStock.floorPrice) {
       toast(`Giá đặt mua/bán phải nằm trong khoảng giá trần - giá sàn`);
       return;
     }
@@ -98,12 +99,13 @@ const PriceTableHeader = ({ currentStock }: { currentStock: PriceItem }) => {
       toast(`Không thể bán số lượng cổ phiếu lớn hơn số lượng hiện có`);
       return;
     }
-    if (isBuy && user.money < data.price * data.quantity * 1.01) {
+    if (isBuy && user.money < realPrice * data.quantity * 1.01) {
       toast(`Không đủ số dư`);
       return;
     }
     const order: CreateStockOrder = {
       ...data,
+      // price: realPrice,
       isBuy,
       stockSymbol: currentStock.symbol,
       orderTypeId: 1,
@@ -172,7 +174,11 @@ const PriceTableHeader = ({ currentStock }: { currentStock: PriceItem }) => {
                   sx={{ maxWidth: 160, minWidth: 160 }}
                   label="Giá đặt"
                   type="number"
-                  inputProps={{ min: currentStock.floorPrice || 0, max: currentStock.ceilPrice || 0, step: 100 }}
+                  inputProps={{
+                    min: currentStock.floorPrice / 1000 || 0,
+                    max: currentStock.ceilPrice / 1000 || 0,
+                    step: 0.01,
+                  }}
                   {...register('price', { required: true, valueAsNumber: true })}
                   InputLabelProps={{
                     shrink: true,

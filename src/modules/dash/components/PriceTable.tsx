@@ -64,8 +64,8 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
     <div className="w-screen h-screen overflow-y-hidden bg-trueGray-800 grid grid-rows-4 grid-flow-col">
       <div className="row-span-2">
         <PriceTableHeader />
-        <TableContainer component={Paper} sx={{ backgroundColor: 'black' }}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableContainer component={Paper} sx={{ backgroundColor: '#363636' }}>
+          <Table sx={{ minWidth: 650 }}>
             <TableHead>
               <TableRow>
                 {tableHeadings.map((tableHeading) => (
@@ -73,7 +73,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                     sx={{
                       color: 'white',
                       fontWeight: '600',
-                      backgroundColor: 'gray',
+                      backgroundColor: '#363636',
                       borderLeft: '1px solid lightgray',
                     }}
                   >
@@ -84,7 +84,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
             </TableHead>
             <TableBody>
               {list.map((row) => (
-                <StyledTableRow key={row.symbol}>
+                <StyledTableRow hover key={row.symbol}>
                   <StyledTableCell
                     align="center"
                     sx={{

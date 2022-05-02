@@ -15,6 +15,24 @@ module.exports = {
         purple: '#272262',
         'purple-dark': '#211C52',
       },
+      myGreen: {
+        DEFAULT: '#00f4b0',
+      },
+      myRed: {
+        DEFAULT: '#ff3747',
+      },
+      myPurple: {
+        DEFAULT: '#e683ff',
+      },
+      myBlue: {
+        DEFAULT: '#64baff',
+      },
+      myOrage: {
+        DEFAULT: '#fbac20',
+      },
+      myHighlight: {
+        DEFAULT: '#434343',
+      },
     },
     extend: {
       screens: {

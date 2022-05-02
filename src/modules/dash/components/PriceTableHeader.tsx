@@ -52,7 +52,7 @@ const PriceTableHeader = () => {
     setAccount(event.target.value as string);
   };
 
-  const loginHandle: SubmitHandler<OrderValueType> = async (data) => {
+  const orderValueHandle: SubmitHandler<OrderValueType> = async (data) => {
     console.log(data)
   };
   React.useEffect(() => {
@@ -86,7 +86,7 @@ const PriceTableHeader = () => {
           <span>0%</span>
         </div>
         <div className='mx-6' >
-          <form onSubmit={handleSubmit(loginHandle)} className="w-ful flex">
+          <form onSubmit={handleSubmit(orderValueHandle)} className="w-ful flex">
             <div className='flex items-center'>
               <button className='font-bold text-black bg-green-400 px-4 py-2 rounded mr-4'>Mua</button>
               <CssTextField

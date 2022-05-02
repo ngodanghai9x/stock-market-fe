@@ -10,6 +10,7 @@ import { styled } from '@mui/material/styles';
 import MoneyInfo from './MoneyInfo';
 import { PriceItem } from '../../../services/api-user.type';
 import { formatAmount, formatPrice } from '../../../lib/utils';
+import PriceTableHeader from './PriceTableHeader';
 
 const tableHeadings = [
   'Mã',
@@ -62,6 +63,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
   return (
     <div className="w-screen h-screen overflow-y-hidden bg-trueGray-800 grid grid-rows-4 grid-flow-col">
       <div className="row-span-2">
+        <PriceTableHeader />
         <TableContainer component={Paper} sx={{ backgroundColor: 'black' }}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>

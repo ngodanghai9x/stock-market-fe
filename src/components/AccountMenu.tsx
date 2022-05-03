@@ -22,18 +22,20 @@ export default function AccountMenu() {
   const open = Boolean(anchorEl);
 
   const USER_MENU = React.useMemo(() => {
-    if ([RoleIdType.admin, RoleIdType.moderator].includes(user.roleId)) {
-      return {
-        [PATH_NAMES.admin.slice(1)]: { label: 'Trang quản lý', render: () => <PersonIcon />, exact: true },
-        ...USER_SIDEBAR,
-        [PATH_NAMES.logout.slice(1)]: { label: 'Đăng xuất', render: () => <Logout fontSize="small" />, exact: true },
-      };
-    }
-    return {
+    const toReturn = {
+      [PATH_NAMES.admin.slice(1)]: { label: 'Trang quản lý', render: () => <PersonIcon />, exact: true },
       ...USER_SIDEBAR,
       [PATH_NAMES.logout.slice(1)]: { label: 'Đăng xuất', render: () => <Logout fontSize="small" />, exact: true },
     };
-  }, [user.roleId]);
+
+    if (![RoleIdType.admin, RoleIdType.moderator].includes(user.roleId)) {
+      delete toReturn[PATH_NAMES.admin.slice(1)];
+    }
+    if (!user?.userId) {
+      delete toReturn[PATH_NAMES.logout.slice(1)];
+    }
+    return toReturn;
+  }, [user.roleId, user?.userId]);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);

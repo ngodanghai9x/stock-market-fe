@@ -14,18 +14,20 @@ const PriceTableSubHeader = () => {
   const { user } = React.useContext(AuthContext);
 
   const USER_MENU = React.useMemo(() => {
-    if ([RoleIdType.admin, RoleIdType.moderator].includes(user.roleId)) {
-      return {
-        [PATH_NAMES.admin.slice(1)]: { label: 'Trang quản lý', render: () => <PersonIcon />, exact: true },
-        ...USER_SIDEBAR,
-        [PATH_NAMES.logout.slice(1)]: { label: 'Đăng xuất', render: () => <Logout fontSize="small" />, exact: true },
-      };
-    }
-    return {
+    const toReturn = {
+      [PATH_NAMES.admin.slice(1)]: { label: 'Trang quản lý', render: () => <PersonIcon />, exact: true },
       ...USER_SIDEBAR,
       [PATH_NAMES.logout.slice(1)]: { label: 'Đăng xuất', render: () => <Logout fontSize="small" />, exact: true },
     };
-  }, [user.roleId]);
+
+    if (![RoleIdType.admin, RoleIdType.moderator].includes(user.roleId)) {
+      delete toReturn[PATH_NAMES.admin.slice(1)];
+    }
+    if (!user?.userId) {
+      delete toReturn[PATH_NAMES.logout.slice(1)];
+    }
+    return toReturn;
+  }, [user.roleId, user?.userId]);
 
   return (
     <div className="bg-black text-white flex items-center pr-4">

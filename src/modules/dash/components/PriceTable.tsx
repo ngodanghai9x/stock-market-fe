@@ -99,7 +99,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                       backgroundColor: '#363636',
                       boxShadow: '0 2px 4px 0 #000000cc',
                       borderColor: '#434343',
-                      borderLeft: '1px solid #434343',
+                      borderLeft: ['Giá', 'Giá B 1'].includes(tableHeading) ? '1px solid #888484' : '1px solid #434343',
                     }}
                   >
                     {tableHeading}

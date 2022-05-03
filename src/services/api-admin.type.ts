@@ -17,6 +17,7 @@ export type UserStorage = {
   stockSymbol: string;
   quantity: number;
   originQuantity: number;
+  lockedQuantity: number;
   price: number;
   modifiedAt: string;
   user?: User;

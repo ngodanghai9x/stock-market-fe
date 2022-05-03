@@ -29,15 +29,19 @@ export const SocketContext = createContext<{
 
 export const SocketProvider = (props: { children: ReactElement }) => {
   const { user } = useContext(AuthContext);
-  const { store, dispatch, fetchData } = useContext(AppContext);
+  const { store, dispatch, fetchData, fetchUser } = useContext(AppContext);
 
-  const isIgnoreSocket = useCallback(
+  const isIgnoreSocket = useCallback((): boolean => {
+    if ([RoleIdType.admin, RoleIdType.moderator].includes(user.roleId)) return true;
+    return false;
+  }, [user.roleId]);
+
+  const isMine = useCallback(
     (stockOrder: StockOrder): boolean => {
-      if ([RoleIdType.admin, RoleIdType.moderator].includes(user.roleId)) return true;
-      // if (stockOrder.userId === user.userId) return true;
+      if (stockOrder.userId === user.userId) return true;
       return false;
     },
-    [user.roleId, user.userId]
+    [user.userId]
   );
 
   useEffect(() => {
@@ -50,17 +54,26 @@ export const SocketProvider = (props: { children: ReactElement }) => {
 
     // subscribe to socket events
     socket.on('AddStockOrder', (stockOrder) => {
-      if (isIgnoreSocket(stockOrder)) return;
+      if (isIgnoreSocket()) return;
+      if (isMine(stockOrder)) {
+        fetchUser();
+      }
       dispatch({ type: ActionTypes.AddStockOrder, payload: stockOrder });
     });
 
     socket.on('EditStockOrder', (stockOrder) => {
-      if (isIgnoreSocket(stockOrder)) return;
+      if (isIgnoreSocket()) return;
+      if (isMine(stockOrder)) {
+        fetchUser();
+      }
       dispatch({ type: ActionTypes.EditStockOrder, payload: stockOrder });
     });
 
     socket.on('DeleteStockOrder', (stockOrder) => {
-      if (isIgnoreSocket(stockOrder)) return;
+      if (isIgnoreSocket()) return;
+      if (isMine(stockOrder)) {
+        fetchUser();
+      }
       dispatch({ type: ActionTypes.DeleteStockOrder, payload: stockOrder });
     });
 

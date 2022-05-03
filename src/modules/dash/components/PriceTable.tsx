@@ -11,7 +11,8 @@ import MoneyInfo from './MoneyInfo';
 import { CreateStockOrder, PriceItem } from '../../../services/api-user.type';
 import { formatAmount, formatPrice, formatTotal } from '../../../lib/utils';
 import PriceTableHeader from './PriceTableHeader';
-import SubHeader from './SubHeader';
+import PriceTableSubHeader from './PriceTableSubHeader';
+import { COLOR } from '../../../constants';
 
 const tableHeadings = [
   'Mã',
@@ -40,6 +41,9 @@ const tableHeadings = [
 ];
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  borderColor: '#434343',
+  borderTop: 0,
+  borderBottom: 0,
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
@@ -50,12 +54,15 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: '#171717',
+  borderTop: 0,
+  borderBottom: 0,
+  borderColor: '#434343',
+  '&:nth-of-type(even)': {
+    backgroundColor: '#202020',
   },
-  "&:hover": {
-    backgroundColor: "#808080"
-  }
+  '&:hover': {
+    backgroundColor: '#808080',
+  },
 }));
 
 type PriceTableProps = {
@@ -72,8 +79,14 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
     <div className="w-screen h-screen overflow-y-hidden bg-trueGray-800 grid grid-rows-4 grid-flow-col">
       <div className="row-span-2">
         <PriceTableHeader currentStock={currentStock} />
-        <SubHeader />
-        <TableContainer component={Paper} sx={{ backgroundColor: '#363636', boxShadow: '0 2px 4px 0 #000000cc' }}>
+        <PriceTableSubHeader />
+        <TableContainer
+          component={Paper}
+          sx={{
+            backgroundColor: 'black',
+            // boxShadow: '0 2px 4px 0 #000000cc',
+          }}
+        >
           <Table sx={{ minWidth: 650 }}>
             <TableHead>
               <TableRow>
@@ -85,7 +98,8 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                       fontWeight: '600',
                       backgroundColor: '#363636',
                       boxShadow: '0 2px 4px 0 #000000cc',
-                      borderLeft: '1px solid lightgray',
+                      borderColor: '#434343',
+                      borderLeft: '1px solid #434343',
                     }}
                   >
                     {tableHeading}
@@ -104,7 +118,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                     align="center"
                     sx={{
                       color: 'white',
-                      borderLeft: '1px solid lightgray',
+                      borderLeft: '1px solid #434343',
                     }}
                   >
                     {row.symbol || '--'}
@@ -112,8 +126,8 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                   <StyledTableCell
                     align="center"
                     sx={{
-                      color: 'white',
-                      borderLeft: '1px solid lightgray',
+                      color: COLOR.myPurple,
+                      borderLeft: '1px solid #434343',
                     }}
                   >
                     {formatPrice(row.ceilPrice)}
@@ -121,8 +135,8 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                   <StyledTableCell
                     align="center"
                     sx={{
-                      color: 'white',
-                      borderLeft: '1px solid lightgray',
+                      color: COLOR.myBlue,
+                      borderLeft: '1px solid #434343',
                     }}
                   >
                     {formatPrice(row.floorPrice)}
@@ -130,8 +144,8 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                   <StyledTableCell
                     align="center"
                     sx={{
-                      color: 'white',
-                      borderLeft: '1px solid lightgray',
+                      color: COLOR.myOrage,
+                      borderLeft: '1px solid #434343',
                     }}
                   >
                     {formatPrice(row.refPrice)}
@@ -140,7 +154,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                     align="center"
                     sx={{
                       color: 'white',
-                      borderLeft: '1px solid lightgray',
+                      borderLeft: '1px solid #434343',
                     }}
                   >
                     {formatPrice(row.thirdBuy.price) || '--'}
@@ -149,7 +163,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                     align="center"
                     sx={{
                       color: 'white',
-                      borderLeft: '1px solid lightgray',
+                      borderLeft: '1px solid #434343',
                     }}
                   >
                     {formatAmount(row.thirdBuy.amount) || '--'}
@@ -158,7 +172,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                     align="center"
                     sx={{
                       color: 'white',
-                      borderLeft: '1px solid lightgray',
+                      borderLeft: '1px solid #434343',
                     }}
                   >
                     {formatPrice(row.secondBuy.price) || '--'}
@@ -167,7 +181,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                     align="center"
                     sx={{
                       color: 'white',
-                      borderLeft: '1px solid lightgray',
+                      borderLeft: '1px solid #434343',
                     }}
                   >
                     {formatAmount(row.secondBuy.amount) || '--'}
@@ -176,7 +190,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                     align="center"
                     sx={{
                       color: 'white',
-                      borderLeft: '1px solid lightgray',
+                      borderLeft: '1px solid #434343',
                     }}
                   >
                     {formatPrice(row.bestBuy.price) || '--'}
@@ -185,7 +199,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                     align="center"
                     sx={{
                       color: 'white',
-                      borderLeft: '1px solid lightgray',
+                      borderLeft: '1px solid #434343',
                     }}
                   >
                     {formatAmount(row.bestBuy.amount) || '--'}
@@ -194,7 +208,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                     align="center"
                     sx={{
                       color: 'white',
-                      borderLeft: '1px solid lightgray',
+                      borderLeft: '1px solid #888484',
                     }}
                   >
                     {formatPrice(row.matchingPrice) || '--'}
@@ -203,7 +217,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                     align="center"
                     sx={{
                       color: 'white',
-                      borderLeft: '1px solid lightgray',
+                      borderLeft: '1px solid #434343',
                     }}
                   >
                     {row.matchingAmount || '--'}
@@ -212,7 +226,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                     align="center"
                     sx={{
                       color: 'white',
-                      borderLeft: '1px solid lightgray',
+                      borderLeft: '1px solid #434343',
                     }}
                   >
                     {formatPrice(row.matchingChange) || '--'}
@@ -221,7 +235,8 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                     align="center"
                     sx={{
                       color: 'white',
-                      borderLeft: '1px solid lightgray',
+
+                      borderLeft: '1px solid #888484',
                     }}
                   >
                     {formatPrice(row.bestSell.price) || '--'}
@@ -230,7 +245,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                     align="center"
                     sx={{
                       color: 'white',
-                      borderLeft: '1px solid lightgray',
+                      borderLeft: '1px solid #434343',
                     }}
                   >
                     {formatAmount(row.bestSell.amount) || '--'}
@@ -239,7 +254,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                     align="center"
                     sx={{
                       color: 'white',
-                      borderLeft: '1px solid lightgray',
+                      borderLeft: '1px solid #434343',
                     }}
                   >
                     {formatPrice(row.secondSell.price) || '--'}
@@ -248,7 +263,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                     align="center"
                     sx={{
                       color: 'white',
-                      borderLeft: '1px solid lightgray',
+                      borderLeft: '1px solid #434343',
                     }}
                   >
                     {formatAmount(row.secondSell.amount) || '--'}
@@ -257,7 +272,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                     align="center"
                     sx={{
                       color: 'white',
-                      borderLeft: '1px solid lightgray',
+                      borderLeft: '1px solid #434343',
                     }}
                   >
                     {formatPrice(row.thirdSell.price) || '--'}
@@ -266,7 +281,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                     align="center"
                     sx={{
                       color: 'white',
-                      borderLeft: '1px solid lightgray',
+                      borderLeft: '1px solid #434343',
                     }}
                   >
                     {formatAmount(row.thirdSell.amount) || '--'}
@@ -275,7 +290,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                     align="center"
                     sx={{
                       color: 'white',
-                      borderLeft: '1px solid lightgray',
+                      borderLeft: '1px solid #434343',
                     }}
                   >
                     {formatPrice(row.matchedHigh) || '--'}
@@ -284,7 +299,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                     align="center"
                     sx={{
                       color: 'white',
-                      borderLeft: '1px solid lightgray',
+                      borderLeft: '1px solid #434343',
                     }}
                   >
                     {formatPrice(row.matchedAvg) || '--'}
@@ -293,7 +308,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                     align="center"
                     sx={{
                       color: 'white',
-                      borderLeft: '1px solid lightgray',
+                      borderLeft: '1px solid #434343',
                     }}
                   >
                     {formatPrice(row.matchedLow) || '--'}
@@ -302,7 +317,7 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                     align="center"
                     sx={{
                       color: 'white',
-                      borderLeft: '1px solid lightgray',
+                      borderLeft: '1px solid #434343',
                     }}
                   >
                     {/* {row.matchedTotal || '--'} */}

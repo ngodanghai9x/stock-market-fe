@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import { AuthContext } from '../context/auth/AuthContext';
+import { SxProps } from '@mui/material';
 
 function stringToColor(string: string) {
   let hash = 0;
@@ -22,10 +23,11 @@ function stringToColor(string: string) {
   return color;
 }
 
-function stringAvatar(name: string) {
+function stringAvatar(name: string, sx?: SxProps) {
   try {
     return {
       sx: {
+        ...sx,
         bgcolor: stringToColor(name),
         // width: 32,
         // height: 32,
@@ -38,11 +40,14 @@ function stringAvatar(name: string) {
   }
 }
 
-export default function LetterAvatar({ name }: { name?: string }) {
+export default function LetterAvatar({ name, sx, noWrap }: { name?: string; sx?: SxProps; noWrap?: boolean }) {
   const { user } = React.useContext(AuthContext);
+  if (noWrap) {
+    return <Avatar {...stringAvatar(name || user.fullName, sx)} />;
+  }
   return (
     <div className="border-solid border-warmGray-50 border-2 rounded-full">
-      <Avatar {...stringAvatar(name || user.fullName)} />
+      <Avatar {...stringAvatar(name || user.fullName, sx)} />
     </div>
   );
 }

@@ -153,7 +153,7 @@ const PriceTableHeader = ({ currentStock }: { currentStock: PriceItem }) => {
             >
               <div className="flex items-center">
                 <button
-                  className="font-bold text-black bg-green-400 px-4 py-2 rounded mr-4"
+                  className="font-bold text-black bg-myGreen px-4 py-2 rounded mr-4"
                   onClick={handleSubmit((data) => handleCreateOrder(data, true))}
                 >
                   Mua
@@ -185,7 +185,7 @@ const PriceTableHeader = ({ currentStock }: { currentStock: PriceItem }) => {
                   }}
                 />
                 <button
-                  className="font-bold bg-red-500 px-4 py-2 rounded ml-4"
+                  className="font-bold bg-myRed px-4 py-2 rounded ml-4"
                   onClick={handleSubmit((data) => handleCreateOrder(data, false))}
                 >
                   Bán

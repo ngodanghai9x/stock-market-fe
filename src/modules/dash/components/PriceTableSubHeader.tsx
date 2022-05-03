@@ -8,8 +8,9 @@ import { PATH_NAMES } from '../../../constants/path-name';
 import Logout from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
 import { AuthContext } from '../../../context/auth/AuthContext';
+import LetterAvatar from '../../../components/LetterAvatar';
 
-const SubHeader = () => {
+const PriceTableSubHeader = () => {
   const { user } = React.useContext(AuthContext);
 
   const USER_MENU = React.useMemo(() => {
@@ -33,7 +34,7 @@ const SubHeader = () => {
         <span className="block mx-6">GT: 764,989 tỷ</span>
         <div className="flex items-center mr-6">
           <span>VNI:</span>
-          <div className="text-green-300 flex">
+          <div className="text-myGreen flex">
             <span className="block mx-2">12345</span>
             <span className="block flex items-center ml-1">
               <ArrowUpwardIcon /> <span>15.90%</span>
@@ -42,7 +43,7 @@ const SubHeader = () => {
         </div>
         <div className="flex items-center mr-6">
           <span>VN30:</span>
-          <div className="text-green-300 flex">
+          <div className="text-myGreen flex">
             <span className="block mx-2">12345</span>
             <span className="block flex items-center ml-1">
               <ArrowUpwardIcon /> <span>15.90%</span>
@@ -51,7 +52,7 @@ const SubHeader = () => {
         </div>
         <div className="flex items-center mr-6">
           <span>HNX:</span>
-          <div className="text-green-300 flex">
+          <div className="text-myGreen flex">
             <span className="block mx-2">12345</span>
             <span className="block flex items-center ml-1">
               <ArrowUpwardIcon /> <span>15.90%</span>
@@ -60,7 +61,7 @@ const SubHeader = () => {
         </div>
         <div className="flex items-center mr-6">
           <span>UPCOM:</span>
-          <div className="text-green-300 flex">
+          <div className="text-myGreen flex">
             <span className="block mx-2">12345</span>
             <span className="block flex items-center ml-1">
               <ArrowUpwardIcon /> <span>15.90%</span>
@@ -84,8 +85,9 @@ const SubHeader = () => {
           }
           arrow
         >
+          {/* <LetterAvatar noWrap sx={{ width: '26px', height: '26px', p: 1, fontSize: '14px' }} /> */}
           <Avatar
-            alt="Remy Sharp"
+            alt={user.fullName}
             src="/static/images/avatar/1.jpg"
             sx={{ width: '26px', height: '26px', p: 1, fontSize: '14px' }}
           />
@@ -95,4 +97,4 @@ const SubHeader = () => {
   );
 };
 
-export default SubHeader;
+export default PriceTableSubHeader;

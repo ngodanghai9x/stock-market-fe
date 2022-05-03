@@ -25,6 +25,7 @@ const tableHeadings = [
 ];
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  borderColor: '#434343',
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
@@ -35,8 +36,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  borderColor: '#434343',
   '&:nth-of-type(odd)': {
     backgroundColor: '#171717',
+  },
+  '&:hover': {
+    backgroundColor: '#808080',
   },
   '&:last-child td, &:last-child th': {
     borderBottom: 0,
@@ -123,7 +128,7 @@ const OrderBook = () => {
         </ul>
       </div>
       <div>
-        <TableContainer component={Paper} sx={{ backgroundColor: 'black', maxHeight: '250px' }}>
+        <TableContainer component={Paper} sx={{ backgroundColor: '#171717', maxHeight: '250px' }}>
           <Table stickyHeader sx={{ minWidth: 650 }}>
             <TableHead>
               <TableRow>
@@ -133,9 +138,10 @@ const OrderBook = () => {
                     sx={{
                       color: 'white',
                       fontWeight: '600',
-                      backgroundColor: 'gray',
+                      backgroundColor: '#363636',
+                      boxShadow: '0 2px 4px 0 #000000cc',
                       '&:nth-child(2)': {
-                        borderLeft: '1px solid lightgray',
+                        borderLeft: '1px solid #434343',
                       },
                     }}
                     align="center"
@@ -165,7 +171,7 @@ const OrderBook = () => {
                       align="center"
                       sx={{
                         color: 'white',
-                        borderLeft: '1px solid lightgray',
+                        borderLeft: '1px solid #434343',
                       }}
                     >
                       {row.orderTypeId === 1 && 'Lệnh thường'}

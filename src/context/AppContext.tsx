@@ -109,6 +109,7 @@ export const AppContext = createContext<{
   userInfo: GetUser;
   dispatch: React.Dispatch<Action>;
   fetchData: () => Promise<void>;
+  fetchUser: () => Promise<void>;
 }>({
   store: initialState,
   marketHistory: {},
@@ -116,6 +117,7 @@ export const AppContext = createContext<{
   userInfo: initUserInfo as GetUser,
   dispatch: (a: Action) => {},
   fetchData: async () => {},
+  fetchUser: async () => {},
 });
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
@@ -143,17 +145,18 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     fetchData();
   }, [fetchData]);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const { user, citizenIdentity, storage } = await getUserById(userId);
-      setUserInfo({
-        user,
-        citizenIdentity,
-        storage,
-      });
-    };
-    fetchUser();
+  const fetchUser = useCallback(async () => {
+    const { user, citizenIdentity, storage } = await getUserById(userId);
+    setUserInfo({
+      user,
+      citizenIdentity,
+      storage,
+    });
   }, [userId]);
+
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
 
   return (
     <AppContext.Provider
@@ -164,6 +167,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         userInfo,
         dispatch: withLogger(dispatch),
         fetchData,
+        fetchUser,
       }}
     >
       {children}

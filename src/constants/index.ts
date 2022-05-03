@@ -217,7 +217,16 @@ export const WEAK_PASSWORDS = [
 export const STORAGE = {
   userData: 'user-data',
   jwtToken: 'jwt-token',
-  otpTrading: 'trading-otp'
+  otpTrading: 'trading-otp',
+};
+
+export const COLOR = {
+  myGreen: '#00f4b0',
+  myRed: '#ff3747',
+  myPurple: '#e683ff',
+  myBlue: '#64baff',
+  myOrage: '#fbac20',
+  myHighlight: '#434343',
 };
 
 export const NUMBER = {
@@ -277,7 +286,7 @@ export enum ActionTypes {
   AddStockOrder = 'AddStockOrder',
   EditStockOrder = 'EditStockOrder',
   DeleteStockOrder = 'DeleteStockOrder',
-  MatchingStockOrder = 'MatchingStockOrder'
+  MatchingStockOrder = 'MatchingStockOrder',
 }
 
 /* ------- Special case ------- */

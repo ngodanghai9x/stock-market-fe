@@ -53,7 +53,7 @@ const PriceTableHeader = ({ currentStock }: { currentStock: PriceItem }) => {
   });
 
   const {
-    userInfo: { user, storage },
+    userInfo: { user, citizenIdentity, storage },
   } = React.useContext(AppContext);
 
   const [orderValue, setOrderValue] = useState<number>(0);
@@ -81,6 +81,9 @@ const PriceTableHeader = ({ currentStock }: { currentStock: PriceItem }) => {
   const handleCreateOrder = async (data: TStockOrder, isBuy: boolean) => {
     const maxQuantity = storage[currentStock.symbol]?.quantity || 0;
     const otpTrading = localStorage.getItem(STORAGE.otpTrading);
+    if (!citizenIdentity) {
+      return alert(`Bạn cần phải xác minh danh tính trước khi giao dịch cổ phiếu`);
+    }
     if (!otpTrading) {
       setIsOpenModal(true);
       fetchOTP();
@@ -105,7 +108,7 @@ const PriceTableHeader = ({ currentStock }: { currentStock: PriceItem }) => {
     }
     const order: CreateStockOrder = {
       ...data,
-      // price: realPrice,
+      price: realPrice,
       isBuy,
       stockSymbol: currentStock.symbol,
       orderTypeId: 1,

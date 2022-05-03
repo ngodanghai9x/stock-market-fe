@@ -30,7 +30,7 @@ const PriceTableSubHeader = () => {
   }, [user.roleId, user?.userId]);
 
   return (
-    <div className="bg-black text-white flex items-center pr-4">
+    <div className=" bg-trueGray-800 text-white flex items-center pr-4">
       <div className="flex px-4 py-2 justify-center flex-1">
         <span>KL (cp): 764tr</span>
         <span className="block mx-6">GT: 764,989 tỷ</span>

@@ -78,8 +78,8 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
   return (
     <div className="w-screen h-screen overflow-y-hidden bg-trueGray-800 grid grid-rows-4 grid-flow-col">
       <div className="row-span-2">
-        <PriceTableHeader currentStock={currentStock} />
         <PriceTableSubHeader />
+        <PriceTableHeader currentStock={currentStock} />
         <TableContainer
           component={Paper}
           sx={{

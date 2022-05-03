@@ -116,7 +116,7 @@ const PriceTableHeader = ({ currentStock }: { currentStock: PriceItem }) => {
   };
 
   return (
-    <div className="text-white bg-trueGray-800">
+    <div className="text-white bg-trueGray-900">
       <div className="flex p-4 items-center justify-between">
         <div className="flex items-center">
           <CssTextField

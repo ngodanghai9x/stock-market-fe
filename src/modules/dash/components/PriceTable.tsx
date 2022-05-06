@@ -6,10 +6,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { styled } from '@mui/material/styles';
+import { styled, SxProps, Theme } from '@mui/material/styles';
 import MoneyInfo from './MoneyInfo';
 import { CreateStockOrder, PriceItem } from '../../../services/api-user.type';
-import { formatAmount, formatPrice, formatTotal } from '../../../lib/utils';
+import { calculateColor, formatAmount, formatPrice, formatTotal } from '../../../lib/utils';
 import PriceTableHeader from './PriceTableHeader';
 import PriceTableSubHeader from './PriceTableSubHeader';
 import { COLOR } from '../../../constants';
@@ -65,6 +65,33 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
+const ColorTableCell = ({
+  row,
+  value,
+  compareValue,
+  sx,
+  formatValue = formatPrice,
+}: {
+  row: PriceItem;
+  compareValue: number;
+  value?: number | string;
+  sx?: SxProps<Theme>;
+  formatValue?: (v: number) => string | number;
+}): JSX.Element => {
+  return (
+    <StyledTableCell
+      align="center"
+      sx={{
+        color: compareValue ? calculateColor(row, Number(compareValue)) : 'white',
+        borderLeft: '1px solid #434343',
+        ...sx,
+      }}
+    >
+      {formatValue(value ? +value : compareValue)}
+    </StyledTableCell>
+  );
+};
+
 type PriceTableProps = {
   list?: PriceItem[];
 };
@@ -114,15 +141,13 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                   sx={{ cursor: 'pointer' }}
                   onClick={() => handleClickStock(row)}
                 >
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
-                      borderLeft: '1px solid #434343',
-                    }}
-                  >
-                    {row.symbol || '--'}
-                  </StyledTableCell>
+                  <ColorTableCell
+                    row={row}
+                    compareValue={row.matchingPrice}
+                    value={row.symbol}
+                    formatValue={(v) => v}
+                  />
+
                   <StyledTableCell
                     align="center"
                     sx={{
@@ -150,169 +175,80 @@ const PriceTable = ({ list = [] }: PriceTableProps) => {
                   >
                     {formatPrice(row.refPrice)}
                   </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
-                      borderLeft: '1px solid #434343',
-                    }}
-                  >
-                    {formatPrice(row.thirdBuy.price) || '--'}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
-                      borderLeft: '1px solid #434343',
-                    }}
-                  >
-                    {formatAmount(row.thirdBuy.amount) || '--'}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
-                      borderLeft: '1px solid #434343',
-                    }}
-                  >
-                    {formatPrice(row.secondBuy.price) || '--'}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
-                      borderLeft: '1px solid #434343',
-                    }}
-                  >
-                    {formatAmount(row.secondBuy.amount) || '--'}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
-                      borderLeft: '1px solid #434343',
-                    }}
-                  >
-                    {formatPrice(row.bestBuy.price) || '--'}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
-                      borderLeft: '1px solid #434343',
-                    }}
-                  >
-                    {formatAmount(row.bestBuy.amount) || '--'}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
-                      borderLeft: '1px solid #888484',
-                    }}
-                  >
-                    {formatPrice(row.matchingPrice) || '--'}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
-                      borderLeft: '1px solid #434343',
-                    }}
-                  >
-                    {row.matchingAmount || '--'}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
-                      borderLeft: '1px solid #434343',
-                    }}
-                  >
-                    {formatPrice(row.matchingChange) || '--'}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
 
+                  <ColorTableCell row={row} compareValue={row.thirdBuy.price} />
+                  <ColorTableCell
+                    row={row}
+                    compareValue={row.thirdBuy.price}
+                    value={row.thirdBuy.amount}
+                    formatValue={formatAmount}
+                  />
+
+                  <ColorTableCell row={row} compareValue={row.secondBuy.price} />
+                  <ColorTableCell
+                    row={row}
+                    compareValue={row.secondBuy.price}
+                    value={row.secondBuy.amount}
+                    formatValue={formatAmount}
+                  />
+
+                  <ColorTableCell row={row} compareValue={row.bestBuy.price} />
+                  <ColorTableCell
+                    row={row}
+                    compareValue={row.bestBuy.price}
+                    value={row.bestBuy.amount}
+                    formatValue={formatAmount}
+                  />
+
+                  <ColorTableCell
+                    row={row}
+                    compareValue={row.matchingPrice}
+                    sx={{
                       borderLeft: '1px solid #888484',
                     }}
-                  >
-                    {formatPrice(row.bestSell.price) || '--'}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
+                  />
+                  <ColorTableCell
+                    row={row}
+                    compareValue={row.matchingPrice}
+                    value={row.matchingAmount}
+                    formatValue={formatAmount}
+                  />
+                  <ColorTableCell row={row} compareValue={row.matchingPrice} value={row.matchingChange} />
+
+                  <ColorTableCell
+                    row={row}
+                    compareValue={row.bestSell.price}
                     sx={{
-                      color: 'white',
-                      borderLeft: '1px solid #434343',
+                      borderLeft: '1px solid #888484',
                     }}
-                  >
-                    {formatAmount(row.bestSell.amount) || '--'}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
-                      borderLeft: '1px solid #434343',
-                    }}
-                  >
-                    {formatPrice(row.secondSell.price) || '--'}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
-                      borderLeft: '1px solid #434343',
-                    }}
-                  >
-                    {formatAmount(row.secondSell.amount) || '--'}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
-                      borderLeft: '1px solid #434343',
-                    }}
-                  >
-                    {formatPrice(row.thirdSell.price) || '--'}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
-                      borderLeft: '1px solid #434343',
-                    }}
-                  >
-                    {formatAmount(row.thirdSell.amount) || '--'}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
-                      borderLeft: '1px solid #434343',
-                    }}
-                  >
-                    {formatPrice(row.matchedHigh) || '--'}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
-                      borderLeft: '1px solid #434343',
-                    }}
-                  >
-                    {formatPrice(row.matchedAvg) || '--'}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    sx={{
-                      color: 'white',
-                      borderLeft: '1px solid #434343',
-                    }}
-                  >
-                    {formatPrice(row.matchedLow) || '--'}
-                  </StyledTableCell>
+                  />
+                  <ColorTableCell
+                    row={row}
+                    compareValue={row.bestSell.price}
+                    value={row.bestSell.amount}
+                    formatValue={formatAmount}
+                  />
+
+                  <ColorTableCell row={row} compareValue={row.secondSell.price} />
+                  <ColorTableCell
+                    row={row}
+                    compareValue={row.secondSell.price}
+                    value={row.secondSell.amount}
+                    formatValue={formatAmount}
+                  />
+
+                  <ColorTableCell row={row} compareValue={row.thirdSell.price} />
+                  <ColorTableCell
+                    row={row}
+                    compareValue={row.thirdSell.price}
+                    value={row.thirdSell.amount}
+                    formatValue={formatAmount}
+                  />
+
+                  <ColorTableCell row={row} compareValue={row.matchedHigh} />
+                  <ColorTableCell row={row} compareValue={row.matchedAvg} />
+                  <ColorTableCell row={row} compareValue={row.matchedLow} />
+
                   <StyledTableCell
                     align="center"
                     sx={{

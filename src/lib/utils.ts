@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 import moment from 'moment';
-import { StatusIdType, StatusLabelType, STORAGE } from '../constants';
+import { COLOR, StatusIdType, StatusLabelType, STORAGE } from '../constants';
 import { LoginPayload } from '../services/api-auth.type';
 import { GroupedStockOrders, MatchingGroupedStockOrders, PriceItem, GroupedHistory } from '../services/api-user.type';
 import { TokenInfo } from '../types';
@@ -198,3 +198,23 @@ export function numberWithCommas(x: number) {
 export function isFloat(n: number) {
   return Number(n) === n && n % 1 !== 0;
 }
+
+export const calculateColor = (row: PriceItem, value: number): string => {
+  switch (value) {
+    case row.ceilPrice:
+      return COLOR.myPurple;
+    case row.floorPrice:
+      return COLOR.myBlue;
+    case row.refPrice:
+      return COLOR.myOrage;
+    default: {
+      if (value > row.refPrice) {
+        return COLOR.myGreen;
+      }
+      if (value < row.refPrice) {
+        return COLOR.myRed;
+      }
+      return 'white';
+    }
+  }
+};

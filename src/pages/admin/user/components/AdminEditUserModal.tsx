@@ -64,11 +64,6 @@ const AdminEditUserModal = ({ isOpen, onClose, editRecord, fetchData }: AdminEdi
                 className="w-full"
                 {...register('user.username', { pattern: /^[a-z_\d]{6,255}$/i })}
               />
-              {errors?.user?.username && (
-                <ValidateMessage>
-                  Tên tài khoản chỉ bao gồm chữ cái, chữ số, dấu _, độ dài tối thiểu là 6 kí tự
-                </ValidateMessage>
-              )}
             </div>
             <div className="mb-2">
               <TextField
@@ -85,7 +80,7 @@ const AdminEditUserModal = ({ isOpen, onClose, editRecord, fetchData }: AdminEdi
                 label="Vai trò"
                 variant="standard"
                 className="w-full"
-                {...register('user.roleId', { required: true, valueAsNumber: true })}
+                {...register('user.roleId', { required: true, valueAsNumber: true, min: 1, max: 5 })}
               />
               {errors?.user?.roleId && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
             </div>

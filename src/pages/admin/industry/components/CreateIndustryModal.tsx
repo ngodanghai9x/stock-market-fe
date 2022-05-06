@@ -80,13 +80,12 @@ const CreateIndustryModal = ({ isOpen, onClose, editRecord, fetchData }: CreateI
             </div>
             <div className="mb-2">
               <TextField
-                required
                 label="Mã ngành nghề"
                 variant="standard"
                 className="w-full"
-                {...register('industry.industryCode', { required: true })}
+                {...register('industry.industryCode', { required: false, pattern: /[A-Z0-9]${3,10}/ })}
               />
-              {errors?.industry?.industryCode && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
+              {errors?.industry?.industryCode && <ValidateMessage>Mã ngành nghề chỉ bao gồm chữ in hoa và số, từ 3-10 kí tự</ValidateMessage>}
             </div>
             <div className="mb-2">
               <TextField

@@ -51,7 +51,7 @@ export const ForgotPasswordForm = () => {
         </div>
         <div className="group flex flex-col mb-8">
           <AuthInput label="Mã OTP:" {...register('otpForget', { required: true })} />
-          {errors.username && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
+          {errors.otpForget && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
         </div>
         <div className="group flex flex-col mb-8">
           <AuthInput
@@ -66,7 +66,12 @@ export const ForgotPasswordForm = () => {
               pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#?!@$%^&*+='"<>\]\[\|-]).{8,}$/i,
             })}
           />
-          {errors.password && <ValidateMessage>{errors.password.message}</ValidateMessage>}
+          {errors.password && (
+            <ValidateMessage>
+              {errors.password.message ||
+                `Mật khẩu cần tối thiểu 8 ký tự, ít nhất 1 chữ cái viết hoa, 1 chữ cái viết thường và 1 số`}
+            </ValidateMessage>
+          )}
         </div>
         <div className="group flex flex-col mb-8">
           <AuthInput

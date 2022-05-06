@@ -62,6 +62,7 @@ const VerifyTradingOtpModal = ({ isOpen, onClose, fetchOTP }: VerifyTradingOtpMo
                 className="w-full"
                 {...register('otpTrading', { required: true })}
               />
+              {errors.otpTrading && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
             </div>
           </div>
 

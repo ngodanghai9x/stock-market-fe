@@ -87,7 +87,7 @@ export const RegisterForm = () => {
               pattern: /^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/i,
             })}
           />
-          {errors.email && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
+          {errors.email && <ValidateMessage>Email không đúng định dạng</ValidateMessage>}
         </div>
         <input
           type="submit"

@@ -89,7 +89,7 @@ export type EditableUser = {
   email: string;
   phone: string;
   birthday: string | Date;
-};
+} & User;
 
 export type EditableIdentity = {
   number: string;
@@ -100,9 +100,10 @@ export type EditableIdentity = {
   residenceAddress: string;
   createDate: string;
   createBy: string;
-};
+} & CitizenIdentity;
 
 export type EditUserPayload = {
   user?: EditableUser;
   citizenIdentity?: EditableIdentity;
+  password: string;
 };

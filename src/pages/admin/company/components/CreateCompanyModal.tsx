@@ -185,9 +185,9 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                   label="Số lượng nhân viên"
                   variant="standard"
                   className="w-full"
-                  {...register('company.numEmployees', { required: false, valueAsNumber: true })}
+                  {...register('company.numEmployees', { required: false, valueAsNumber: true, min: 0, max: 1000000000 })}
                 />
-                {errors?.company?.numEmployees && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
+                {errors?.company?.numEmployees && <ValidateMessage>Số nhân viên phải là số nguyên dương không quá 1 tỷ</ValidateMessage>}
               </div>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
@@ -239,7 +239,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                     className="w-full"
                     {...register('stock.stockSymbol', { required: true, pattern: /^[A-Z]{3,5}$/ })}
                   />
-                  {errors?.stock?.stockSymbol && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
+                  {errors?.stock?.stockSymbol && <ValidateMessage>Mã cổ phiếu chỉ gồm 3-5 kí tự chữ in hoa</ValidateMessage>}
                 </div>
                 <div className="mb-2">
                   <TextField
@@ -249,7 +249,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                     variant="standard"
                     className="w-full"
                     type="number"
-                    {...register('stock.quantity', { required: true, valueAsNumber: true })}
+                    {...register('stock.quantity', { required: true, valueAsNumber: true, min: 0 })}
                   />
                   {errors?.stock?.quantity && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
                 </div>
@@ -261,7 +261,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                     variant="standard"
                     className="w-full"
                     type="number"
-                    {...register('stock.price', { required: true, valueAsNumber: true })}
+                    {...register('stock.price', { required: true, valueAsNumber: true, min: 0 })}
                   />
                   {errors?.stock?.price && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
                 </div>

@@ -225,8 +225,9 @@ export const COLOR = {
   myRed: '#ff3747',
   myPurple: '#e683ff',
   myBlue: '#64baff',
-  myOrage: '#fbac20',
+  myOrange: '#fbac20',
   myHighlight: '#434343',
+  myLogo: '#F0B90B',
 };
 
 export const NUMBER = {

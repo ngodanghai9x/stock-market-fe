@@ -27,11 +27,14 @@ module.exports = {
       myBlue: {
         DEFAULT: '#64baff',
       },
-      myOrage: {
+      myOrange: {
         DEFAULT: '#fbac20',
       },
       myHighlight: {
         DEFAULT: '#434343',
+      },
+      myLogo: {
+        DEFAULT: '#F0B90B',
       },
     },
     extend: {

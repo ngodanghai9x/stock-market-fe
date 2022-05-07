@@ -206,7 +206,7 @@ export const calculateColor = (row: PriceItem, value: number): string => {
     case row.floorPrice:
       return COLOR.myBlue;
     case row.refPrice:
-      return COLOR.myOrage;
+      return COLOR.myOrange;
     default: {
       if (value > row.refPrice) {
         return COLOR.myGreen;

@@ -178,7 +178,7 @@ const PriceTable2 = ({ list = [] }: PriceTableProps) => {
                   <StyledTableCell
                     align="center"
                     sx={{
-                      color: COLOR.myOrage,
+                      color: COLOR.myOrange,
                       borderLeft: '1px solid #434343',
                     }}
                   >

@@ -1,5 +1,6 @@
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import ImageUpload from '../../components/ImageUpload';
 import { AppContext } from '../../context';
 import { flatGrouped } from '../../lib/utils';
 import PriceTable from '../../modules/dash/components/PriceTable';
@@ -18,6 +19,7 @@ const PriceTableDashboard = () => {
 
   return (
     <div>
+      {/* <ImageUpload /> */}
       <PriceTable list={list} />
     </div>
   );

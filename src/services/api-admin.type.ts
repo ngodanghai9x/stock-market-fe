@@ -84,6 +84,7 @@ export type Company = {
   industryId: number;
   industry: Industry;
   websiteUrl: string | null;
+  certificateUrl: string | null;
   contactEmail: string;
   phoneNumber: string | null;
   numEmployees: string | null;

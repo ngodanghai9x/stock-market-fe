@@ -9,6 +9,7 @@ import Logout from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
 import { AuthContext } from '../../../context/auth/AuthContext';
 import LetterAvatar from '../../../components/LetterAvatar';
+import { Login } from '@mui/icons-material';
 
 const PriceTableSubHeader = () => {
   const { user } = React.useContext(AuthContext);
@@ -18,6 +19,7 @@ const PriceTableSubHeader = () => {
       [PATH_NAMES.admin.slice(1)]: { label: 'Trang quản lý', render: () => <PersonIcon />, exact: true },
       ...USER_SIDEBAR,
       [PATH_NAMES.logout.slice(1)]: { label: 'Đăng xuất', render: () => <Logout fontSize="small" />, exact: true },
+      [PATH_NAMES.login.slice(1)]: { label: 'Đăng nhập', render: () => <Login fontSize="small" />, exact: true },
     };
 
     if (![RoleIdType.admin, RoleIdType.moderator].includes(user.roleId)) {
@@ -25,6 +27,8 @@ const PriceTableSubHeader = () => {
     }
     if (!user?.userId) {
       delete toReturn[PATH_NAMES.logout.slice(1)];
+    } else {
+      delete toReturn[PATH_NAMES.login.slice(1)];
     }
     return toReturn;
   }, [user.roleId, user?.userId]);

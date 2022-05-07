@@ -15,6 +15,7 @@ import { PATH_NAMES } from '../constants/path-name';
 import CustomLink from './CustomLink';
 import { AuthContext } from '../context/auth/AuthContext';
 import { RoleIdType } from '../constants';
+import { Login } from '@mui/icons-material';
 
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -26,6 +27,7 @@ export default function AccountMenu() {
       [PATH_NAMES.admin.slice(1)]: { label: 'Trang quản lý', render: () => <PersonIcon />, exact: true },
       ...USER_SIDEBAR,
       [PATH_NAMES.logout.slice(1)]: { label: 'Đăng xuất', render: () => <Logout fontSize="small" />, exact: true },
+      [PATH_NAMES.login.slice(1)]: { label: 'Đăng nhập', render: () => <Login fontSize="small" />, exact: true },
     };
 
     if (![RoleIdType.admin, RoleIdType.moderator].includes(user.roleId)) {
@@ -33,6 +35,8 @@ export default function AccountMenu() {
     }
     if (!user?.userId) {
       delete toReturn[PATH_NAMES.logout.slice(1)];
+    } else {
+      delete toReturn[PATH_NAMES.login.slice(1)];
     }
     return toReturn;
   }, [user.roleId, user?.userId]);

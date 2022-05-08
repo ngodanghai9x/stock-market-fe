@@ -26,8 +26,7 @@ export const LoginForm = () => {
       setAuthenticated(true);
       toast(res.message);
     } catch (error: any) {
-      console.log(error);
-      toast(error.response.data.message);
+      toast(error?.message || error?.data.message);
     }
   };
 

@@ -13,9 +13,6 @@ const baseUrl = `${process.env.REACT_APP_API_HOST}`;
 
 export const getAllOrder = async () => {
   const res = await axiosClient.get(`${baseUrl}/stock-orders`);
-  // if (res.status !== 200) {
-  //   throw Error(`Có lỗi xảy ra, vui lòng thử lại vào lúc khác`);
-  // }
   return new MyResponse<GetAllStockOrderResponse>(res).data;
 };
 
@@ -31,30 +28,28 @@ export const getUserHistory = async (userId: number) => {
 
 export const getUserById = async (userId: number, username?: string) => {
   const res = await axiosClient.get(`${baseUrl}/user/${userId}?username=${encodeURIComponent(username || '')}`);
-  const data = new MyResponse<GetUser>(res).data;
-  return data;
-  // if (res.status !== 200) {
-  //   throw Error(`Có lỗi xảy ra, vui lòng thử lại vào lúc khác`);
-  // }
-  // return new MyResponse<{ user: User; citizenIdentity: CitizenIdentity | null }>(res);
+  return new MyResponse<GetUser>(res).data;
 };
 
-export const editUserInfo = (payload: EditUserPayload, userId: number) => {
-  return axiosClient.put(`${baseUrl}/user/${userId}`, {
+export const editUserInfo = async (payload: EditUserPayload, userId: number) => {
+  const res = await axiosClient.put(`${baseUrl}/user/${userId}`, {
     ...payload,
   });
+  return new MyResponse<any>(res);
 };
 
-export const editUserSecretInfo = (payload: EditUserPayload, userId: number) => {
-  return axiosClient.put(`${baseUrl}/user/${userId}/secret`, {
+export const editUserSecretInfo = async (payload: EditUserPayload, userId: number) => {
+  const res = await axiosClient.put(`${baseUrl}/user/${userId}/secret`, {
     ...payload,
   });
+  return new MyResponse<any>(res);
 };
 
-export const createStockOrder = (payload: CreateStockOrderPayload) => {
-  return axiosClient.post(`${baseUrl}/stock-order/`, {
+export const createStockOrder = async (payload: CreateStockOrderPayload) => {
+  const res = await axiosClient.post(`${baseUrl}/stock-order/`, {
     ...payload,
   });
+  return new MyResponse<any>(res);
 };
 
 export const getWorldIndexes = async () => {

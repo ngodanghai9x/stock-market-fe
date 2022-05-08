@@ -33,7 +33,7 @@ const CreateIndustryModal = ({ isOpen, onClose, editRecord, fetchData }: CreateI
   const onSubmit: SubmitHandler<CreateIndustryPayload> = async (data) => {
     try {
       console.log(data);
-      let res = { data: { message: ''} };
+      let res = { data: { message: '' } };
       if (editRecord) {
         res = await editIndustry(data, data.industry.industryId);
       } else {
@@ -43,8 +43,7 @@ const CreateIndustryModal = ({ isOpen, onClose, editRecord, fetchData }: CreateI
 
       fetchData();
     } catch (error: any) {
-      console.log(error);
-      toast(error.response.data.message);
+      toast(error?.message || error?.data.message);
     }
   };
 
@@ -85,7 +84,9 @@ const CreateIndustryModal = ({ isOpen, onClose, editRecord, fetchData }: CreateI
                 className="w-full"
                 {...register('industry.industryCode', { required: false, pattern: /^[A-Z0-9]{3,10}$/ })}
               />
-              {errors?.industry?.industryCode && <ValidateMessage>Mã ngành nghề chỉ bao gồm chữ in hoa và số, từ 3-10 kí tự</ValidateMessage>}
+              {errors?.industry?.industryCode && (
+                <ValidateMessage>Mã ngành nghề chỉ bao gồm chữ in hoa và số, từ 3-10 kí tự</ValidateMessage>
+              )}
             </div>
             <div className="mb-2">
               <TextField

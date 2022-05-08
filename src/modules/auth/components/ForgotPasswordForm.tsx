@@ -20,11 +20,10 @@ export const ForgotPasswordForm = () => {
   const onSubmit: SubmitHandler<ChangeForgotPwPayload> = async (data) => {
     try {
       const res = await customerChangeForgotPw(data);
-      toast(res.data.message);
+      toast(res.message);
       navigate(PATH_NAMES.login);
     } catch (error: any) {
-      console.log(error);
-      toast(error.response.data.message);
+      toast(error?.message || error?.data.message);
     }
   };
 
@@ -33,8 +32,7 @@ export const ForgotPasswordForm = () => {
       const res = await getForgotPwOtp('mod');
       console.log('onSendOTP', res);
     } catch (error: any) {
-      console.log(error);
-      toast(error.message);
+      toast(error?.message || error?.data.message);
     }
   };
 

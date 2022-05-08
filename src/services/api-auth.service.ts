@@ -1,71 +1,66 @@
-import { RegisterPayload, LoginPayload, ChangePasswordPayload, ChangeForgotPwPayload } from './api-auth.type';
+import {
+  RegisterPayload,
+  LoginPayload,
+  ChangePasswordPayload,
+  ChangeForgotPwPayload,
+  LoginResponse,
+} from './api-auth.type';
 import axiosClient from '../lib/request';
 import { MyResponse } from '../types';
 import { STORAGE } from '../constants';
 
 const authBaseUrl = `${process.env.REACT_APP_API_HOST}/auth`;
 
-export const customerRegister = (payload: RegisterPayload) => {
-  return axiosClient.post(`${authBaseUrl}/register`, {
+export const customerRegister = async (payload: RegisterPayload) => {
+  const res = await axiosClient.post(`${authBaseUrl}/register`, {
     ...payload,
   });
+  return new MyResponse<any>(res);
 };
 
-export const customerLogin = (payload: LoginPayload) => {
-  return axiosClient.post(`${authBaseUrl}/login`, {
+export const customerLogin = async (payload: LoginPayload) => {
+  const res = await axiosClient.post(`${authBaseUrl}/login`, {
     ...payload,
   });
+  return new MyResponse<LoginResponse>(res);
 };
 
-export const customerLogout = () => {
-  return axiosClient.post(`${authBaseUrl}/logout`, {});
+export const customerLogout = async () => {
+  const res = await axiosClient.post(`${authBaseUrl}/logout`, {});
+  return new MyResponse<any>(res);
 };
 
-export const customerChangeForgotPw = (payload: ChangeForgotPwPayload) => {
-  return axiosClient.post(`${authBaseUrl}/forget-password`, {
+export const customerChangeForgotPw = async (payload: ChangeForgotPwPayload) => {
+  const res = await axiosClient.post(`${authBaseUrl}/forget-password`, {
     ...payload,
   });
+  return new MyResponse<any>(res);
 };
 
-export const customerChangePassword = (payload: ChangePasswordPayload) => {
-  return axiosClient.post(`${authBaseUrl}/change-password`, {
+export const customerChangePassword = async (payload: ChangePasswordPayload) => {
+  const res = await axiosClient.post(`${authBaseUrl}/change-password`, {
     ...payload,
   });
+  return new MyResponse<any>(res);
 };
-
-// export const refreshToken = (refreshToken: string) => {
-//   return axiosClient.po
-// }
 
 export const getForgotPwOtp = async (username: string) => {
   const res = await axiosClient.get(`${authBaseUrl}/otp-forget?username=${username}`);
-  if (res.status !== 200) {
-    throw Error(`Có lỗi xảy ra, vui lòng thử lại vào lúc khác`);
-  }
-  return new MyResponse<any>(res).data;
+  return new MyResponse<any>(res);
 };
 
 export const getTradingOtp = async () => {
   const res = await axiosClient.get(`${authBaseUrl}/otp-trading`);
-  if (res.status !== 200) {
-    throw Error(`Có lỗi xảy ra, vui lòng thử lại vào lúc khác`);
-  }
   return new MyResponse<any>(res);
 };
 
 export const verifyTradingOtp = async (otpTrading: string) => {
   const res = await axiosClient.post(`${authBaseUrl}/otp-trading`, { otpTrading });
-  // if (res.status !== 200) {
-  //   throw Error(`Có lỗi xảy ra, vui lòng thử lại vào lúc khác`);
-  // }
   localStorage.setItem(STORAGE.otpTrading, otpTrading);
   return new MyResponse<any>(res);
 };
 
 export const refreshToken = async () => {
   const res = await axiosClient.get(`${authBaseUrl}/refresh-token`);
-  if (res.status !== 200) {
-    throw Error(`Có lỗi xảy ra, vui lòng thử lại vào lúc khác`);
-  }
   return new MyResponse<{ token: string }>(res);
 };

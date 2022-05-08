@@ -66,8 +66,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
       toast(res.data?.message);
       fetchData();
     } catch (error: any) {
-      console.log(error);
-      toast(error.response.data.message);
+      toast(error?.message || error?.data.message);
     }
   };
 
@@ -185,9 +184,16 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                   label="Số lượng nhân viên"
                   variant="standard"
                   className="w-full"
-                  {...register('company.numEmployees', { required: false, valueAsNumber: true, min: 0, max: 1000000000 })}
+                  {...register('company.numEmployees', {
+                    required: false,
+                    valueAsNumber: true,
+                    min: 0,
+                    max: 1000000000,
+                  })}
                 />
-                {errors?.company?.numEmployees && <ValidateMessage>Số nhân viên phải là số nguyên dương không quá 1 tỷ</ValidateMessage>}
+                {errors?.company?.numEmployees && (
+                  <ValidateMessage>Số nhân viên phải là số nguyên dương không quá 1 tỷ</ValidateMessage>
+                )}
               </div>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
@@ -239,7 +245,9 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                     className="w-full"
                     {...register('stock.stockSymbol', { required: true, pattern: /^[A-Z]{3,5}$/ })}
                   />
-                  {errors?.stock?.stockSymbol && <ValidateMessage>Mã cổ phiếu chỉ gồm 3-5 kí tự chữ in hoa</ValidateMessage>}
+                  {errors?.stock?.stockSymbol && (
+                    <ValidateMessage>Mã cổ phiếu chỉ gồm 3-5 kí tự chữ in hoa</ValidateMessage>
+                  )}
                 </div>
                 <div className="mb-2">
                   <TextField

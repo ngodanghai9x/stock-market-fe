@@ -5,9 +5,9 @@ export interface TokenInfo {
   userId: number;
   username: string;
   roleId: RoleIdType;
-  role: string;
+  role?: string;
   fullName: string;
-
+  userStatus: string;
   // token?: string;
 }
 
@@ -27,7 +27,10 @@ export class MyResponse<T> {
   statusCode: number;
   message: string;
   data: T;
-  constructor(res: AxiosResponse<any, any>) {
+  constructor(res: AxiosResponse<any, any>, ignoreFail?: boolean) {
+    if (res.status !== 200 && !ignoreFail) {
+      throw Error(res.data?.message || `Có lỗi xảy ra, vui lòng thử lại sau`);
+    }
     this.statusCode = res.status;
     this.data = res.data?.data;
     this.message = res.data?.message;

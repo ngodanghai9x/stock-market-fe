@@ -21,7 +21,7 @@ import { customerLogin } from './../services/api-auth.service';
 export const login = async (data: LoginPayload) => {
   try {
     const res = await customerLogin(data);
-    const { token, refreshToken, user } = res.data.data;
+    const { token, refreshToken, user } = res.data;
     // Expiration time (ms): 4h
     const expireTime = new Date(new Date().getTime() + Number(process.env.REACT_APP_TOKEN_LIFE) * 1000);
     const expiresIn = Date.now() + Number(process.env.REACT_APP_REFRESH_TOKEN_LIFE) * 1000;
@@ -36,7 +36,7 @@ export const login = async (data: LoginPayload) => {
     );
     localStorage.setItem(STORAGE.userData, JSON.stringify(user));
 
-    return res.data;
+    return res;
   } catch (error) {
     return Promise.reject(error);
   }

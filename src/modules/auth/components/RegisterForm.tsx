@@ -20,11 +20,10 @@ export const RegisterForm = () => {
   const onSubmit: SubmitHandler<RegisterPayload> = async (data) => {
     try {
       const res = await customerRegister(data);
-      toast(res.data.message);
+      toast(res.message);
       navigate(PATH_NAMES.login);
     } catch (error: any) {
-      console.log(error);
-      toast(error.response.data.message);
+      toast(error?.message || error?.data.message);
     }
   };
 

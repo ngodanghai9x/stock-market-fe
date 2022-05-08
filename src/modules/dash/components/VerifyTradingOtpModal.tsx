@@ -39,8 +39,7 @@ const VerifyTradingOtpModal = ({ isOpen, onClose, fetchOTP }: VerifyTradingOtpMo
         toast('Xác nhận mã OTP thành công');
       }
     } catch (error: any) {
-      console.log(error);
-      toast(error.response.data.message);
+      toast(error?.message || error?.data.message);
     }
   };
   return (

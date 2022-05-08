@@ -1,4 +1,5 @@
 import { RoleIdType } from '../constants';
+import { TokenInfo } from '../types';
 
 export type RegisterPayload = {
   username: string;
@@ -11,6 +12,12 @@ export type RegisterPayload = {
 export type LoginPayload = {
   username: string;
   password: string;
+};
+
+export type LoginResponse = {
+  token: string;
+  refreshToken: string;
+  user: TokenInfo
 };
 
 export type ChangeForgotPwPayload = {
@@ -36,4 +43,5 @@ export type User = {
 export type ChangePasswordPayload = {
   oldPassword: string;
   password: string;
+  confirmPassword?: string;
 };

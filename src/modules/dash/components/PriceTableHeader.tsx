@@ -115,7 +115,7 @@ const PriceTableHeader = ({ currentStock }: { currentStock: PriceItem }) => {
       userId: user.userId,
     };
     const res = await createStockOrder({ order, otpTrading });
-    toast(res.data?.message);
+    toast(res?.message);
   };
 
   return (

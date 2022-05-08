@@ -70,8 +70,7 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
 
       toast(res.data?.message);
     } catch (error: any) {
-      console.log(error);
-      toast(error.response.data.message);
+      toast(error?.message || error?.data.message);
     }
   };
 

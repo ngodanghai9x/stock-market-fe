@@ -46,7 +46,7 @@ const Payment = () => {
         setIsViewing(true);
       });
     } catch (error: any) {
-      toast(error.response.data.message);
+      toast(error?.message || error?.data.message);
     }
   };
   return (

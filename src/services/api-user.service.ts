@@ -1,6 +1,12 @@
 import axiosClient from '../lib/request';
 import { MyResponse } from '../types';
-import { CreateStockOrderPayload, EditUserPayload, GetAllStockOrderResponse, GetUser, GetUserOrdersResponse } from './api-user.type';
+import {
+  CreateStockOrderPayload,
+  EditUserPayload,
+  GetAllStockOrderResponse,
+  GetUser,
+  GetUserOrdersResponse,
+} from './api-user.type';
 import { CitizenIdentity, User } from './api-admin.type';
 
 const baseUrl = `${process.env.REACT_APP_API_HOST}`;
@@ -35,6 +41,12 @@ export const getUserById = async (userId: number, username?: string) => {
 
 export const editUserInfo = (payload: EditUserPayload, userId: number) => {
   return axiosClient.put(`${baseUrl}/user/${userId}`, {
+    ...payload,
+  });
+};
+
+export const editUserSecretInfo = (payload: EditUserPayload, userId: number) => {
+  return axiosClient.put(`${baseUrl}/user/${userId}/secret`, {
     ...payload,
   });
 };

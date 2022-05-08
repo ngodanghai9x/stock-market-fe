@@ -5,7 +5,6 @@ import { AppContext } from '../../context';
 import { flatGrouped } from '../../lib/utils';
 import PriceTable from '../../modules/dash/components/PriceTable';
 import { User } from '../../services/api-admin.type';
-import { customerChangePassword } from '../../services/api-auth.service';
 
 const PriceTableDashboard = () => {
   const { register, handleSubmit } = useForm<User>();

@@ -69,7 +69,7 @@ export type User = {
   roleId: number;
   email: string | null;
   phone: string | null;
-  birthday: string | null;
+  birthday: string | null | Date;
   money: number;
   lockedMoney: number;
   antiPhishingCode: string;

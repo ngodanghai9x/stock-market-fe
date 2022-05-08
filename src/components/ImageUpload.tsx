@@ -25,10 +25,10 @@ export default function ImageUpload({ name }: { name?: string }): JSX.Element {
         base64,
         file,
       });
-      filestackClient
-        .upload(file)
-        .then((data) => console.log(data))
-        .catch((err) => console.error('filestackClient', err));
+      // filestackClient
+      //   .upload(file)
+      //   .then((data) => console.log(data))
+      //   .catch((err) => console.error('filestackClient', err));
     };
     console.log('🚀  ~ url', url);
   };

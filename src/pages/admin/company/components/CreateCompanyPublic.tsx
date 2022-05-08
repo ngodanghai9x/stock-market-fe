@@ -9,6 +9,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import React, { useEffect, useState } from 'react';
 import { createCompanyNoAuth, getAllIndustry } from '../../../../services/api-admin.service';
 import ValidateMessage from '../../../../components/ValidateMessage';
+import ImageUpload from '../../../../components/ImageUpload';
 
 type CreateCompanyPublicProps = {};
 
@@ -101,7 +102,7 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
             <>
-              <p className="mt-2 font-medium">Tài khoản: </p>
+              <p className="mt-5 font-medium">Tài khoản: </p>
               <div className="grid grid-cols-2 gap-0 ml-[-0.5rem] mr-[-0.5rem]">
                 <div className="my-1 mx-2">
                   <TextField
@@ -130,7 +131,7 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
             </>
 
             <>
-              <p className="mt-2 font-medium">Công ty: </p>
+              <p className="mt-5 font-medium">Công ty: </p>
               <div className="grid grid-cols-2 gap-0 ml-[-0.5rem] mr-[-0.5rem]">
                 <div className="my-1 mx-2">
                   <TextField
@@ -274,7 +275,7 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
             </>
 
             <>
-              <p className="mt-2 font-medium">Cố phiếu: </p>
+              <p className="mt-5 font-medium">Cố phiếu: </p>
               <div className="my-2">
                 <TextField
                   id="stock-symbol"
@@ -312,6 +313,7 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
                 />
                 {errors?.stock?.price && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
               </div>
+              <ImageUpload />
               <div className="flex -ml-3">
                 <Checkbox
                   id="isIpo"

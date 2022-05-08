@@ -148,7 +148,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const fetchUser = useCallback(async () => {
     const { user, citizenIdentity, storage } = await getUserById(userId);
     setUserInfo({
-      user,
+      user: {
+        ...user,
+        birthday: user.birthday && new Date(user.birthday),
+      },
       citizenIdentity,
       storage,
     });

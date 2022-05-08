@@ -98,8 +98,8 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
         aria-describedby="modal-modal-description"
       >
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mx-10 mb-10">
-            <p className="mt-2 font-medium">Công ty: </p>
+          <div className="mx-10 mb-4">
+            <p className="mt-5 font-medium">Công ty: </p>
             <div className="grid grid-cols-2 gap-0 ml-[-0.5rem] mr-[-0.5rem]">
               <div className="my-1 mx-2">
                 <TextField
@@ -229,7 +229,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
             </div>
             {!editRecord && (
               <>
-                <p className="mt-2 font-medium">Cố phiếu: </p>
+                <p className="mt-5 font-medium">Cố phiếu: </p>
                 <div className="my-2">
                   <TextField
                     id="stock-symbol"

@@ -1,122 +1,144 @@
-import { TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import { UserStatusLabel } from '../../constants';
 import { AppContext } from '../../context';
 import { User } from '../../services/api-admin.type';
-import { customerChangePassword } from '../../services/api-auth.service';
 import { editUserInfo } from '../../services/api-user.service';
 import { EditUserPayload } from '../../services/api-user.type';
-import IdentificationSvg from './Icon/IdentificationSvg';
-import PaymentSvg from './Icon/PaymentSvg';
-import SecuritySvg from './Icon/SecuritySvg';
-import UserSvg from './Icon/UserSvg';
 
 const UserDashboard = () => {
   const {
     userInfo: { user, citizenIdentity },
+    fetchUser,
   } = React.useContext(AppContext);
 
-  const [birthday, setBirthday] = useState<string | null>(user.birthday ?(new Date(user.birthday)).toISOString() : null);
-  console.log(birthday)
+  const [birthday, setBirthday] = useState<string | null | Date>(user.birthday);
   const { register, handleSubmit, setValue } = useForm<EditUserPayload>();
-  const [isEditing, setIsEditting] = useState(true);
+  const [isViewing, setIsViewing] = useState(true);
 
-  useEffect(() => {
+  const resetValue = () => {
     if (user) {
       setValue('user.birthday', user.birthday || '');
       setValue('user.fullName', user.fullName || '');
     }
+  };
+
+  useEffect(() => {
+    resetValue();
   }, [user]);
 
   const updateUserHandler: SubmitHandler<EditUserPayload> = async (data) => {
     const editedUser = {
       user: {
-        ...user,
         ...data.user,
-        birthday: birthday?  birthday : null,
+        birthday: birthday ? birthday : null,
       },
-    } as unknown as EditUserPayload;
+    } as EditUserPayload;
     try {
-    const res = await editUserInfo(editedUser, user.userId);
-    toast('updated successful');
-    } catch (error : any) {
+      const res = await editUserInfo(editedUser, user.userId);
+      toast('Sửa thông tin người dùng thành công');
+      fetchUser().then(() => {
+        resetValue();
+        setIsViewing(true);
+      });
+    } catch (error: any) {
       toast(error.response.data.message);
-
     }
   };
   return (
     <div className="bg-white w-11/12 h-full p-10">
-      {/* <form onSubmit={handleSubmit(registerHandler)}>
-        <input type="text" disabled {...register('user.username')} />
-        <input type="text" disabled {...register('user.email')} />
-        <input type="text" disabled {...register('user.phone')} />
-        <input type="text" {...register('user.fullName')} />
-        <input type="text" {...register('user.birthday')} />
-        <div>
-        </div>
-        <input type="submit" value="oke" />
-      </form> */}
-      <form onSubmit={handleSubmit(updateUserHandler)}>
+      <form className="mx-[110px]" onSubmit={handleSubmit(updateUserHandler)}>
         <div className="flex justify-end">
-          {isEditing ? (
-            <button
+          {isViewing ? (
+            <Button
+              type="button"
+              variant="contained"
               onClick={(e) => {
                 e.preventDefault();
-                setIsEditting((prev) => !prev);
+                setIsViewing((prev) => !prev);
               }}
             >
               Chỉnh sửa
-            </button>
+            </Button>
           ) : (
-            <input value="Lưu" type="submit" />
+            <>
+              <Button
+                type="button"
+                variant="outlined"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsViewing((prev) => !prev);
+                  resetValue();
+                }}
+                className="mx-3"
+              >
+                Hủy
+              </Button>
+              <Button type="submit" variant="contained">
+                Lưu
+              </Button>
+            </>
           )}
         </div>
         <div>
+          <div className="flex mb-8">
+            <span className="block mr-4 text-gray-400 min-w-[150px]">Tài khoản</span>
+            <span>{user.username}</span>
+          </div>
           <div className="flex mb-8">
             <span className="block mr-4 text-gray-400 min-w-[150px]">Email</span>
             <span>{user.email}</span>
           </div>
           <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">Full name</span>
-            <div className="flex">
-              <span className="block min-w-[100px]">
-                <input
-                  type="text"
-                  className={`${isEditing ? '' : 'border'} p-2`}
-                  disabled={isEditing}
-                  {...register('user.fullName')}
-                />
-              </span>
-            </div>
-          </div>
-          <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">Birthday</span>
+            <span className="block mr-4 text-gray-400 min-w-[150px]">Họ và tên</span>
             <div className="flex">
               <span className="block min-w-[100px]">
                 {/* <input
                   type="text"
-                  disabled={isEditing}
-                  className={`${isEditing ? '' : 'border'} p-2`}
-                  {...register('user.birthday')}
+                  className={`${isViewing ? '' : 'border'} p-2`}
+                  {...register('user.fullName')}
                 /> */}
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                  value={birthday}
-                  onChange={(newValue) => {
-                    setBirthday(newValue);
-                  }}
-                  renderInput={(params) => <TextField {...params} />}
+                <TextField
+                  sx={{ minWidth: 450 }}
+                  required
+                  variant="outlined"
+                  disabled={isViewing}
+                  className="w-full"
+                  {...register('user.fullName', { required: true })}
                 />
-              </LocalizationProvider>
               </span>
             </div>
           </div>
           <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">User status</span>
-            <span>{user.userStatus}</span>
+            <span className="block mr-4 text-gray-400 min-w-[150px]">Ngày sinh nhật</span>
+            <div className="flex">
+              <span className="block min-w-[100px]">
+                {/* <input
+                  type="text"
+                  disabled={isViewing}
+                  className={`${isViewing ? '' : 'border'} p-2`}
+                  {...register('user.birthday')}
+                /> */}
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DatePicker
+                    value={birthday}
+                    onChange={(newValue) => {
+                      setBirthday(newValue);
+                    }}
+                    renderInput={(params) => <TextField sx={{ minWidth: 450 }} {...params} />}
+                    disabled={isViewing}
+                  />
+                </LocalizationProvider>
+              </span>
+            </div>
+          </div>
+          <div className="flex mb-8">
+            <span className="block mr-4 text-gray-400 min-w-[150px]">Trạng thái</span>
+            <span>{UserStatusLabel[user.userStatus]}</span>
           </div>
         </div>
       </form>

@@ -13,12 +13,14 @@ import { User } from '../../../services/api-admin.type';
 import { getAllUser } from '../../../services/api-admin.service';
 import { Value } from '../../../types';
 import { RoleLabelType, StatusLabelType, UserStatusLabel } from '../../../constants';
+import { formatDate } from '../../../lib/utils';
+
 interface Column {
   id: keyof User;
   label: string;
   minWidth?: number;
   align?: 'left';
-  format?: (value: string | number) => string;
+  format?: (value: string) => string;
 }
 
 const columns: readonly Column[] = [
@@ -48,6 +50,7 @@ const columns: readonly Column[] = [
     label: 'Ngày sinh nhật',
     minWidth: 170,
     align: 'left',
+    format: (date) => formatDate(date)
   },
   {
     id: 'userStatus',
@@ -132,7 +135,7 @@ const UserPage = () => {
                         const value = row[column.id];
                         return (
                           <TableCell key={'tr' + column.id} align={column.align}>
-                            {column.format ? column.format(value || '') : value}
+                            {column.format ? column.format(String(value || '')) : value}
                           </TableCell>
                         );
                       })}
@@ -154,7 +157,7 @@ const UserPage = () => {
           />
         </Paper>
       </div>
-      <AdminEditUserModal isOpen={isOpenModal} onClose={toggleModal} editRecord={editRecord} fetchData={fetchData}/>
+      <AdminEditUserModal isOpen={isOpenModal} onClose={toggleModal} editRecord={editRecord} fetchData={fetchData} />
     </div>
   );
 };

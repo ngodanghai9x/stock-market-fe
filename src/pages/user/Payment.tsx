@@ -102,7 +102,7 @@ const Payment = () => {
                   className={`${isViewing ? '' : 'border'} p-2`}
                   {...register('user.fullName')}
                 /> */}
-                <TextField sx={{ minWidth: 450 }}
+                <TextField sx={{ minWidth: 450, maxWidth: 450  }}
                   required
                   variant="outlined"
                   disabled={isViewing}
@@ -128,7 +128,7 @@ const Payment = () => {
                     onChange={(newValue) => {
                       setBirthday(newValue);
                     }}
-                    renderInput={(params) => <TextField sx={{ minWidth: 450 }} {...params} />}
+                    renderInput={(params) => <TextField sx={{ minWidth: 450, maxWidth: 450  }} {...params} />}
                     disabled={isViewing}
                   />
                 </LocalizationProvider>

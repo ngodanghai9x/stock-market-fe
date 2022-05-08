@@ -26,7 +26,6 @@ export const PATH_NAMES = {
   identification: '/identification',
   payment: '/payment',
   changePassword: '/security/change-password',
-  changeAntiPhishingCode: '/security/change-anti-phishing-code',
 };
 
 export const PUBLIC_ROUTES = [PATH_NAMES.login, PATH_NAMES.register, PATH_NAMES.home];

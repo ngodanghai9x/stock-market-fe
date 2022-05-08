@@ -16,6 +16,7 @@ import CustomLink from './CustomLink';
 import { AuthContext } from '../context/auth/AuthContext';
 import { RoleIdType } from '../constants';
 import { Login } from '@mui/icons-material';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -24,7 +25,7 @@ export default function AccountMenu() {
 
   const USER_MENU = React.useMemo(() => {
     const toReturn = {
-      [PATH_NAMES.admin.slice(1)]: { label: 'Trang quản lý', render: () => <PersonIcon />, exact: true },
+      [PATH_NAMES.admin.slice(1)]: { label: 'Trang quản lý', render: () => <ManageAccountsIcon />, exact: true },
       ...USER_SIDEBAR,
       [PATH_NAMES.logout.slice(1)]: { label: 'Đăng xuất', render: () => <Logout fontSize="small" />, exact: true },
       [PATH_NAMES.login.slice(1)]: { label: 'Đăng nhập', render: () => <Login fontSize="small" />, exact: true },

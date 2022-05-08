@@ -103,7 +103,7 @@ const UserDashboard = () => {
                   {...register('user.fullName')}
                 /> */}
                 <TextField
-                  sx={{ minWidth: 450 }}
+                  sx={{ minWidth: 450, maxWidth: 450  }}
                   required
                   variant="outlined"
                   disabled={isViewing}
@@ -129,7 +129,7 @@ const UserDashboard = () => {
                     onChange={(newValue) => {
                       setBirthday(newValue);
                     }}
-                    renderInput={(params) => <TextField sx={{ minWidth: 450 }} {...params} />}
+                    renderInput={(params) => <TextField sx={{ minWidth: 450, maxWidth: 450  }} {...params} />}
                     disabled={isViewing}
                   />
                 </LocalizationProvider>

@@ -94,7 +94,7 @@ const Security = () => {
             <div className="flex">
               <span className="block min-w-[100px]">
                 <TextField
-                  sx={{ minWidth: 450 }}
+                  sx={{ minWidth: 450, maxWidth: 450  }}
                   required
                   variant="outlined"
                   disabled={isViewing}
@@ -110,7 +110,7 @@ const Security = () => {
             <div className="flex">
               <span className="block min-w-[100px]">
                 <TextField
-                  sx={{ minWidth: 450 }}
+                  sx={{ minWidth: 450, maxWidth: 450  }}
                   variant="outlined"
                   disabled={isViewing}
                   className="w-full"
@@ -125,7 +125,7 @@ const Security = () => {
             <div className="flex">
               <span className="block min-w-[100px]">
                 <TextField
-                  sx={{ minWidth: 450 }}
+                  sx={{ minWidth: 450, maxWidth: 450  }}
                   variant="outlined"
                   disabled={isViewing}
                   className="w-full"
@@ -140,7 +140,7 @@ const Security = () => {
             <div className="flex">
               <span className="block min-w-[100px]">
                 <TextField
-                  sx={{ minWidth: 450 }}
+                  sx={{ minWidth: 450, maxWidth: 450  }}
                   required
                   type={'password'}
                   variant="outlined"

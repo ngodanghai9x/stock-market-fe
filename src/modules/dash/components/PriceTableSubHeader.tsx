@@ -10,13 +10,14 @@ import PersonIcon from '@mui/icons-material/Person';
 import { AuthContext } from '../../../context/auth/AuthContext';
 import LetterAvatar from '../../../components/LetterAvatar';
 import { Login } from '@mui/icons-material';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 
 const PriceTableSubHeader = () => {
   const { user } = React.useContext(AuthContext);
 
   const USER_MENU = React.useMemo(() => {
     const toReturn = {
-      [PATH_NAMES.admin.slice(1)]: { label: 'Trang quản lý', render: () => <PersonIcon />, exact: true },
+      [PATH_NAMES.admin.slice(1)]: { label: 'Trang quản lý', render: () => <ManageAccountsIcon />, exact: true },
       ...USER_SIDEBAR,
       [PATH_NAMES.logout.slice(1)]: { label: 'Đăng xuất', render: () => <Logout fontSize="small" />, exact: true },
       [PATH_NAMES.login.slice(1)]: { label: 'Đăng nhập', render: () => <Login fontSize="small" />, exact: true },

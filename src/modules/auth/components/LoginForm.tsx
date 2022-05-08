@@ -14,7 +14,8 @@ export const LoginForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginPayload>({
-    reValidateMode: 'onBlur',
+    // reValidateMode: 'onBlur',
+    mode: 'onBlur',
   });
   const { setUser, setAuthenticated } = useContext(AuthContext);
 

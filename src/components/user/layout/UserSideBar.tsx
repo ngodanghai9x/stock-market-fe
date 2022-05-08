@@ -12,10 +12,12 @@ import PaymentIcon from '@mui/icons-material/Payment';
 import BrandingWatermarkIcon from '@mui/icons-material/BrandingWatermark';
 import GppGoodIcon from '@mui/icons-material/GppGood';
 import PersonIcon from '@mui/icons-material/Person';
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
 
 export const USER_SIDEBAR: Record<string, { label: string; render: () => React.ReactNode; exact?: boolean }> = {
   [PATH_NAMES.userInfo.slice(1)]: { label: 'Thông tin cơ bản', render: () => <PersonIcon /> },
   [PATH_NAMES.security.slice(1)]: { label: 'Bảo mật', render: () => <GppGoodIcon /> },
+  [PATH_NAMES.changePassword.slice(1)]: { label: 'Đổi mật khẩu', render: () => <VpnKeyIcon /> },
   [PATH_NAMES.identification.slice(1)]: { label: 'Căn cước công dân', render: () => <BrandingWatermarkIcon /> },
   [PATH_NAMES.payment.slice(1)]: { label: 'Thanh toán', render: () => <PaymentIcon /> },
 };

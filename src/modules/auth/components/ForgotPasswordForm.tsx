@@ -14,7 +14,7 @@ export const ForgotPasswordForm = () => {
     handleSubmit,
     getValues,
     formState: { errors },
-  } = useForm<ChangeForgotPwPayload>();
+  } = useForm<ChangeForgotPwPayload>({ mode: 'onBlur' });
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<ChangeForgotPwPayload> = async (data) => {
@@ -63,15 +63,13 @@ export const ForgotPasswordForm = () => {
                 weakPassword: (v) =>
                   !WEAK_PASSWORDS.includes(v) || 'Mật khẩu không được nằm trong danh sách mật khẩu yếu',
               },
-              pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#?!@$%^&*+='"<>\]\[\|-]).{8,}$/i,
+              pattern: {
+                value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#?!@$%^&*+='"<>\]\[\|-]).{8,}$/i,
+                message: 'Mật khẩu cần tối thiểu 8 ký tự, ít nhất 1 chữ cái viết hoa, 1 chữ cái viết thường và 1 số',
+              },
             })}
           />
-          {errors.password && (
-            <ValidateMessage>
-              {errors.password.message ||
-                `Mật khẩu cần tối thiểu 8 ký tự, ít nhất 1 chữ cái viết hoa, 1 chữ cái viết thường và 1 số`}
-            </ValidateMessage>
-          )}
+          {errors.password && <ValidateMessage>{errors.password.message}</ValidateMessage>}
         </div>
         <div className="group flex flex-col mb-8">
           <AuthInput

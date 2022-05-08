@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -16,6 +18,7 @@ export const RegisterForm = () => {
     formState: { errors },
   } = useForm<RegisterPayload>({ mode: 'onBlur' });
   const navigate = useNavigate();
+  const [hasCaptchaToken, setHasCaptchaToken] = useState(false)
 
   const onSubmit: SubmitHandler<RegisterPayload> = async (data) => {
     try {
@@ -26,6 +29,12 @@ export const RegisterForm = () => {
       toast(error?.message || error?.data.message);
     }
   };
+
+  function onChange(value: any) {
+    if(value) {
+      setHasCaptchaToken(true);
+    }
+  }
 
   return (
     <div>
@@ -86,12 +95,21 @@ export const RegisterForm = () => {
           />
           {errors.email && <ValidateMessage>Email không đúng định dạng</ValidateMessage>}
         </div>
+        <div className='flex justify-center mb-3'>
+        <ReCAPTCHA
+          sitekey={process.env.REACT_APP_CAPTCHA_KEY || ''}
+          onChange={onChange}
+          size='normal'
+        />
+        </div>
         <input
+        disabled={!hasCaptchaToken}
           type="submit"
           value="Đăng ký"
-          className="w-3/6 mx-auto block bg-lightBlue-300 py-3 text-white rounded-3xl font-medium"
+          className="w-3/6 mx-auto block bg-lightBlue-300 py-3 text-white rounded-3xl font-medium cursor-pointer"
         />
       </form>
+      
     </div>
   );
 };

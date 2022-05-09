@@ -57,6 +57,12 @@ export const AuthProvider = (props: { children: ReactElement }) => {
   const navigation = useNavigate();
 
   useEffect(() => {
+    if(location.pathname === PATH_NAMES.logout)  {
+      setAuthenticated(false)
+      setUser(initUser())
+      navigation(PATH_NAMES.login)
+      return
+    }
     const { result, userData } = checkAuthenticated();
     if (!userData) return;
     setUser(userData);

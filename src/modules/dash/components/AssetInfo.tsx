@@ -1,48 +1,116 @@
 import * as React from 'react';
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
+import { AuthContext } from '../../../context/auth/AuthContext';
+import { getUserHistory, getUserOrders } from '../../../services/api-user.service';
+import { StockOrder, StockOrderMatching } from '../../../services/api-admin.type';
+import { formatDate, numberWithCommas } from '../../../lib/utils';
+import { AppContext } from '../../../context';
 
-const columns: GridColDef[] = [
-  { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'firstName', headerName: 'First name', width: 130 },
-  { field: 'lastName', headerName: 'Last name', width: 130 },
-  {
-    field: 'age',
-    headerName: 'Age',
-    type: 'number',
-    width: 90,
-  },
-  {
-    field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 160,
-    valueGetter: (params: GridValueGetterParams) =>
-      `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-  },
+const tableHeadings = [
+  'Mã',
+  'SL Tổng',
+  'Được GD',
+  'Giá vốn',
+  'Thị giá',
+  '% Thị giá',
+  'Chờ về',
+  'Giá trị vốn',
+  'GT trị',
+  'Lãi/lỗ',
+  '% Lãi/lỗ',
 ];
 
-const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-];
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  borderColor: '#434343',
+  '&:nth-of-type(odd)': {
+    backgroundColor: '#171717',
+  },
+  '&:hover': {
+    backgroundColor: '#808080',
+  },
+  '&:last-child td, &:last-child th': {
+    borderBottom: 0,
+    borderTop: 0,
+  },
+}));
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  borderColor: '#434343',
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
 
 export const AssetInfo = () => {
+    const {userInfo: {storage}} = React.useContext(AppContext);
+    console.log(storage)
+    const listStore = Object.keys(storage).map((key) => storage[key]);  
   return (
     <div style={{ height: 300, width: '100%' }}>
-      <DataGrid
-        sx={{ color: 'white' }}
-        rows={rows}
-        columns={columns}
-        pageSize={5}
-        checkboxSelection />
+ <TableContainer component={Paper} sx={{ backgroundColor: '#171717', maxHeight: '250px' }}>
+          <Table stickyHeader sx={{ minWidth: 650 }}>
+            <TableHead>
+              <TableRow>
+                {tableHeadings.map((tableHeading) => (
+                  <TableCell
+                    key={tableHeading}
+                    sx={{
+                      color: 'white',
+                      fontWeight: '600',
+                      backgroundColor: '#363636',
+                      boxShadow: '0 2px 4px 0 #000000cc',
+                      '&:nth-child(2)': {
+                        borderLeft: '1px solid #434343',
+                      },
+                    }}
+                    align="center"
+                  >
+                    {tableHeading}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+            {Object.values(listStore).map((row) => 
+              <StyledTableRow>
+               <StyledTableCell
+               align="center"
+               sx={{
+                 color: 'white',
+               }}
+             >
+              {row.stockSymbol}
+               </StyledTableCell>
+               <StyledTableCell
+               align="center"
+               sx={{
+                 color: 'white',
+               }}
+             >
+               </StyledTableCell>
+               <StyledTableCell
+               align="center"
+               sx={{
+                 color: 'white',
+               }}
+             >
+               {Object.values(row)[0].quantity}
+               </StyledTableCell>
+               </StyledTableRow>)}
+            </TableBody>
+          </Table>
+        </TableContainer>
     </div>
   )
 }

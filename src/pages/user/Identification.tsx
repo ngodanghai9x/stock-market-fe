@@ -47,6 +47,7 @@ const Identification = () => {
     const editedUser = {
       citizenIdentity: {
         ...data.citizenIdentity,
+        id: citizenIdentity?.id,
         birthday: birthday ? birthday : null,
         createDate: createDate ? createDate : null,
         expiryDate: expiryDate ? expiryDate : null,
@@ -103,7 +104,7 @@ const Identification = () => {
           <span className="block mr-4 text-gray-400 min-w-[150px]">Tài khoản Identification</span>
           <span>{user.username}</span>
         </div>
-        <div className='grid grid-cols-2'>
+        <div className="grid grid-cols-2">
           <div className="flex mb-8">
             <span className="block mr-4 text-gray-400 min-w-[150px]">number</span>
             <div className="flex">

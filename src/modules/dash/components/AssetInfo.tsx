@@ -53,64 +53,142 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 export const AssetInfo = () => {
-    const {userInfo: {storage}} = React.useContext(AppContext);
-    console.log(storage)
-    const listStore = Object.keys(storage).map((key) => storage[key]);  
+  const {
+    userInfo: { storage },
+  } = React.useContext(AppContext);
+  console.log(storage);
+  const listStore = Object.keys(storage).map((key) => storage[key]);
   return (
     <div style={{ height: 300, width: '100%' }}>
- <TableContainer component={Paper} sx={{ backgroundColor: '#171717', maxHeight: '250px' }}>
-          <Table stickyHeader sx={{ minWidth: 650 }}>
-            <TableHead>
-              <TableRow>
-                {tableHeadings.map((tableHeading) => (
-                  <TableCell
-                    key={tableHeading}
-                    sx={{
-                      color: 'white',
-                      fontWeight: '600',
-                      backgroundColor: '#363636',
-                      boxShadow: '0 2px 4px 0 #000000cc',
-                      '&:nth-child(2)': {
-                        borderLeft: '1px solid #434343',
-                      },
-                    }}
-                    align="center"
-                  >
-                    {tableHeading}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-            {Object.values(listStore).map((row) => 
+      <TableContainer component={Paper} sx={{ backgroundColor: '#171717', maxHeight: '250px' }}>
+        <Table stickyHeader sx={{ minWidth: 650 }}>
+          <TableHead>
+            <TableRow>
+              {tableHeadings.map((tableHeading) => (
+                <TableCell
+                  key={tableHeading}
+                  sx={{
+                    color: 'white',
+                    fontWeight: '600',
+                    backgroundColor: '#363636',
+                    boxShadow: '0 2px 4px 0 #000000cc',
+                    '&:nth-child(2)': {
+                      borderLeft: '1px solid #434343',
+                    },
+                  }}
+                  align="center"
+                >
+                  {tableHeading}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {Object.values(listStore).map((row) => (
               <StyledTableRow>
-               <StyledTableCell
-               align="center"
-               sx={{
-                 color: 'white',
-               }}
-             >
-              {row.stockSymbol}
-               </StyledTableCell>
-               <StyledTableCell
-               align="center"
-               sx={{
-                 color: 'white',
-               }}
-             >
-               </StyledTableCell>
-               <StyledTableCell
-               align="center"
-               sx={{
-                 color: 'white',
-               }}
-             >
-               {Object.values(row)[0].quantity}
-               </StyledTableCell>
-               </StyledTableRow>)}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                <StyledTableCell
+                  align="center"
+                  sx={{
+                    color: 'white',
+                  }}
+                >
+                  {row.stockSymbol}
+                </StyledTableCell>
+
+                <StyledTableCell
+                  align="center"
+                  sx={{
+                    color: 'white',
+                  }}
+                >
+                  {row.stockSymbol}
+                </StyledTableCell>
+
+                <StyledTableCell
+                  align="center"
+                  sx={{
+                    color: 'white',
+                  }}
+                >
+                  {row.stockSymbol}
+                </StyledTableCell>
+
+                <StyledTableCell
+                  align="center"
+                  sx={{
+                    color: 'white',
+                  }}
+                >
+                  {row.stockSymbol}
+                </StyledTableCell>
+
+                <StyledTableCell
+                  align="center"
+                  sx={{
+                    color: 'white',
+                  }}
+                >
+                  {row.stockSymbol}
+                </StyledTableCell>
+
+                <StyledTableCell
+                  align="center"
+                  sx={{
+                    color: 'white',
+                  }}
+                >
+                  {row.stockSymbol}
+                </StyledTableCell>
+
+                <StyledTableCell
+                  align="center"
+                  sx={{
+                    color: 'white',
+                  }}
+                >
+                  {row.stockSymbol}
+                </StyledTableCell>
+
+                <StyledTableCell
+                  align="center"
+                  sx={{
+                    color: 'white',
+                  }}
+                >
+                  {row.stockSymbol}
+                </StyledTableCell>
+
+                <StyledTableCell
+                  align="center"
+                  sx={{
+                    color: 'white',
+                  }}
+                >
+                  {row.stockSymbol}
+                </StyledTableCell>
+
+                <StyledTableCell
+                  align="center"
+                  sx={{
+                    color: 'white',
+                  }}
+                >
+                  {row.stockSymbol}
+                </StyledTableCell>
+
+                <StyledTableCell
+                  align="center"
+                  sx={{
+                    color: 'white',
+                  }}
+                >
+                  {row.stockSymbol}
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
-  )
-}
+  );
+};

@@ -59,14 +59,16 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
 
   const onChangeFile = (file: FileState) => {
     setFileState(file);
+    setFileUrl('');
   };
 
-  const uploadFile = async () => {
+  const uploadFile = async (): Promise<string | void> => {
     if (fileState) {
-      await filestackClient
+      return await filestackClient
         .upload(fileState.file)
         .then((data: { url: string }) => {
           setFileUrl(data.url);
+          return data.url;
         })
         .catch((err: Error) => console.error('filestackClient', err));
     }
@@ -74,8 +76,7 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
 
   const onSubmit: SubmitHandler<CreateCompanyPayload> = async (data) => {
     try {
-      await uploadFile();
-      console.log('🚀constonSubmit:SubmitHandler= ~ fileUrl', fileUrl);
+      const url = fileUrl || (await uploadFile()) || '';
       const formData = {
         ...data,
         needChangePw: false,
@@ -85,7 +86,7 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
         // },
         company: {
           ...data.company,
-          certificateUrl: fileUrl,
+          certificateUrl: url,
           industryId: listIndustry.get(getValues('company.industryId').toString()) || 0,
         },
       };
@@ -178,7 +179,7 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
                       <div className="">
                         <TextField
                           {...params}
-                          {...register('company.industryId', { valueAsNumber: true })}
+                          {...register('company.industryId')}
                           required
                           label="Ngành nghề"
                           variant="standard"

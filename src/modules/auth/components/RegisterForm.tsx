@@ -18,7 +18,7 @@ export const RegisterForm = () => {
     formState: { errors },
   } = useForm<RegisterPayload>({ mode: 'onBlur' });
   const navigate = useNavigate();
-  const [hasCaptchaToken, setHasCaptchaToken] = useState(false)
+  const [hasCaptchaToken, setHasCaptchaToken] = useState(false);
 
   const onSubmit: SubmitHandler<RegisterPayload> = async (data) => {
     try {
@@ -31,7 +31,7 @@ export const RegisterForm = () => {
   };
 
   function onChange(value: any) {
-    if(value) {
+    if (value) {
       setHasCaptchaToken(true);
     }
   }
@@ -40,10 +40,13 @@ export const RegisterForm = () => {
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="group flex flex-col mb-8">
-          <AuthInput label="Tài khoản:" {...register('username', { required: true, pattern: /^[a-z_\d]{6,255}$/i })} />
+          <AuthInput
+            label="Tài khoản:"
+            {...register('username', { required: true, pattern: /^[a-zA-Z_\d]{3,255}$/i })}
+          />
           {errors.username && (
             <ValidateMessage>
-              Tên tài khoản chỉ bao gồm chữ cái, chữ số, dấu _, độ dài tối thiểu là 6 kí tự
+              Tên tài khoản chỉ bao gồm chữ cái, chữ số, dấu _, độ dài tối thiểu là 3 kí tự
             </ValidateMessage>
           )}
         </div>
@@ -95,21 +98,16 @@ export const RegisterForm = () => {
           />
           {errors.email && <ValidateMessage>Email không đúng định dạng</ValidateMessage>}
         </div>
-        <div className='flex justify-center mb-3'>
-        <ReCAPTCHA
-          sitekey={process.env.REACT_APP_CAPTCHA_KEY || ''}
-          onChange={onChange}
-          size='normal'
-        />
+        <div className="flex justify-center mb-3">
+          <ReCAPTCHA sitekey={process.env.REACT_APP_CAPTCHA_KEY || ''} onChange={onChange} size="normal" />
         </div>
         <input
-        disabled={!hasCaptchaToken}
+          disabled={!hasCaptchaToken}
           type="submit"
           value="Đăng ký"
           className="w-3/6 mx-auto block bg-lightBlue-300 py-3 text-white rounded-3xl font-medium cursor-pointer"
         />
       </form>
-      
     </div>
   );
 };

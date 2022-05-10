@@ -61,7 +61,7 @@ const AdminEditUserModal = ({ isOpen, onClose, editRecord, fetchData }: AdminEdi
                 label="Tài khoản"
                 variant="standard"
                 className="w-full"
-                {...register('user.username', { pattern: /^[a-z_\d]{6,255}$/i })}
+                {...register('user.username')}
               />
             </div>
             <div className="mb-2">

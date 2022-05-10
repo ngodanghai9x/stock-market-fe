@@ -1,4 +1,4 @@
-import { Autocomplete, Button, Input, TextField } from '@mui/material';
+import { Autocomplete, Button, FormControl, Input, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -74,13 +74,22 @@ const AdminEditUserModal = ({ isOpen, onClose, editRecord, fetchData }: AdminEdi
               />
             </div>
             <div className="mb-2">
-              <TextField
-                required
-                label="Vai trò"
-                variant="standard"
-                className="w-full"
-                {...register('user.roleId', { required: true, valueAsNumber: true, min: 1, max: 5 })}
-              />
+              <FormControl variant="standard" className="w-full">
+                <InputLabel id="demo-simple-select-standard-label">Vai trò</InputLabel>
+                <Select
+                  variant="standard"
+                  labelId="demo-simple-select-standard-label"
+                  id="demo-simple-select-standard"
+                  {...register('user.roleId', { required: true, valueAsNumber: true })}
+                  label="Vai trò"
+                >
+                  <MenuItem value={1}>1</MenuItem>
+                  <MenuItem value={2}>2</MenuItem>
+                  <MenuItem value={3}>3</MenuItem>
+                  <MenuItem value={4}>4</MenuItem>
+                  <MenuItem value={5}>5</MenuItem>
+                </Select>
+              </FormControl>
               {errors?.user?.roleId && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
             </div>
             <div className="mb-2">

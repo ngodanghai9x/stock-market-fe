@@ -1,5 +1,6 @@
 import React from 'react';
 import { FileState } from '../types';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { toast } from 'react-toastify';
 
 
@@ -34,20 +35,23 @@ export default function ImageUpload({
     console.log('🚀  ~ url', url);
   };
 
-  
-
   return (
     <div className="">
       <input
-        // accept="image/*"
+        className='hidden'
         accept="image/png, image/jpeg"
         id="contained-button-file"
         multiple
         type="file"
         onChange={handleChangeFile}
       />
-      <label htmlFor="contained-button-file">
+      <label htmlFor="contained-button-file" className='cursor-pointer'>
         <div>Upload file</div>
+        {fileState ? <img src={fileState?.base64} className='max-w-[100px] min-w-[100px] aspect-square' /> :
+          <div className='w-[100px] h-[100px] rounded bg-gray-200 text-gray-400 flex justify-center items-center'>
+            <AddPhotoAlternateIcon className='w-10 h-10'/>
+            </div>
+        }
       </label>
     </div>
   );

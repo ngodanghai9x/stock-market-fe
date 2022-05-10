@@ -15,7 +15,7 @@ import { AppContext } from '../../../../context';
 
 type CreateCompanyPublicProps = {};
 
-const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
+const CreateCompanyPublic = ({ }: CreateCompanyPublicProps) => {
   const [ipoDate, setIpoDate] = useState<Date | null>(null);
   const [foundedDate, setFoundedDate] = useState<Date | null>(null);
   const [industries, setIndustries] = useState<Industry[]>([]);
@@ -339,7 +339,6 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
                 />
                 {errors?.stock?.price && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
               </div>
-              <ImageUpload onChange={onChangeFile} setFileUrl={setFileUrl} />
               <div className="flex -ml-3">
                 <Checkbox
                   id="isIpo"
@@ -353,6 +352,7 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
                   Niêm yết ngay
                 </label>
               </div>
+              <ImageUpload onChange={onChangeFile} setFileUrl={setFileUrl} />
             </>
           </div>
           <div className="flex justify-end px-6 pb-6">
@@ -361,7 +361,7 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
                 Hủy
               </Button>
             </div>
-            <Button type="submit" variant="contained">
+            <Button className='text-black bg-myBlue' type="submit" variant="contained">
               Lưu
             </Button>
           </div>

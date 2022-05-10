@@ -10,6 +10,8 @@ import React, { useEffect, useState } from 'react';
 import { createCompanyNoAuth, getAllIndustry } from '../../../../services/api-admin.service';
 import ValidateMessage from '../../../../components/ValidateMessage';
 import ImageUpload from '../../../../components/ImageUpload';
+import { FileState } from '../../../../types';
+import { AppContext } from '../../../../context';
 
 type CreateCompanyPublicProps = {};
 
@@ -17,6 +19,10 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
   const [ipoDate, setIpoDate] = useState<Date | null>(null);
   const [foundedDate, setFoundedDate] = useState<Date | null>(null);
   const [industries, setIndustries] = useState<Industry[]>([]);
+  const [fileState, setFileState] = useState<FileState | null>(null);
+  const [fileUrl, setFileUrl] = useState<string>('');
+
+  const { filestackClient } = React.useContext(AppContext);
 
   const listIndustry = new Map<string, number>(
     industries.map((el) => {
@@ -41,6 +47,8 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
   });
 
   const resetForm = () => {
+    setFileState(null);
+    setFileUrl('');
     reset({
       company: {
         ipoDate: new Date(),
@@ -49,8 +57,25 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
     });
   };
 
+  const onChangeFile = (file: FileState) => {
+    setFileState(file);
+  };
+
+  const uploadFile = async () => {
+    if (fileState) {
+      await filestackClient
+        .upload(fileState.file)
+        .then((data: { url: string }) => {
+          setFileUrl(data.url);
+        })
+        .catch((err: Error) => console.error('filestackClient', err));
+    }
+  };
+
   const onSubmit: SubmitHandler<CreateCompanyPayload> = async (data) => {
     try {
+      await uploadFile();
+      console.log('🚀constonSubmit:SubmitHandler= ~ fileUrl', fileUrl);
       const formData = {
         ...data,
         needChangePw: false,
@@ -60,6 +85,7 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
         // },
         company: {
           ...data.company,
+          certificateUrl: fileUrl,
           industryId: listIndustry.get(getValues('company.industryId').toString()) || 0,
         },
       };
@@ -312,7 +338,7 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
                 />
                 {errors?.stock?.price && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
               </div>
-              <ImageUpload />
+              <ImageUpload onChange={onChangeFile} setFileUrl={setFileUrl} />
               <div className="flex -ml-3">
                 <Checkbox
                   id="isIpo"

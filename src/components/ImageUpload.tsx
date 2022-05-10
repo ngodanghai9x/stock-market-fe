@@ -1,37 +1,40 @@
 import React from 'react';
-import * as filestack from 'filestack-js';
+import { FileState } from '../types';
+import { toast } from 'react-toastify';
 
-const filestackClient = filestack.init('AQpabvjVRCSxSznqWnF1az');
 
-export type FileState = {
-  fileId: string;
-  file: File;
-  name: string;
-  type: string;
-  magicBytes?: string;
-  thumbnail?: File | null;
-  description?: string;
-};
+export default function ImageUpload({
+  onChange,
+  setFileUrl,
+}: {
+  onChange?: (fileState: FileState) => void;
+  setFileUrl: (url: string) => void;
+}): JSX.Element {
+  const [fileState, setFileState] = React.useState<FileState | null>(null);
 
-export default function ImageUpload({ name }: { name?: string }): JSX.Element {
   const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = (e.target.files || [])[0];
     const reader = new FileReader();
     const url = reader.readAsDataURL(file);
 
     reader.onload = async () => {
-      var base64 = reader.result;
+      const base64 = String(reader.result);
+      const state: FileState = {
+        file,
+        fileName: file.name,
+        base64,
+      };
+      setFileState(state);
+      onChange && onChange(state);
       console.log('🚀 ~ base64', {
         base64,
         file,
       });
-      // filestackClient
-      //   .upload(file)
-      //   .then((data) => console.log(data))
-      //   .catch((err) => console.error('filestackClient', err));
     };
     console.log('🚀  ~ url', url);
   };
+
+  
 
   return (
     <div className="">

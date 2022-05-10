@@ -21,7 +21,9 @@ import {
 } from '../services/api-user.type';
 import { AuthContext } from './auth/AuthContext';
 import appContextMock from './mock/appContextMock';
+import * as filestack from 'filestack-js';
 
+const filestackClient: filestack.Client = filestack.init(process.env.REACT_APP_FILE_STACK_TOKEN || '');
 // const initialState = { HNG: {} } as GroupedStockOrders;
 const initialState = appContextMock.grouped as GroupedStockOrders;
 const initializeState = (store: GroupedStockOrders) => store;
@@ -107,6 +109,7 @@ export const AppContext = createContext<{
   marketHistory: GroupedHistory;
   matchingGrouped: MatchingGroupedStockOrders;
   userInfo: GetUser;
+  filestackClient: filestack.Client;
   dispatch: React.Dispatch<Action>;
   fetchData: () => Promise<void>;
   fetchUser: () => Promise<void>;
@@ -115,6 +118,7 @@ export const AppContext = createContext<{
   marketHistory: {},
   matchingGrouped: {},
   userInfo: initUserInfo as GetUser,
+  filestackClient,
   dispatch: (a: Action) => {},
   fetchData: async () => {},
   fetchUser: async () => {},
@@ -168,6 +172,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         matchingGrouped: matchingState,
         marketHistory,
         userInfo,
+        filestackClient,
         dispatch: withLogger(dispatch),
         fetchData,
         fetchUser,

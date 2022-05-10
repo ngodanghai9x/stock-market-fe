@@ -36,3 +36,11 @@ export class MyResponse<T> {
     this.message = res.data?.message;
   }
 }
+
+export type FileState = {
+  // fileId: string;
+  file: File;
+  fileName: string;
+  base64: string;
+  magicBytes?: string;
+};

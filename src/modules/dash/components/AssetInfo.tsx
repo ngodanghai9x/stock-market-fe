@@ -101,7 +101,7 @@ export const AssetInfo = () => {
                     color: 'white',
                   }}
                 >
-                  {row.stockSymbol}
+                  {row.quantity + (row.lockedQuantity || 0)}
                 </StyledTableCell>
 
                 <StyledTableCell
@@ -110,7 +110,7 @@ export const AssetInfo = () => {
                     color: 'white',
                   }}
                 >
-                  {row.stockSymbol}
+                  {row.quantity}
                 </StyledTableCell>
 
                 <StyledTableCell
@@ -119,7 +119,7 @@ export const AssetInfo = () => {
                     color: 'white',
                   }}
                 >
-                  {row.stockSymbol}
+                  {row.price}
                 </StyledTableCell>
 
                 <StyledTableCell
@@ -128,7 +128,7 @@ export const AssetInfo = () => {
                     color: 'white',
                   }}
                 >
-                  {row.stockSymbol}
+                  {row.price}
                 </StyledTableCell>
 
                 <StyledTableCell

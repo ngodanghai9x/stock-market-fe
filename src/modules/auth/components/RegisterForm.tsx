@@ -1,3 +1,4 @@
+import { Button } from '@mui/material';
 import { useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -21,6 +22,7 @@ export const RegisterForm = () => {
   const [hasCaptchaToken, setHasCaptchaToken] = useState(false);
 
   const onSubmit: SubmitHandler<RegisterPayload> = async (data) => {
+    console.log('🚀 ~ file: RegisterForm.tsx ~ line 24 ~ constonSubmit:SubmitHandler<RegisterPayload>= ~ data', data);
     try {
       const res = await customerRegister(data);
       toast(res.message);
@@ -93,7 +95,7 @@ export const RegisterForm = () => {
             label="Email:"
             {...register('email', {
               required: true,
-              pattern: /^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/i,
+              pattern: /^[a-z][a-z0-9_\-.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/i,
             })}
           />
           {errors.email && <ValidateMessage>Email không đúng định dạng</ValidateMessage>}
@@ -101,12 +103,9 @@ export const RegisterForm = () => {
         <div className="flex justify-center mb-3">
           <ReCAPTCHA sitekey={process.env.REACT_APP_CAPTCHA_KEY || ''} onChange={onChange} size="normal" />
         </div>
-        <input
-          disabled={!hasCaptchaToken}
-          type="submit"
-          value="Đăng ký"
-          className="w-3/6 mx-auto block bg-lightBlue-300 py-3 text-white rounded-3xl font-medium cursor-pointer"
-        />
+        <div className="flex justify-center">
+          <Button disabled={!hasCaptchaToken} className="" type="submit" variant="contained" children="Đăng ký" />
+        </div>
       </form>
     </div>
   );

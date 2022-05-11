@@ -1,3 +1,4 @@
+import { Button } from '@mui/material';
 import Cookies from 'js-cookie';
 import { useContext, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -39,12 +40,9 @@ export const LogoutForm = () => {
         <AuthInput label="Mật khẩu" type="password" {...register('password', { required: true })} />
         {errors.password && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
       </div>
-      <input
-        type="submit"
-        disabled
-        value="Đăng nhập"
-        className="cursor-pointer w-3/6 mx-auto block bg-lightBlue-300 py-3 text-white rounded-3xl font-medium"
-      />
+      <div className="flex justify-center">
+        <Button className="" type="submit" variant="contained" children="Đăng nhập" />
+      </div>
     </form>
   );
 };

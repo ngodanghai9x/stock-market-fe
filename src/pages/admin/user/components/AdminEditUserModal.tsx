@@ -4,7 +4,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import CustomModal from '../../../../components/CustomModal';
 import ValidateMessage from '../../../../components/ValidateMessage';
-import { RoleLabelType, StatusLabelType, UserStatusLabel } from '../../../../constants';
+import { RoleIdType, RoleLabelType, StatusLabelType, UserStatusLabel } from '../../../../constants';
+import { AuthContext } from '../../../../context/auth/AuthContext';
 import { editUserByAdmin } from '../../../../services/api-admin.service';
 import { AdminEditUserPayload, User } from '../../../../services/api-admin.type';
 
@@ -26,6 +27,7 @@ const AdminEditUserModal = ({ isOpen, onClose, editRecord, fetchData }: AdminEdi
     mode: 'onBlur',
     defaultValues: { user: editRecord },
   });
+  const { user } = React.useContext(AuthContext);
 
   React.useEffect(() => {
     reset({ user: editRecord });
@@ -73,78 +75,36 @@ const AdminEditUserModal = ({ isOpen, onClose, editRecord, fetchData }: AdminEdi
                 {...register('user.fullName')}
               />
             </div>
-            <div className="mb-2">
-              <FormControl variant="standard" className="w-full">
-                <InputLabel id="demo-simple-select-standard-label">Vai trò</InputLabel>
-                <Select
-                  variant="standard"
-                  labelId="demo-simple-select-standard-label"
-                  id="demo-simple-select-standard"
-                  {...register('user.roleId', { required: true, valueAsNumber: true })}
-                  label="Vai trò"
-                >
-                  <MenuItem value={1}>1</MenuItem>
-                  <MenuItem value={2}>2</MenuItem>
-                  <MenuItem value={3}>3</MenuItem>
-                  <MenuItem value={4}>4</MenuItem>
-                  <MenuItem value={5}>5</MenuItem>
-                </Select>
-              </FormControl>
-              {errors?.user?.roleId && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
-            </div>
-            <div className="mb-2">
+            {user.roleId === RoleIdType.admin && (
+              <>
+                <div className="mb-2">
+                  <FormControl variant="standard" className="w-full">
+                    <InputLabel id="demo-simple-select-standard-label">Vai trò</InputLabel>
+                    <Select
+                      variant="standard"
+                      labelId="demo-simple-select-standard-label"
+                      {...register('user.roleId', { required: true, valueAsNumber: true })}
+                      label="Vai trò"
+                    >
+                      {Object.keys(RoleLabelType).map((id) => {
+                        return <MenuItem value={+id}>{RoleLabelType[id]}</MenuItem>;
+                      })}
+                    </Select>
+                  </FormControl>
+                  {errors?.user?.roleId && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
+                </div>
+              </>
+            )}
+
+            {/* <div className="mb-2">
               <TextField
-                required
+                disabled
                 label="Trạng thái"
                 variant="standard"
                 className="w-full"
-                {...register('user.userStatus', { required: true })}
+                {...register('user.userStatus')}
               />
               {errors?.user?.userStatus && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
-            </div>
-            {/* <div className="mb-2">
-              <Autocomplete
-                freeSolo
-                disableClearable
-                options={Object.keys(StatusLabelType)}
-                renderInput={(params) => (
-                  <div className="">
-                    <TextField
-                      {...params}
-                      required
-                      label="Vai trò"
-                      variant="standard"
-                      {...register('user.roleId', { required: true })}
-                      InputProps={{
-                        ...params.InputProps,
-                        type: 'search',
-                      }}
-                    />
-                  </div>
-                )}
-              />
-            </div>
-            <div className="mb-2">
-              <Autocomplete
-                freeSolo
-                disableClearable
-                options={Object.keys(UserStatusLabel)}
-                renderInput={(params) => (
-                  <div className="">
-                    <TextField
-                      {...params}
-                      {...register('user.userStatus', { required: true })}
-                      required
-                      label="Trạng thái"
-                      variant="standard"
-                      InputProps={{
-                        ...params.InputProps,
-                        type: 'search',
-                      }}
-                    />
-                  </div>
-                )}
-              />
             </div> */}
           </div>
           <div className="flex justify-end px-6 pb-6">

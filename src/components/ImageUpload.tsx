@@ -3,7 +3,6 @@ import { FileState } from '../types';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { toast } from 'react-toastify';
 
-
 export default function ImageUpload({
   onChange,
   setFileUrl,
@@ -27,31 +26,28 @@ export default function ImageUpload({
       };
       setFileState(state);
       onChange && onChange(state);
-      console.log('🚀 ~ base64', {
-        base64,
-        file,
-      });
     };
-    console.log('🚀  ~ url', url);
   };
 
   return (
     <div className="">
       <input
-        className='hidden'
+        className="hidden"
         accept="image/png, image/jpeg"
         id="contained-button-file"
         multiple
         type="file"
         onChange={handleChangeFile}
       />
-      <label htmlFor="contained-button-file" className='cursor-pointer'>
-        <div>Upload file</div>
-        {fileState ? <img src={fileState?.base64} className='max-w-[100px] min-w-[100px] aspect-square' /> :
-          <div className='w-[100px] h-[100px] rounded bg-gray-200 text-gray-400 flex justify-center items-center'>
-            <AddPhotoAlternateIcon className='w-10 h-10'/>
-            </div>
-        }
+      <label htmlFor="contained-button-file" className="cursor-pointer">
+        <div>Tải lên chứng chỉ</div>
+        {fileState ? (
+          <img src={fileState?.base64} alt="" className="max-w-[100px] min-w-[100px] aspect-square" />
+        ) : (
+          <div className="w-[100px] h-[100px] rounded bg-gray-200 text-gray-400 flex justify-center items-center">
+            <AddPhotoAlternateIcon className="w-10 h-10" />
+          </div>
+        )}
       </label>
     </div>
   );

@@ -1,9 +1,21 @@
-import { Button, Input, TextField } from '@mui/material';
+import {
+  Autocomplete,
+  Button,
+  Checkbox,
+  FormControl,
+  Input,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from '@mui/material';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import CustomModal from '../../../../components/CustomModal';
 import ValidateMessage from '../../../../components/ValidateMessage';
+import { RoleIdType, StatusLabelType } from '../../../../constants';
+import { AuthContext } from '../../../../context/auth/AuthContext';
 import { createIndustry, editIndustry } from '../../../../services/api-admin.service';
 import { CreateIndustryPayload, Industry } from '../../../../services/api-admin.type';
 
@@ -25,6 +37,7 @@ const CreateIndustryModal = ({ isOpen, onClose, editRecord, fetchData }: CreateI
     mode: 'onBlur',
     defaultValues: { industry: editRecord },
   });
+  const { user } = React.useContext(AuthContext);
 
   React.useEffect(() => {
     reset({ industry: editRecord });
@@ -96,6 +109,26 @@ const CreateIndustryModal = ({ isOpen, onClose, editRecord, fetchData }: CreateI
                 {...register('industry.description', { required: false })}
               />
             </div>
+            {user.roleId === RoleIdType.admin && (
+              <>
+                <div className="mb-2">
+                  <FormControl variant="standard" className="w-full">
+                    <InputLabel id="industry.statusId">Trạng thái</InputLabel>
+                    <Select
+                      variant="standard"
+                      labelId="industry.statusId"
+                      {...register('industry.statusId', { required: true, valueAsNumber: true })}
+                      label="Trạng thái"
+                    >
+                      {Object.keys(StatusLabelType).map((id) => {
+                        return <MenuItem value={+id}>{StatusLabelType[id]}</MenuItem>;
+                      })}
+                    </Select>
+                  </FormControl>
+                  {errors?.industry?.statusId && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
+                </div>
+              </>
+            )}
           </div>
           <div className="flex justify-end px-6 pb-6">
             <div className="mr-3">

@@ -86,11 +86,11 @@ const PriceTableHeader = ({ currentStock }: { currentStock: PriceItem }) => {
       toast(`Bạn cần phải xác minh danh tính trước khi giao dịch cổ phiếu`);
       return;
     }
-    // if (!otpTrading) {
-    //   setIsOpenModal(true);
-    //   fetchOTP();
-    //   return;
-    // }
+    if (!otpTrading) {
+      setIsOpenModal(true);
+      fetchOTP();
+      return;
+    }
     const realPrice = data.price * 1000;
     if (!realPrice || !data.quantity || isFloat(realPrice) || isFloat(data.quantity) || data.quantity % 100 !== 0) {
       toast(`Giá đặt mua/bán phải là số nguyên dương, số lượng cổ phiếu phải là bội của 100`);

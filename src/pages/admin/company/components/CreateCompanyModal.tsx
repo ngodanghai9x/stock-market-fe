@@ -1,4 +1,14 @@
-import { Autocomplete, Button, Checkbox, Input, TextField } from '@mui/material';
+import {
+  Autocomplete,
+  Button,
+  Checkbox,
+  FormControl,
+  Input,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import CustomModal from '../../../../components/CustomModal';
@@ -6,9 +16,14 @@ import { Company, CreateCompanyPayload, Industry } from '../../../../services/ap
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { createCompany, editCompany, getAllIndustry } from '../../../../services/api-admin.service';
 import ValidateMessage from '../../../../components/ValidateMessage';
+import ImageUpload from '../../../../components/ImageUpload';
+import { FileState } from '../../../../types';
+import { AppContext } from '../../../../context';
+import { RoleIdType, StatusLabelType } from '../../../../constants';
+import { AuthContext } from '../../../../context/auth/AuthContext';
 
 type CreateCompanyModalProps = {
   isOpen: boolean;
@@ -18,9 +33,14 @@ type CreateCompanyModalProps = {
 };
 
 const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCompanyModalProps) => {
+  const { user } = useContext(AuthContext);
   const [ipoDate, setIpoDate] = useState<Date | null>(null);
   const [foundedDate, setFoundedDate] = useState<Date | null>(null);
   const [industries, setIndustries] = useState<Industry[]>([]);
+  const [fileState, setFileState] = useState<FileState | null>(null);
+  const [fileUrl, setFileUrl] = useState<string>(editRecord?.certificateUrl || ' ');
+
+  const { filestackClient } = React.useContext(AppContext);
 
   const listIndustry = new Map<string, number>(
     industries.map((el) => {
@@ -44,8 +64,49 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
     },
   });
 
+  useEffect(() => {
+    const getData = async () => {
+      const res = await getAllIndustry();
+      setIndustries(res as Industry[]);
+    };
+    getData();
+  }, []);
+
+  React.useEffect(() => {
+    resetForm();
+  }, [editRecord]);
+
+  const resetForm = () => {
+    setFileState(null);
+    setFileUrl(editRecord?.certificateUrl || '');
+    reset({
+      company: editRecord || {
+        ipoDate: new Date(),
+      },
+      isIpo: true,
+    });
+  };
+
+  const onChangeFile = (file: FileState) => {
+    setFileState(file);
+    setFileUrl('');
+  };
+
+  const uploadFile = async (): Promise<string | void> => {
+    if (fileState) {
+      return await filestackClient
+        .upload(fileState.file)
+        .then((data: { url: string }) => {
+          setFileUrl(data.url);
+          return data.url;
+        })
+        .catch((err: Error) => console.error('filestackClient', err));
+    }
+  };
+
   const onSubmit: SubmitHandler<CreateCompanyPayload> = async (data) => {
     try {
+      const url = fileUrl || (await uploadFile()) || '';
       const formData = {
         ...data,
         account: {
@@ -53,6 +114,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
         },
         company: {
           ...data.company,
+          certificateUrl: url,
           industryId: listIndustry.get(getValues('company.industryId').toString()) || 0,
         },
       };
@@ -69,23 +131,6 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
       toast(error?.message || error?.data.message);
     }
   };
-
-  useEffect(() => {
-    const getData = async () => {
-      const res = await getAllIndustry();
-      setIndustries(res as Industry[]);
-    };
-    getData();
-  }, []);
-
-  React.useEffect(() => {
-    reset({
-      company: editRecord || {
-        ipoDate: new Date(),
-      },
-      isIpo: true,
-    });
-  }, [reset, editRecord]);
 
   return (
     <div>
@@ -143,7 +188,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                   className="w-full"
                   {...register('company.contactEmail', {
                     required: true,
-                    pattern: /^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/i,
+                    pattern: /^[a-z][a-z0-9_\-.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/i,
                     // /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                   })}
                 />
@@ -198,24 +243,6 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   orientation="portrait"
-                  label="Ngày thành lập"
-                  inputFormat="MM/dd/yyyy"
-                  value={foundedDate}
-                  className="w-full"
-                  onChange={(newValue) => {
-                    setFoundedDate(newValue);
-                  }}
-                  renderInput={(params) => (
-                    <div className="my-1 mx-2">
-                      <TextField variant="standard" className="w-full" {...params} />
-                      {errors?.company?.foundedDate && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
-                    </div>
-                  )}
-                />
-              </LocalizationProvider>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                  orientation="portrait"
                   label="Ngày niêm yết"
                   inputFormat="MM/dd/yyyy"
                   value={ipoDate}
@@ -232,8 +259,70 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                   )}
                 />
               </LocalizationProvider>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  orientation="portrait"
+                  label="Ngày thành lập"
+                  inputFormat="MM/dd/yyyy"
+                  value={foundedDate}
+                  className="w-full"
+                  onChange={(newValue) => {
+                    setFoundedDate(newValue);
+                  }}
+                  renderInput={(params) => (
+                    <div className="my-1 mx-2">
+                      <TextField variant="standard" className="w-full" {...params} />
+                      {errors?.company?.foundedDate && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
+                    </div>
+                  )}
+                />
+              </LocalizationProvider>
             </div>
-            {!editRecord && (
+
+            <div className="flex gap-5">
+              <div className="flex -ml-3">
+                <Checkbox
+                  id="isIpo"
+                  {...register('isIpo')}
+                  checked={getValues('isIpo')}
+                  onClick={() => {
+                    setIpoDate(new Date());
+                  }}
+                />
+                <label className="mt-2 cursor-pointer select-none" htmlFor="isIpo">
+                  Niêm yết ngay
+                </label>
+              </div>
+              <div className="flex -ml-3">
+                <Checkbox id="newChangePW" {...register('needChangePw')} />
+                <label className="mt-2 cursor-pointer select-none" htmlFor="newChangePW">
+                  Cần thay đổi mật khẩu
+                </label>
+              </div>
+            </div>
+
+            {editRecord ? (
+              user.roleId === RoleIdType.admin && (
+                <>
+                  <div className="mb-2">
+                    <FormControl variant="standard" className="w-full">
+                      <InputLabel id="company.statusId">Trạng thái</InputLabel>
+                      <Select
+                        variant="standard"
+                        labelId="company.statusId"
+                        {...register('company.statusId', { required: true, valueAsNumber: true })}
+                        label="Trạng thái"
+                      >
+                        {Object.keys(StatusLabelType).map((id) => {
+                          return <MenuItem value={+id}>{StatusLabelType[id]}</MenuItem>;
+                        })}
+                      </Select>
+                    </FormControl>
+                    {errors?.company?.statusId && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
+                  </div>
+                </>
+              )
+            ) : (
               <>
                 <p className="mt-5 font-medium">Cố phiếu: </p>
                 <div className="my-2">
@@ -273,27 +362,11 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                   />
                   {errors?.stock?.price && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
                 </div>
-                <div className="flex -ml-3">
-                  <Checkbox
-                    id="isIpo"
-                    {...register('isIpo')}
-                    checked={getValues('isIpo')}
-                    onClick={() => {
-                      setIpoDate(new Date());
-                    }}
-                  />
-                  <label className="mt-2 cursor-pointer select-none" htmlFor="isIpo">
-                    Niêm yết ngay
-                  </label>
-                </div>
-                <div className="flex -ml-3">
-                  <Checkbox id="newChangePW" {...register('needChangePw')} />
-                  <label className="mt-2 cursor-pointer select-none" htmlFor="newChangePW">
-                    Cần thay đổi mật khẩu
-                  </label>
-                </div>
               </>
             )}
+            <div className="mt-4">
+              <ImageUpload onChange={onChangeFile} setFileUrl={setFileUrl} />
+            </div>
           </div>
           <div className="flex justify-end px-6 pb-6">
             <div className="mr-3">

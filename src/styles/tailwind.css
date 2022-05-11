@@ -5,3 +5,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  button[type='submit']  {
+      @apply bg-[#1976d2];
+  }
+}

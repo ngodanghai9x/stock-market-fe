@@ -119,7 +119,7 @@ export type CreateCompanyPayload = {
     username: string;
     password?: string;
   };
-  company: Omit<Company, 'userId' | 'statusId'>;
+  company: Omit<Company, 'userId'>;
   stock: {
     stockSymbol: string;
     quantity: number;
@@ -128,11 +128,11 @@ export type CreateCompanyPayload = {
 };
 
 export type EditCompanyPayload = {
-  company: Omit<Company, 'companyId' | 'userId' | 'statusId'>;
+  company: Omit<Company, 'companyId' | 'userId'>;
 };
 
 export type CreateIndustryPayload = {
-  industry: Pick<Industry, 'industryId' | 'industryCode' | 'industryName' | 'description'>;
+  industry: Industry;
 };
 
 export type EditIndustryPayload = {

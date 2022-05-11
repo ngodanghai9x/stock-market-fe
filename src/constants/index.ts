@@ -336,13 +336,14 @@ export enum StatusIdType {
 // object like array (use with enum)
 export const RoleLabelType: Record<string, string> = {
   '1': 'Người dùng',
-  // '3': 'Quản trị viên',
+  '2': 'Công ty',
+  '3': 'Quản trị viên',
   '4': 'Biên tập viên',
 };
 
 export const StatusLabelType: Record<string, string> = {
   '1': 'Hoạt động',
-  // '2': 'Đã xóa',
+  '2': 'Đã xóa',
   // '3': 'Trùng lặp',
   '4': 'Đã duyệt',
   '5': 'Chờ duyệt',

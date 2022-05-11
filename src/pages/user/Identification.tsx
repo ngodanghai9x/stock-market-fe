@@ -101,12 +101,12 @@ const Identification = () => {
           )}
         </div>
         <div className="flex mb-8">
-          <span className="block mr-4 text-gray-400 min-w-[150px]">Tài khoản Identification</span>
+          <span className="block mr-4 text-gray-400 min-w-[150px]">Tài khoản</span>
           <span>{user.username}</span>
         </div>
         <div className="grid grid-cols-2">
           <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">number</span>
+            <span className="block mr-4 text-gray-400 min-w-[150px]">Số căn cước</span>
             <div className="flex">
               <span className="block min-w-[100px]">
                 {/* <input
@@ -126,7 +126,7 @@ const Identification = () => {
             </div>
           </div>
           <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">name</span>
+            <span className="block mr-4 text-gray-400 min-w-[150px]">Họ và tên</span>
             <div className="flex">
               <span className="block min-w-[100px]">
                 {/* <input
@@ -169,7 +169,7 @@ const Identification = () => {
             </div>
           </div>
           <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">originAddress</span>
+            <span className="block mr-4 text-gray-400 min-w-[150px]">Quê quán</span>
             <div className="flex">
               <span className="block min-w-[100px]">
                 {/* <input
@@ -189,7 +189,7 @@ const Identification = () => {
             </div>
           </div>
           <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">residenceAddress</span>
+            <span className="block mr-4 text-gray-400 min-w-[150px]">Đ/c thường trú</span>
             <div className="flex">
               <span className="block min-w-[100px]">
                 {/* <input
@@ -232,7 +232,7 @@ const Identification = () => {
             </div>
           </div>
           <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">Ngày hết hạn</span>
+            <span className="block mr-4 text-gray-400 min-w-[150px]">Ngày hết hạn CC</span>
             <div className="flex">
               <span className="block min-w-[100px]">
                 {/* <input
@@ -275,7 +275,7 @@ const Identification = () => {
             </div>
           </div>
           <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">cardNumber</span>
+            <span className="block mr-4 text-gray-400 min-w-[150px]">Số thẻ NH</span>
             <div className="flex">
               <span className="block min-w-[100px]">
                 {/* <input
@@ -295,7 +295,7 @@ const Identification = () => {
             </div>
           </div>
           <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">Ngày hết hạn thẻ</span>
+            <span className="block mr-4 text-gray-400 min-w-[150px]">Ngày hết hạn thẻ NH</span>
             <div className="flex">
               <span className="block min-w-[100px]">
                 {/* <input

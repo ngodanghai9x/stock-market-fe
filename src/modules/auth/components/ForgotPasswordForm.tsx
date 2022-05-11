@@ -1,3 +1,4 @@
+import { Button } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -85,18 +86,9 @@ export const ForgotPasswordForm = () => {
           />
           {errors.confirmPassword && <ValidateMessage>{errors.confirmPassword.message}</ValidateMessage>}
         </div>
-        <div className="flex">
-          <input
-            type="button"
-            value="Gửi OTP"
-            onClick={onSendOTP}
-            className="w-3/6 mx-auto block bg-lightBlue-300 py-3 text-white rounded-3xl font-medium"
-          />
-          <input
-            type="submit"
-            value="Đổi mật khẩu"
-            className="w-3/6 mx-auto block bg-lightBlue-300 py-3 text-white rounded-3xl font-medium"
-          />
+        <div className="flex gap-4 justify-center">
+          <Button className="" type="button" variant="outlined" children="Gửi lại OTP" onClick={onSendOTP} />
+          <Button className="" type="submit" variant="contained" children="Đổi mật khẩu" />
         </div>
       </form>
     </div>

@@ -15,7 +15,7 @@ import { AppContext } from '../../../../context';
 
 type CreateCompanyPublicProps = {};
 
-const CreateCompanyPublic = ({ }: CreateCompanyPublicProps) => {
+const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
   const [ipoDate, setIpoDate] = useState<Date | null>(null);
   const [foundedDate, setFoundedDate] = useState<Date | null>(null);
   const [industries, setIndustries] = useState<Industry[]>([]);
@@ -204,7 +204,7 @@ const CreateCompanyPublic = ({ }: CreateCompanyPublicProps) => {
                     className="w-full"
                     {...register('company.contactEmail', {
                       required: true,
-                      pattern: /^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/i,
+                      pattern: /^[a-z][a-z0-9_\-.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/i,
                       // /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                     })}
                   />
@@ -261,6 +261,25 @@ const CreateCompanyPublic = ({ }: CreateCompanyPublicProps) => {
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DatePicker
                     orientation="portrait"
+                    label="Ngày niêm yết"
+                    inputFormat="MM/dd/yyyy"
+                    value={ipoDate}
+                    className="w-full"
+                    onChange={(newValue) => {
+                      setIpoDate(newValue);
+                    }}
+                    disabled={getValues().isIpo}
+                    renderInput={(params) => (
+                      <div className="my-1 mx-2">
+                        <TextField variant="standard" className="w-full" {...params} />
+                        {errors?.company?.ipoDate && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
+                      </div>
+                    )}
+                  />
+                </LocalizationProvider>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DatePicker
+                    orientation="portrait"
                     label="Ngày thành lập"
                     inputFormat="MM/dd/yyyy"
                     value={foundedDate}
@@ -278,28 +297,22 @@ const CreateCompanyPublic = ({ }: CreateCompanyPublicProps) => {
                     )}
                   />
                 </LocalizationProvider>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DatePicker
-                    orientation="portrait"
-                    label="Ngày niêm yết"
-                    inputFormat="MM/dd/yyyy"
-                    value={ipoDate}
-                    className="w-full"
-                    onChange={(newValue) => {
-                      setIpoDate(newValue);
-                    }}
-                    disabled={getValues().isIpo}
-                    renderInput={(params) => (
-                      <div className="my-1 mx-2">
-                        <TextField variant="standard" className="w-full" {...params} />
-                        {errors?.company?.ipoDate && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
-                      </div>
-                    )}
-                  />
-                </LocalizationProvider>
               </div>
             </>
 
+            <div className="flex -ml-3 ">
+              <Checkbox
+                id="isIpo"
+                {...register('isIpo')}
+                checked={getValues('isIpo')}
+                onClick={() => {
+                  setIpoDate(new Date());
+                }}
+              />
+              <label className="mt-2 cursor-pointer select-none" htmlFor="isIpo">
+                Niêm yết ngay
+              </label>
+            </div>
             <>
               <p className="mt-5 font-medium">Cố phiếu: </p>
               <div className="my-2">
@@ -339,20 +352,9 @@ const CreateCompanyPublic = ({ }: CreateCompanyPublicProps) => {
                 />
                 {errors?.stock?.price && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
               </div>
-              <div className="flex -ml-3">
-                <Checkbox
-                  id="isIpo"
-                  {...register('isIpo')}
-                  checked={getValues('isIpo')}
-                  onClick={() => {
-                    setIpoDate(new Date());
-                  }}
-                />
-                <label className="mt-2 cursor-pointer select-none" htmlFor="isIpo">
-                  Niêm yết ngay
-                </label>
+              <div className="mt-4">
+                <ImageUpload onChange={onChangeFile} setFileUrl={setFileUrl} />
               </div>
-              <ImageUpload onChange={onChangeFile} setFileUrl={setFileUrl} />
             </>
           </div>
           <div className="flex justify-end px-6 pb-6">
@@ -361,7 +363,7 @@ const CreateCompanyPublic = ({ }: CreateCompanyPublicProps) => {
                 Hủy
               </Button>
             </div>
-            <Button className='text-black bg-myBlue' type="submit" variant="contained">
+            <Button className="" type="submit" variant="contained">
               Lưu
             </Button>
           </div>

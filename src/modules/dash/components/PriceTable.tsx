@@ -76,7 +76,7 @@ const ColorTableCell = ({
   compareValue: number;
   value?: number | string;
   sx?: SxProps<Theme>;
-  formatValue?: (v: number) => string | number;
+  formatValue?: (v: any) => string | number;
 }): JSX.Element => {
   return (
     <StyledTableCell
@@ -87,7 +87,7 @@ const ColorTableCell = ({
         ...sx,
       }}
     >
-      {formatValue(value ? +value : compareValue)}
+      {formatValue(value ? value : compareValue)}
     </StyledTableCell>
   );
 };

@@ -25,10 +25,10 @@ export const PATH_NAMES = {
   security: '/security',
   identification: '/identification',
   payment: '/payment',
-  changePassword: '/security/change-password',
+  changePassword: '/change-password',
 };
 
-export const PUBLIC_ROUTES = [PATH_NAMES.login, PATH_NAMES.register, PATH_NAMES.home];
+export const NEED_REDIRECT_ROUTES = [PATH_NAMES.login, PATH_NAMES.register, PATH_NAMES.home];
 
 export const SIDEBAR_OPTION: Record<string, string> = {
   dashboard: 'Trang chủ',

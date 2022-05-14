@@ -2,7 +2,7 @@ import React, { createContext, ReactElement, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { RoleIdType, STORAGE, USER_STATUS } from '../../constants';
-import { PATH_NAMES, PUBLIC_ROUTES } from '../../constants/path-name';
+import { PATH_NAMES, NEED_REDIRECT_ROUTES } from '../../constants/path-name';
 import { tokenCookies } from '../../lib/token-cookies';
 import { User } from '../../services/api-auth.type';
 import { TokenInfo } from '../../types';
@@ -57,11 +57,11 @@ export const AuthProvider = (props: { children: ReactElement }) => {
   const navigation = useNavigate();
 
   useEffect(() => {
-    if(location.pathname === PATH_NAMES.logout)  {
-      setAuthenticated(false)
-      setUser(initUser())
-      navigation(PATH_NAMES.login)
-      return
+    if (location.pathname === PATH_NAMES.logout) {
+      setAuthenticated(false);
+      setUser(initUser());
+      navigation(PATH_NAMES.login);
+      return;
     }
     const { result, userData } = checkAuthenticated();
     if (!userData) return;
@@ -75,8 +75,10 @@ export const AuthProvider = (props: { children: ReactElement }) => {
 
   useEffect(() => {
     const pathname = location.pathname;
-    if (PUBLIC_ROUTES.includes(pathname) && isAuthenticated) {
-      if (user.userStatus === USER_STATUS.expired_password) return navigation(`user${PATH_NAMES.changePassword}`);
+    if (isAuthenticated && pathname !== PATH_NAMES.logout && user.userStatus === USER_STATUS.expired_password) {
+      return navigation(`user${PATH_NAMES.changePassword}`);
+    }
+    if (NEED_REDIRECT_ROUTES.includes(pathname) && isAuthenticated) {
       if ([RoleIdType.admin, RoleIdType.moderator].includes(user.roleId)) return navigation(PATH_NAMES.admin);
       if ([RoleIdType.company, RoleIdType.user].includes(user.roleId)) return navigation(PATH_NAMES.priceTable);
       return navigation(PATH_NAMES.login);

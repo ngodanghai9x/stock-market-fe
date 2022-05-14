@@ -5,7 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { AppContext } from '../../../context';
-import { STORAGE } from '../../../constants';
+import { RoleIdType, STORAGE } from '../../../constants';
 import { toast } from 'react-toastify';
 import { createStockOrder } from '../../../services/api-user.service';
 import VerifyTradingOtpModal from './VerifyTradingOtpModal';
@@ -81,6 +81,10 @@ const PriceTableHeader = ({ currentStock }: { currentStock: PriceItem }) => {
   const handleCreateOrder = async (data: TStockOrder, isBuy: boolean) => {
     const maxQuantity = storage[currentStock.symbol]?.quantity || 0;
     const otpTrading = localStorage.getItem(STORAGE.otpTrading) || '';
+    if (!user?.userId || [RoleIdType.admin, RoleIdType.moderator].includes(user.roleId)) {
+      toast(`Bạn không có quyền thực hiện thao tác này`);
+      return;
+    }
     if (!citizenIdentity) {
       // alert(`Bạn cần phải xác minh danh tính trước khi giao dịch cổ phiếu`);
       toast(`Bạn cần phải xác minh danh tính trước khi giao dịch cổ phiếu`);

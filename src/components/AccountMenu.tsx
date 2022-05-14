@@ -31,7 +31,9 @@ export default function AccountMenu() {
       [PATH_NAMES.login.slice(1)]: { label: 'Đăng nhập', render: () => <Login fontSize="small" />, exact: true },
     };
 
-    if (![RoleIdType.admin, RoleIdType.moderator].includes(user.roleId)) {
+    if ([RoleIdType.admin, RoleIdType.moderator].includes(user.roleId)) {
+      delete toReturn[PATH_NAMES.payment.slice(1)];
+    } else {
       delete toReturn[PATH_NAMES.admin.slice(1)];
     }
     if (!user?.userId) {

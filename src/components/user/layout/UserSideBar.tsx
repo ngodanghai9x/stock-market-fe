@@ -13,6 +13,8 @@ import BrandingWatermarkIcon from '@mui/icons-material/BrandingWatermark';
 import GppGoodIcon from '@mui/icons-material/GppGood';
 import PersonIcon from '@mui/icons-material/Person';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
+import { AuthContext } from '../../../context/auth/AuthContext';
+import { RoleIdType } from '../../../constants';
 
 export const USER_SIDEBAR: Record<string, { label: string; render: () => React.ReactNode; exact?: boolean }> = {
   [PATH_NAMES.userInfo.slice(1)]: { label: 'Thông tin cơ bản', render: () => <PersonIcon /> },
@@ -23,6 +25,18 @@ export const USER_SIDEBAR: Record<string, { label: string; render: () => React.R
 };
 
 const UserSideBar = () => {
+  const { user } = React.useContext(AuthContext);
+  const USER_MENU = React.useMemo(() => {
+    const toReturn = {
+      ...USER_SIDEBAR,
+    };
+
+    if ([RoleIdType.admin, RoleIdType.moderator].includes(user.roleId)) {
+      delete toReturn[PATH_NAMES.payment.slice(1)];
+    }
+    return toReturn;
+  }, [user.roleId]);
+
   return (
     <div className="col-span-2 h-screen border-r">
       <div className="py-3 text-white font-bold text-2xl border-b">
@@ -32,11 +46,11 @@ const UserSideBar = () => {
       </div>
       <div>
         <ul className="flex flex-col">
-          {Object.keys(USER_SIDEBAR).map((option, index) => (
+          {Object.keys(USER_MENU).map((option, index) => (
             <li key={`UserSideBar${option}`} className="text-base  hover:bg-gray-100">
               <CustomLink to={option}>
-                <span className="mr-3">{USER_SIDEBAR[option].render()}</span>
-                <span className="">{USER_SIDEBAR[option].label}</span>
+                <span className="mr-3">{USER_MENU[option].render()}</span>
+                <span className="">{USER_MENU[option].label}</span>
               </CustomLink>
             </li>
           ))}

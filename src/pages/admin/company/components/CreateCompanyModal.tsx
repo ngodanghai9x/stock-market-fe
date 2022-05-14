@@ -373,7 +373,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
               </>
             )}
             <div className="mt-4">
-              <ImageUpload disabled={disableForm} onChange={onChangeFile} setFileUrl={setFileUrl} />
+              <ImageUpload disabled={disableForm} onChange={onChangeFile} fileUrl={fileUrl} setFileUrl={setFileUrl} />
             </div>
           </div>
           <div className="flex justify-end px-6 pb-6">

@@ -3,9 +3,11 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import ValidateMessage from '../../components/ValidateMessage';
 import { UserStatusLabel, WEAK_PASSWORDS } from '../../constants';
+import { PATH_NAMES } from '../../constants/path-name';
 import { AppContext } from '../../context';
 import { User } from '../../services/api-admin.type';
 import { customerChangePassword } from '../../services/api-auth.service';
@@ -18,6 +20,7 @@ const ChangePassword = () => {
     userInfo: { user, citizenIdentity },
     fetchUser,
   } = React.useContext(AppContext);
+  const navigation = useNavigate();
 
   const {
     register,
@@ -40,6 +43,7 @@ const ChangePassword = () => {
       toast('Đổi mật khẩu thành công');
       resetValue();
       setIsViewing(true);
+      navigation(PATH_NAMES.logout);
     } catch (error: any) {
       toast(error?.message || error?.data.message);
     }
@@ -92,15 +96,15 @@ const ChangePassword = () => {
                       value: true,
                       message: 'Trường này bắt buộc phải nhập',
                     },
-                    validate: {
-                      weakPassword: (v) =>
-                        !WEAK_PASSWORDS.includes(v) || 'Mật khẩu không được nằm trong danh sách mật khẩu yếu',
-                    },
-                    pattern: {
-                      value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#?!@$%^&*+='"<>\]\[\|-]).{8,}$/i,
-                      message:
-                        'Mật khẩu cần tối thiểu 8 ký tự, ít nhất 1 chữ cái viết hoa, 1 chữ cái viết thường và 1 số',
-                    },
+                    // validate: {
+                    //   weakPassword: (v) =>
+                    //     !WEAK_PASSWORDS.includes(v) || 'Mật khẩu không được nằm trong danh sách mật khẩu yếu',
+                    // },
+                    // pattern: {
+                    //   value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#?!@$%^&*+='"<>\]\[\|-]).{8,}$/i,
+                    //   message:
+                    //     'Mật khẩu cần tối thiểu 8 ký tự, ít nhất 1 chữ cái viết hoa, 1 chữ cái viết thường và 1 số',
+                    // },
                   })}
                 />
                 {errors.password && <ValidateMessage>{errors.password.message}</ValidateMessage>}

@@ -17,7 +17,7 @@ function BasicCard({ title, content }: { title: string; content?: string }) {
         <Typography variant="h6" component="div" color="text.secondary" gutterBottom>
           {title}
         </Typography>
-        <Typography variant="body2">{content}</Typography>
+        <Typography variant="body2">{content?.replaceAll('undefined', '').replaceAll('null', '')}</Typography>
       </CardContent>
       {/* <CardActions>
         <Button size="small">Learn More</Button>
@@ -37,7 +37,7 @@ const DashboardPage = () => {
   React.useEffect(() => {
     fetchData();
   }, []);
-  
+
   return (
     <div className="bg-white h-full w-11/12">
       <Typography align="center" variant="h4" sx={{ my: 2 }}>

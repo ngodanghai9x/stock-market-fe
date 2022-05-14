@@ -90,10 +90,10 @@ const AdminEditUserModal = ({ isOpen, onClose, editRecord, fetchData }: AdminEdi
               <>
                 <div className="mb-2">
                   <FormControl variant="standard" className="w-full">
-                    <InputLabel id="demo-simple-select-standard-label">Vai trò</InputLabel>
+                    <InputLabel id="user.roleId'">Vai trò</InputLabel>
                     <Select
                       variant="standard"
-                      labelId="demo-simple-select-standard-label"
+                      labelId="user.roleId'"
                       {...register('user.roleId', { required: true, valueAsNumber: true })}
                       label="Vai trò"
                       disabled={disableEditRole}
@@ -109,16 +109,23 @@ const AdminEditUserModal = ({ isOpen, onClose, editRecord, fetchData }: AdminEdi
               </>
             )}
 
-            {/* <div className="mb-2">
-              <TextField
-                disabled
-                label="Trạng thái"
-                variant="standard"
-                className="w-full"
-                {...register('user.userStatus')}
-              />
+            <div className="mb-2">
+              <FormControl variant="standard" className="w-full">
+                <InputLabel id="user.userStatus'">Trạng thái</InputLabel>
+                <Select
+                  variant="standard"
+                  labelId="user.userStatus'"
+                  {...register('user.userStatus', { required: true, valueAsNumber: true })}
+                  label="Trạng thái"
+                  defaultValue={getValues('user.userStatus')}
+                >
+                  {Object.keys(UserStatusLabel).map((val) => {
+                    return <MenuItem value={val}>{UserStatusLabel[val]}</MenuItem>;
+                  })}
+                </Select>
+              </FormControl>
               {errors?.user?.userStatus && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
-            </div> */}
+            </div>
           </div>
           <div className="flex justify-end px-6 pb-6">
             <div className="mr-3">

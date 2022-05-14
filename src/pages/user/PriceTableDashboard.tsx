@@ -1,25 +1,22 @@
 import React from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import ImageUpload from '../../components/ImageUpload';
+import { ModePT } from '../../constants';
 import { AppContext } from '../../context';
-import { flatGrouped } from '../../lib/utils';
+import { flatGrouped, getFavSymbolsFromStorage } from '../../lib/utils';
 import PriceTable from '../../modules/dash/components/PriceTable';
 import { User } from '../../services/api-admin.type';
 
 const PriceTableDashboard = () => {
-  const { register, handleSubmit } = useForm<User>();
+  const [mode, setMode] = React.useState<ModePT>(ModePT.default);
+
   const { store, matchingGrouped, marketHistory, fetchData } = React.useContext(AppContext);
 
-  const registerHandler: SubmitHandler<User> = async (data) => {
-    // const res = await customerPriceTableDashboard(data);
-    // console.log(res)
-  };
-  const list = flatGrouped(matchingGrouped, store, marketHistory);
+  const list = flatGrouped(matchingGrouped, store, marketHistory).filter((o) =>
+    mode === ModePT.favorite ? getFavSymbolsFromStorage().includes(o.symbol) : true
+  );
 
   return (
     <div>
-      {/* <ImageUpload /> */}
-      <PriceTable list={list} />
+      <PriceTable itemList={list} setMode={setMode} />
     </div>
   );
 };

@@ -8,6 +8,7 @@ import { AssetInfo } from './AssetInfo';
 import { AuthContext } from '../../../context/auth/AuthContext';
 import { AppContext } from '../../../context';
 import { numberWithCommas } from '../../../lib/utils';
+import { PriceItem } from '../../../services/api-user.type';
 
 enum CurrentTab {
   Asset = 'Asset',
@@ -58,7 +59,7 @@ const DebtsTab = () => {
         </div>
         <div className="flex-1  py-4 ml-4 flex justify-between">
           <span>Nợ phí lưu kí và khác</span>
-          <span>{debt < 0 ? debt : 0}</span>
+          <span>--</span>
         </div>
       </div>
       <div className="flex  text-white px-4 border-y">
@@ -68,7 +69,7 @@ const DebtsTab = () => {
         </div>
         <div className="flex-1  py-4 ml-4 flex justify-between">
           <span>Số tiền phải nộp</span>
-          <span>--</span>
+          <span>{debt < 0 ? debt : 0}</span>
         </div>
       </div>
     </div>
@@ -79,8 +80,8 @@ const LoanAmountTab = () => {
   return <div className="flex justify-center items-center h-[85%]">Hiện không có khoản vay</div>;
 };
 
-const Asset = () => {
-  const [currentTab, setCurrentTab] = React.useState<CurrentTab>(CurrentTab.Debts);
+const Asset = ({ itemList }: { itemList: PriceItem[] }) => {
+  const [currentTab, setCurrentTab] = React.useState<CurrentTab>(CurrentTab.Asset);
 
   const { user: authUser } = React.useContext(AuthContext);
   const {
@@ -111,10 +112,7 @@ const Asset = () => {
           </div> */}
           <div className="">
             <Accordion sx={{ backgroundColor: '#171717', color: 'white', py: '2px' }}>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}
-                aria-controls="panel1a-content"
-              >
+              <AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />} aria-controls="panel1a-content">
                 <Typography>Tài khoản</Typography>
               </AccordionSummary>
               <AccordionDetails sx={{ px: 4 }}>
@@ -145,7 +143,7 @@ const Asset = () => {
             ))}
           </div>
           {currentTab === CurrentTab.Debts && <DebtsTab />}
-          {currentTab === CurrentTab.Asset && <AssetInfo />}
+          {currentTab === CurrentTab.Asset && <AssetInfo itemList={itemList}/>}
           {currentTab === CurrentTab.LoanAmount && <LoanAmountTab />}
         </div>
       </div>

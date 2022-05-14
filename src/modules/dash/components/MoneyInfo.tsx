@@ -3,6 +3,7 @@ import Asset from './Asset';
 import OrderBook from './OrderBook';
 import History from './History';
 import CloseIcon from '@mui/icons-material/Close';
+import { PriceItem } from '../../../services/api-user.type';
 
 enum CurrentTab {
   OrderBook = 'OrderBook',
@@ -25,7 +26,7 @@ const TABS = [
   },
 ];
 
-const MoneyInfo = () => {
+const MoneyInfo = ({ itemList }: { itemList: PriceItem[] }) => {
   const [currentTab, setCurrentTab] = useState<CurrentTab>(CurrentTab.OrderBook);
   const [isOpenDetail, setIsOpenDetail] = useState(true);
   return (
@@ -40,7 +41,7 @@ const MoneyInfo = () => {
             </div>
             <div className="h-full ">
               {currentTab === CurrentTab.OrderBook && <OrderBook />}
-              {currentTab === CurrentTab.Asset && <Asset />}
+              {currentTab === CurrentTab.Asset && <Asset itemList={itemList} />}
               {currentTab === CurrentTab.History && <History />}
             </div>
           </div>

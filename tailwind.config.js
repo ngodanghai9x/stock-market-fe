@@ -33,7 +33,7 @@ module.exports = {
       myHighlight: {
         DEFAULT: '#434343',
       },
-      myLogo: {
+      myYellow: {
         DEFAULT: '#F0B90B',
       },
     },

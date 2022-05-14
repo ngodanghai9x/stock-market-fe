@@ -218,3 +218,7 @@ export const calculateColor = (row: PriceItem, value: number): string => {
     }
   }
 };
+
+export const getFavSymbolsFromStorage = () => {
+  return localStorage.getItem(STORAGE.favSymbols)?.split(';') || [];
+};

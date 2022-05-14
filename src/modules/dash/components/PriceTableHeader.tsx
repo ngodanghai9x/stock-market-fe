@@ -86,11 +86,6 @@ const PriceTableHeader = ({ currentStock }: { currentStock: PriceItem }) => {
       toast(`Bạn cần phải xác minh danh tính trước khi giao dịch cổ phiếu`);
       return;
     }
-    if (!otpTrading) {
-      setIsOpenModal(true);
-      fetchOTP();
-      return;
-    }
     const realPrice = data.price * 1000;
     if (!realPrice || !data.quantity || isFloat(realPrice) || isFloat(data.quantity) || data.quantity % 100 !== 0) {
       toast(`Giá đặt mua/bán phải là số nguyên dương, số lượng cổ phiếu phải là bội của 100`);
@@ -106,6 +101,11 @@ const PriceTableHeader = ({ currentStock }: { currentStock: PriceItem }) => {
     }
     if (isBuy && user.money < realPrice * data.quantity * 1.01) {
       toast(`Không đủ số dư`);
+      return;
+    }
+    if (!otpTrading) {
+      setIsOpenModal(true);
+      fetchOTP();
       return;
     }
     const order: CreateStockOrder = {
@@ -197,6 +197,10 @@ const PriceTableHeader = ({ currentStock }: { currentStock: PriceItem }) => {
                 </button>
               </div>
             </form>
+          </div>
+          <div className="flex flex-col mx-5">
+            <span>Sức bán</span>
+            <span>{numberWithCommas(storage[currentStock?.symbol]?.quantity || 0)} CP</span>
           </div>
           <div className="flex flex-col mx-5">
             <span className="">Giá trị lệnh</span>

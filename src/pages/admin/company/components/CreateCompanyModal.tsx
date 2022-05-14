@@ -145,7 +145,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mx-10 mb-4">
-            <p className="mt-5 font-medium">Công ty: </p>
+            <p className="mt-4 font-medium">Công ty: </p>
             <div className="grid grid-cols-2 gap-0 ml-[-0.5rem] mr-[-0.5rem]">
               <div className="my-1 mx-2">
                 <TextField
@@ -282,28 +282,6 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
               </LocalizationProvider>
             </div>
 
-            <div className="flex gap-5">
-              <div className="flex -ml-3">
-                <Checkbox
-                  id="isIpo"
-                  {...register('isIpo')}
-                  checked={getValues('isIpo')}
-                  onClick={() => {
-                    setIpoDate(new Date());
-                  }}
-                />
-                <label className="mt-2 cursor-pointer select-none" htmlFor="isIpo">
-                  Niêm yết ngay
-                </label>
-              </div>
-              <div className="flex -ml-3">
-                <Checkbox id="newChangePW" {...register('needChangePw')} />
-                <label className="mt-2 cursor-pointer select-none" htmlFor="newChangePW">
-                  Cần thay đổi mật khẩu
-                </label>
-              </div>
-            </div>
-
             {editRecord ? (
               user.roleId === RoleIdType.admin && (
                 <>
@@ -314,6 +292,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                         variant="standard"
                         labelId="company.statusId"
                         {...register('company.statusId', { required: true, valueAsNumber: true })}
+                        defaultValue={getValues('company.statusId')}
                         label="Trạng thái"
                       >
                         {Object.keys(StatusLabelType).map((id) => {
@@ -327,7 +306,29 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
               )
             ) : (
               <>
-                <p className="mt-5 font-medium">Cố phiếu: </p>
+                <div className="flex gap-5">
+                  <div className="flex -ml-3">
+                    <Checkbox
+                      id="isIpo"
+                      {...register('isIpo')}
+                      checked={getValues('isIpo')}
+                      onClick={() => {
+                        setIpoDate(new Date());
+                      }}
+                    />
+                    <label className="mt-2 cursor-pointer select-none" htmlFor="isIpo">
+                      Niêm yết ngay
+                    </label>
+                  </div>
+                  <div className="flex -ml-3">
+                    <Checkbox id="newChangePW" {...register('needChangePw')} />
+                    <label className="mt-2 cursor-pointer select-none" htmlFor="newChangePW">
+                      Cần thay đổi mật khẩu
+                    </label>
+                  </div>
+                </div>
+                
+                <p className="mt-2 font-medium">Cố phiếu: </p>
                 <div className="my-2">
                   <TextField
                     id="stock-symbol"

@@ -36,6 +36,10 @@ const PriceTableSubHeader = () => {
 
   return (
     <div className=" bg-trueGray-800 text-white flex items-center pr-4">
+      <div className="text-myYellow flex items-center">
+        <img src={process.env.PUBLIC_URL + '/favicon.ico'} alt="" />
+        <div>Stock Market App</div>
+      </div>
       <div className="flex px-4 py-2 justify-center flex-1">
         <span>KL (cp): 764tr</span>
         <span className="block mx-6">GT: 764,989 tỷ</span>

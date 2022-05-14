@@ -2,6 +2,8 @@ import { useRoutes } from 'react-router-dom';
 import HomePage from '../pages/home';
 import AuthPage from '../pages/auth';
 import NotFoundPage from '../pages/not-found';
+import WithdrawForm from '../pages/finance/WithdrawForm';
+import DepositForm from '../pages/finance/DepositForm';
 import UserRouter from './user-router';
 import AdminRouter from './admin-router';
 import UnauthorizedPage from '../pages/unauthorized';
@@ -18,6 +20,9 @@ const Routers = () => {
     { path: 'login', element: <AuthPage /> },
     { path: 'logout', element: <AuthPage /> },
 
+    { path: 'create-company', element: <CreateCompanyPublic /> },
+    { path: 'deposit', element: <DepositForm /> },
+    { path: 'withdraw', element: <WithdrawForm /> },
     { path: 'create-company', element: <CreateCompanyPublic /> },
 
     { path: 'price-table/*', element: <PriceTableDashboard /> },

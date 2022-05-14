@@ -120,6 +120,7 @@ const CreateIndustryModal = ({ isOpen, onClose, editRecord, fetchData }: CreateI
                       variant="standard"
                       labelId="industry.statusId"
                       {...register('industry.statusId', { required: true, valueAsNumber: true })}
+                      defaultValue={getValues('industry.statusId')}
                       label="Trạng thái"
                     >
                       {Object.keys(StatusLabelType).map((id) => {

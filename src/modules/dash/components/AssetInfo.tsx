@@ -12,6 +12,7 @@ import { getUserHistory, getUserOrders } from '../../../services/api-user.servic
 import { StockOrder, StockOrderMatching } from '../../../services/api-admin.type';
 import { formatDate, numberWithCommas } from '../../../lib/utils';
 import { AppContext } from '../../../context';
+import { PriceItem } from '../../../services/api-user.type';
 
 const tableHeadings = [
   'Mã',
@@ -19,10 +20,8 @@ const tableHeadings = [
   'Được GD',
   'Giá vốn',
   'Thị giá',
-  '% Thị giá',
-  'Chờ về',
   'Giá trị vốn',
-  'GT trị',
+  'Giá trị',
   'Lãi/lỗ',
   '% Lãi/lỗ',
 ];
@@ -52,12 +51,11 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-export const AssetInfo = () => {
+export const AssetInfo = ({ itemList }: { itemList: PriceItem[] }) => {
   const {
     userInfo: { storage },
   } = React.useContext(AppContext);
-  console.log(storage);
-  const listStore = Object.keys(storage).map((key) => storage[key]);
+
   return (
     <div style={{ height: 300, width: '100%' }}>
       <TableContainer component={Paper} sx={{ backgroundColor: '#171717', maxHeight: '250px' }}>
@@ -84,108 +82,96 @@ export const AssetInfo = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {Object.values(listStore).map((row) => (
-              <StyledTableRow>
-                <StyledTableCell
-                  align="center"
-                  sx={{
-                    color: 'white',
-                  }}
-                >
-                  {row.stockSymbol}
-                </StyledTableCell>
+            {Object.values(storage).map((row) => {
+              const priceItem = itemList.find((o) => o.symbol === row.stockSymbol) || ({} as PriceItem);
+              const giaTriVon = row.quantity + (row.lockedQuantity || 0) * row.price;
+              const giaTri = row.quantity + (row.lockedQuantity || 0) * priceItem.matchingPrice;
+              return (
+                <StyledTableRow>
+                  <StyledTableCell
+                    align="center"
+                    sx={{
+                      color: 'white',
+                    }}
+                  >
+                    {row.stockSymbol}
+                  </StyledTableCell>
 
-                <StyledTableCell
-                  align="center"
-                  sx={{
-                    color: 'white',
-                  }}
-                >
-                  {row.quantity + (row.lockedQuantity || 0)}
-                </StyledTableCell>
+                  <StyledTableCell
+                    align="center"
+                    sx={{
+                      color: 'white',
+                    }}
+                  >
+                    {numberWithCommas(row.quantity + (row.lockedQuantity || 0))}
+                  </StyledTableCell>
 
-                <StyledTableCell
-                  align="center"
-                  sx={{
-                    color: 'white',
-                  }}
-                >
-                  {row.quantity}
-                </StyledTableCell>
+                  <StyledTableCell
+                    align="center"
+                    sx={{
+                      color: 'white',
+                    }}
+                  >
+                    {numberWithCommas(row.quantity)}
+                  </StyledTableCell>
 
-                <StyledTableCell
-                  align="center"
-                  sx={{
-                    color: 'white',
-                  }}
-                >
-                  {row.price}
-                </StyledTableCell>
+                  <StyledTableCell
+                    align="center"
+                    sx={{
+                      color: 'white',
+                    }}
+                  >
+                    {numberWithCommas(row.price)}
+                  </StyledTableCell>
 
-                <StyledTableCell
-                  align="center"
-                  sx={{
-                    color: 'white',
-                  }}
-                >
-                  {row.price}
-                </StyledTableCell>
+                  <StyledTableCell
+                    align="center"
+                    sx={{
+                      color: 'white',
+                    }}
+                  >
+                    {numberWithCommas(priceItem.matchingPrice)}
+                  </StyledTableCell>
 
-                <StyledTableCell
-                  align="center"
-                  sx={{
-                    color: 'white',
-                  }}
-                >
-                  {row.stockSymbol}
-                </StyledTableCell>
+                  <StyledTableCell
+                    align="center"
+                    sx={{
+                      color: 'white',
+                    }}
+                  >
+                    {numberWithCommas(giaTriVon)}
+                  </StyledTableCell>
 
-                <StyledTableCell
-                  align="center"
-                  sx={{
-                    color: 'white',
-                  }}
-                >
-                  {row.stockSymbol}
-                </StyledTableCell>
+                  <StyledTableCell
+                    align="center"
+                    sx={{
+                      color: 'white',
+                    }}
+                  >
+                    {numberWithCommas(giaTri)}
+                  </StyledTableCell>
 
-                <StyledTableCell
-                  align="center"
-                  sx={{
-                    color: 'white',
-                  }}
-                >
-                  {row.stockSymbol}
-                </StyledTableCell>
+                  <StyledTableCell
+                    align="center"
+                    sx={{
+                      color: 'white',
+                    }}
+                  >
+                    {numberWithCommas(giaTri - giaTriVon)}
+                  </StyledTableCell>
 
-                <StyledTableCell
-                  align="center"
-                  sx={{
-                    color: 'white',
-                  }}
-                >
-                  {row.stockSymbol}
-                </StyledTableCell>
-
-                <StyledTableCell
-                  align="center"
-                  sx={{
-                    color: 'white',
-                  }}
-                >
-                  {row.stockSymbol}
-                </StyledTableCell>
-
-                <StyledTableCell
-                  align="center"
-                  sx={{
-                    color: 'white',
-                  }}
-                >
-                  {row.stockSymbol}
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
+                  <StyledTableCell
+                    align="center"
+                    sx={{
+                      color: 'white',
+                    }}
+                  >
+                    {}
+                    {+(((giaTri - giaTriVon) * 100) / giaTriVon).toFixed(3) + '%'}
+                  </StyledTableCell>
+                </StyledTableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>

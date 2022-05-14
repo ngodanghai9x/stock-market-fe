@@ -218,6 +218,7 @@ export const STORAGE = {
   userData: 'user-data',
   jwtToken: 'jwt-token',
   otpTrading: 'trading-otp',
+  favSymbols: 'fav-symbols',
 };
 
 export const COLOR = {
@@ -227,7 +228,7 @@ export const COLOR = {
   myBlue: '#64baff',
   myOrange: '#fbac20',
   myHighlight: '#434343',
-  myLogo: '#F0B90B',
+  myYellow: '#F0B90B',
 };
 
 export const NUMBER = {
@@ -257,6 +258,11 @@ export const OPTIONS_USE_FORM: UseFormProps = {
 export enum MatchedStatus {
   Fulfilled = 'Fulfilled',
   Partial = 'Partial',
+}
+
+export enum ModePT {
+  default,
+  favorite
 }
 
 export enum Gender {

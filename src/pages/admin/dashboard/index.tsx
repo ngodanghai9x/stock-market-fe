@@ -37,6 +37,7 @@ const DashboardPage = () => {
   React.useEffect(() => {
     fetchData();
   }, []);
+  
   return (
     <div className="bg-white h-full w-11/12">
       <Typography align="center" variant="h4" sx={{ my: 2 }}>
@@ -48,7 +49,7 @@ const DashboardPage = () => {
             <BasicCard title="Tài khoản" content={report?.user.count + ' tạo mới'} />
           </Grid>
           <Grid item xs={3}>
-            <BasicCard title="Công ty" content={report?.company.count + ' tạo mới'} />
+            <BasicCard title="Công ty" content={report?.company.count + ' niêm yết mới'} />
           </Grid>
 
           <Grid item xs={3}>

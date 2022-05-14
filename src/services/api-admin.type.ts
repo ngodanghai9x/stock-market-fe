@@ -70,6 +70,7 @@ export type User = {
   email: string | null;
   phone: string | null;
   birthday: string | null | Date;
+  bankNumber: string | null;
   money: number;
   lockedMoney: number;
   antiPhishingCode: string;

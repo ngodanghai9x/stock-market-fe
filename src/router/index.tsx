@@ -22,7 +22,7 @@ const Routers = () => {
 
     { path: 'create-company', element: <CreateCompanyPublic /> },
     { path: 'deposit', element: <DepositForm /> },
-    { path: 'withdraw', element: <WithdrawForm /> },
+    // { path: 'withdraw', element: <WithdrawForm /> },
     { path: 'create-company', element: <CreateCompanyPublic /> },
 
     { path: 'price-table/*', element: <PriceTableDashboard /> },

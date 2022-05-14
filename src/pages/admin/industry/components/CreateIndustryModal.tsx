@@ -60,6 +60,8 @@ const CreateIndustryModal = ({ isOpen, onClose, editRecord, fetchData }: CreateI
     }
   };
 
+  const disableForm = !editRecord ? false : !editRecord?.editable;
+
   return (
     <div>
       <CustomModal
@@ -136,7 +138,7 @@ const CreateIndustryModal = ({ isOpen, onClose, editRecord, fetchData }: CreateI
                 Hủy
               </Button>
             </div>
-            <Button type="submit" variant="contained">
+            <Button disabled={disableForm} type="submit" variant="contained">
               Lưu
             </Button>
           </div>

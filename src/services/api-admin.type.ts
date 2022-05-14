@@ -57,7 +57,7 @@ export type Industry = {
   industryName: string;
   industryCode: string;
   description: string;
-  // editable: number;
+  editable: number;
   statusId: number;
 };
 
@@ -90,6 +90,7 @@ export type Company = {
   numEmployees: string | null;
   foundedDate: Date | string;
   ipoDate: Date | string;
+  editable: number;
   statusId: number;
   userId: number;
 };

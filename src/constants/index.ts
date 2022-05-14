@@ -345,7 +345,7 @@ export const StatusLabelType: Record<string, string> = {
   '1': 'Hoạt động',
   '2': 'Đã xóa',
   // '3': 'Trùng lặp',
-  '4': 'Đã duyệt',
+  // '4': 'Đã duyệt',
   '5': 'Chờ duyệt',
 };
 

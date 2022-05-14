@@ -17,7 +17,7 @@ interface Column {
   label: string;
   minWidth?: number;
   align?: 'right' | 'left';
-  format?: (value: number) => string;
+  format?: (value: any) => string;
 }
 const columns: readonly Column[] = [
   { id: 'industryId', label: 'ID', minWidth: 55 },
@@ -33,6 +33,13 @@ const columns: readonly Column[] = [
     label: 'Mô tả',
     minWidth: 300,
     align: 'left',
+  },
+  {
+    id: 'editable',
+    label: 'Có thể sửa',
+    minWidth: 100,
+    align: 'left',
+    format: (id) => (id == 1 ? 'Có' : 'Không'),
   },
   {
     id: 'statusId',
@@ -116,7 +123,7 @@ const IndustryPage = () => {
                         const value = row[column.id];
                         return (
                           <TableCell key={'tr' + column.id} align={column.align}>
-                            {column.format && typeof value === 'number' ? column.format(value) : value}
+                            {column.format ? column.format(value) : value}
                           </TableCell>
                         );
                       })}

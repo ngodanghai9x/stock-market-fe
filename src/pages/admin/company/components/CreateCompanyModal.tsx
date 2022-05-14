@@ -132,6 +132,8 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
     }
   };
 
+  const disableForm = !editRecord ? false : !editRecord?.editable;
+
   return (
     <div>
       <CustomModal
@@ -365,7 +367,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
               </>
             )}
             <div className="mt-4">
-              <ImageUpload onChange={onChangeFile} setFileUrl={setFileUrl} />
+              <ImageUpload disabled={disableForm} onChange={onChangeFile} setFileUrl={setFileUrl} />
             </div>
           </div>
           <div className="flex justify-end px-6 pb-6">
@@ -374,7 +376,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                 Hủy
               </Button>
             </div>
-            <Button type="submit" variant="contained">
+            <Button disabled={disableForm} type="submit" variant="contained">
               Lưu
             </Button>
           </div>

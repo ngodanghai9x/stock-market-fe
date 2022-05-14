@@ -6,7 +6,9 @@ import { toast } from 'react-toastify';
 export default function ImageUpload({
   onChange,
   setFileUrl,
+  disabled,
 }: {
+  disabled?: boolean;
   onChange?: (fileState: FileState) => void;
   setFileUrl: (url: string) => void;
 }): JSX.Element {
@@ -38,8 +40,9 @@ export default function ImageUpload({
         multiple
         type="file"
         onChange={handleChangeFile}
+        disabled={disabled}
       />
-      <label htmlFor="contained-button-file" className="cursor-pointer">
+      <label htmlFor="contained-button-file" className={disabled ? 'cursor-not-allowed opacity-70' : 'cursor-pointer'}>
         <div>Tải lên chứng chỉ</div>
         {fileState ? (
           <img src={fileState?.base64} alt="" className="max-w-[100px] min-w-[100px] aspect-square" />

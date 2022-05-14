@@ -15,6 +15,7 @@ type AdminEditUserModalProps = {
   editRecord?: User;
   fetchData: () => Promise<void>;
 };
+const editableRoleIds = [1, 4];
 
 const AdminEditUserModal = ({ isOpen, onClose, editRecord, fetchData }: AdminEditUserModalProps) => {
   const {
@@ -43,6 +44,9 @@ const AdminEditUserModal = ({ isOpen, onClose, editRecord, fetchData }: AdminEdi
       toast(error?.message || error?.data.message);
     }
   };
+
+  const disableEditRole = !editRecord ? false : !editableRoleIds.includes(editRecord?.roleId);
+
   return (
     <div>
       <CustomModal
@@ -75,7 +79,10 @@ const AdminEditUserModal = ({ isOpen, onClose, editRecord, fetchData }: AdminEdi
                 {...register('user.fullName')}
               />
             </div>
-            {user.roleId === RoleIdType.admin && (
+            <div className="mb-2">
+              <TextField disabled label="Email" variant="standard" className="w-full" {...register('user.email')} />
+            </div>
+            {user.roleId === RoleIdType.admin && !disableEditRole && (
               <>
                 <div className="mb-2">
                   <FormControl variant="standard" className="w-full">
@@ -85,8 +92,9 @@ const AdminEditUserModal = ({ isOpen, onClose, editRecord, fetchData }: AdminEdi
                       labelId="demo-simple-select-standard-label"
                       {...register('user.roleId', { required: true, valueAsNumber: true })}
                       label="Vai trò"
+                      disabled={disableEditRole}
                     >
-                      {Object.keys(RoleLabelType).map((id) => {
+                      {editableRoleIds.map((id) => {
                         return <MenuItem value={+id}>{RoleLabelType[id]}</MenuItem>;
                       })}
                     </Select>

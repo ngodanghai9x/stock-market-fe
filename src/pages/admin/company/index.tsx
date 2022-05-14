@@ -74,6 +74,13 @@ const columns: readonly Column[] = [
     align: 'left',
   },
   {
+    id: 'editable',
+    label: 'Có thể sửa',
+    minWidth: 100,
+    align: 'left',
+    format: (id) => (id == 1 ? 'Có' : 'Không'),
+  },
+  {
     id: 'statusId',
     label: 'Trạng thái',
     minWidth: 170,

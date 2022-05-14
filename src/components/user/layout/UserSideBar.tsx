@@ -18,7 +18,7 @@ export const USER_SIDEBAR: Record<string, { label: string; render: () => React.R
   [PATH_NAMES.userInfo.slice(1)]: { label: 'Thông tin cơ bản', render: () => <PersonIcon /> },
   [PATH_NAMES.security.slice(1)]: { label: 'Bảo mật', render: () => <GppGoodIcon /> },
   [PATH_NAMES.changePassword.slice(1)]: { label: 'Đổi mật khẩu', render: () => <VpnKeyIcon /> },
-  [PATH_NAMES.identification.slice(1)]: { label: 'Căn cước công dân', render: () => <BrandingWatermarkIcon /> },
+  [PATH_NAMES.identification.slice(1)]: { label: 'Xác minh', render: () => <BrandingWatermarkIcon /> },
   [PATH_NAMES.payment.slice(1)]: { label: 'Thanh toán', render: () => <PaymentIcon /> },
 };
 

@@ -100,229 +100,234 @@ const Identification = () => {
             </>
           )}
         </div>
-        <div className="flex mb-8">
-          <span className="block mr-4 text-gray-400 min-w-[150px]">Tài khoản</span>
-          <span>{user.username}</span>
-        </div>
-        <div className="grid grid-cols-2">
-          <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">Số căn cước</span>
-            <div className="flex">
-              <span className="block min-w-[100px]">
-                {/* <input
+        <React.Fragment>
+          <p className="mt-2 mb-4 font-medium">Ngân hàng:</p>
+          <div className="grid grid-cols-2">
+            <div className="flex mb-8">
+              <span className="block mr-4 text-gray-400 min-w-[150px]">Số thẻ</span>
+              <div className="flex">
+                <span className="block min-w-[100px]">
+                  {/* <input
                   type="text"
                   className={`${isViewing ? '' : 'border'} p-2`}
                   {...register('user.fullName')}
                 /> */}
-                <TextField
-                  sx={{ minWidth: 300, maxWidth: 300 }}
-                  required
-                  variant="outlined"
-                  disabled={isViewing}
-                  className="w-full"
-                  {...register('citizenIdentity.number', { required: true })}
-                />
-              </span>
+                  <TextField
+                    sx={{ minWidth: 320, maxWidth: 320 }}
+                    required
+                    variant="outlined"
+                    disabled={isViewing}
+                    className="w-full"
+                    {...register('citizenIdentity.cardNumber', { required: true })}
+                  />
+                </span>
+              </div>
             </div>
-          </div>
-          <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">Họ và tên</span>
-            <div className="flex">
-              <span className="block min-w-[100px]">
-                {/* <input
-                  type="text"
-                  className={`${isViewing ? '' : 'border'} p-2`}
-                  {...register('user.fullName')}
-                /> */}
-                <TextField
-                  sx={{ minWidth: 300, maxWidth: 300 }}
-                  required
-                  variant="outlined"
-                  disabled={isViewing}
-                  className="w-full"
-                  {...register('citizenIdentity.name', { required: true })}
-                />
-              </span>
-            </div>
-          </div>
-          <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">Ngày sinh nhật</span>
-            <div className="flex">
-              <span className="block min-w-[100px]">
-                {/* <input
+            <div className="flex mb-8">
+              <span className="block mr-4 text-gray-400 min-w-[150px]">Ngày hết hạn thẻ</span>
+              <div className="flex">
+                <span className="block min-w-[100px]">
+                  {/* <input
                   type="text"
                   disabled={isViewing}
                   className={`${isViewing ? '' : 'border'} p-2`}
                   {...register('user.birthday')}
                 /> */}
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DatePicker
-                    value={birthday}
-                    onChange={(newValue) => {
-                      setBirthday(newValue);
-                    }}
-                    renderInput={(params) => <TextField sx={{ minWidth: 300, maxWidth: 300 }} {...params} />}
-                    disabled={isViewing}
-                  />
-                </LocalizationProvider>
-              </span>
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePicker
+                      value={cardExpiryDate}
+                      onChange={(newValue) => {
+                        setCardExpiryDate(newValue);
+                      }}
+                      renderInput={(params) => <TextField sx={{ minWidth: 320, maxWidth: 320 }} {...params} />}
+                      disabled={isViewing}
+                    />
+                  </LocalizationProvider>
+                </span>
+              </div>
             </div>
           </div>
-          <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">Quê quán</span>
-            <div className="flex">
-              <span className="block min-w-[100px]">
-                {/* <input
-                  type="text"
-                  className={`${isViewing ? '' : 'border'} p-2`}
-                  {...register('user.fullName')}
-                /> */}
-                <TextField
-                  sx={{ minWidth: 300, maxWidth: 300 }}
-                  required
-                  variant="outlined"
-                  disabled={isViewing}
-                  className="w-full"
-                  {...register('citizenIdentity.originAddress', { required: true })}
-                />
-              </span>
-            </div>
-          </div>
-          <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">Đ/c thường trú</span>
-            <div className="flex">
-              <span className="block min-w-[100px]">
-                {/* <input
-                  type="text"
-                  className={`${isViewing ? '' : 'border'} p-2`}
-                  {...register('user.fullName')}
-                /> */}
-                <TextField
-                  sx={{ minWidth: 300, maxWidth: 300 }}
-                  required
-                  variant="outlined"
-                  disabled={isViewing}
-                  className="w-full"
-                  {...register('citizenIdentity.residenceAddress', { required: true })}
-                />
-              </span>
-            </div>
-          </div>
-          <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">Ngày tạo</span>
-            <div className="flex">
-              <span className="block min-w-[100px]">
-                {/* <input
-                  type="text"
-                  disabled={isViewing}
-                  className={`${isViewing ? '' : 'border'} p-2`}
-                  {...register('user.birthday')}
-                /> */}
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DatePicker
-                    value={createDate}
-                    onChange={(newValue) => {
-                      setCreateDate(newValue);
-                    }}
-                    renderInput={(params) => <TextField sx={{ minWidth: 300, maxWidth: 300 }} {...params} />}
-                    disabled={isViewing}
-                  />
-                </LocalizationProvider>
-              </span>
-            </div>
-          </div>
-          <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">Ngày hết hạn CC</span>
-            <div className="flex">
-              <span className="block min-w-[100px]">
-                {/* <input
-                  type="text"
-                  disabled={isViewing}
-                  className={`${isViewing ? '' : 'border'} p-2`}
-                  {...register('user.birthday')}
-                /> */}
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DatePicker
-                    value={expiryDate}
-                    onChange={(newValue) => {
-                      setExpiryDate(newValue);
-                    }}
-                    renderInput={(params) => <TextField sx={{ minWidth: 300, maxWidth: 300 }} {...params} />}
-                    disabled={isViewing}
-                  />
-                </LocalizationProvider>
-              </span>
-            </div>
-          </div>
-          <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">Tạo bởi</span>
-            <div className="flex">
-              <span className="block min-w-[100px]">
-                {/* <input
-                  type="text"
-                  className={`${isViewing ? '' : 'border'} p-2`}
-                  {...register('user.fullName')}
-                /> */}
-                <TextField
-                  sx={{ minWidth: 300, maxWidth: 300 }}
-                  required
-                  variant="outlined"
-                  disabled={isViewing}
-                  className="w-full"
-                  {...register('citizenIdentity.createBy', { required: true })}
-                />
-              </span>
-            </div>
-          </div>
-          <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">Số thẻ NH</span>
-            <div className="flex">
-              <span className="block min-w-[100px]">
-                {/* <input
-                  type="text"
-                  className={`${isViewing ? '' : 'border'} p-2`}
-                  {...register('user.fullName')}
-                /> */}
-                <TextField
-                  sx={{ minWidth: 300, maxWidth: 300 }}
-                  required
-                  variant="outlined"
-                  disabled={isViewing}
-                  className="w-full"
-                  {...register('citizenIdentity.cardNumber', { required: true })}
-                />
-              </span>
-            </div>
-          </div>
-          <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">Ngày hết hạn thẻ NH</span>
-            <div className="flex">
-              <span className="block min-w-[100px]">
-                {/* <input
-                  type="text"
-                  disabled={isViewing}
-                  className={`${isViewing ? '' : 'border'} p-2`}
-                  {...register('user.birthday')}
-                /> */}
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DatePicker
-                    value={cardExpiryDate}
-                    onChange={(newValue) => {
-                      setCardExpiryDate(newValue);
-                    }}
-                    renderInput={(params) => <TextField sx={{ minWidth: 300, maxWidth: 300 }} {...params} />}
-                    disabled={isViewing}
-                  />
-                </LocalizationProvider>
-              </span>
-            </div>
-          </div>
+        </React.Fragment>
 
-          <div className="flex mb-8">
+        <React.Fragment>
+          <p className="mt-2 mb-4 font-medium">Căn cước công dân: </p>
+          <div className="grid grid-cols-2">
+            <div className="flex mb-8">
+              <span className="block mr-4 text-gray-400 min-w-[150px]">Số căn cước</span>
+              <div className="flex">
+                <span className="block min-w-[100px]">
+                  {/* <input
+                  type="text"
+                  className={`${isViewing ? '' : 'border'} p-2`}
+                  {...register('user.fullName')}
+                /> */}
+                  <TextField
+                    sx={{ minWidth: 320, maxWidth: 320 }}
+                    required
+                    variant="outlined"
+                    disabled={isViewing}
+                    className="w-full"
+                    {...register('citizenIdentity.number', { required: true })}
+                  />
+                </span>
+              </div>
+            </div>
+            <div className="flex mb-8">
+              <span className="block mr-4 text-gray-400 min-w-[150px]">Họ và tên</span>
+              <div className="flex">
+                <span className="block min-w-[100px]">
+                  {/* <input
+                  type="text"
+                  className={`${isViewing ? '' : 'border'} p-2`}
+                  {...register('user.fullName')}
+                /> */}
+                  <TextField
+                    sx={{ minWidth: 320, maxWidth: 320 }}
+                    required
+                    variant="outlined"
+                    disabled={isViewing}
+                    className="w-full"
+                    {...register('citizenIdentity.name', { required: true })}
+                  />
+                </span>
+              </div>
+            </div>
+            <div className="flex mb-8">
+              <span className="block mr-4 text-gray-400 min-w-[150px]">Ngày sinh nhật</span>
+              <div className="flex">
+                <span className="block min-w-[100px]">
+                  {/* <input
+                  type="text"
+                  disabled={isViewing}
+                  className={`${isViewing ? '' : 'border'} p-2`}
+                  {...register('user.birthday')}
+                /> */}
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePicker
+                      value={birthday}
+                      onChange={(newValue) => {
+                        setBirthday(newValue);
+                      }}
+                      renderInput={(params) => <TextField sx={{ minWidth: 320, maxWidth: 320 }} {...params} />}
+                      disabled={isViewing}
+                    />
+                  </LocalizationProvider>
+                </span>
+              </div>
+            </div>
+            <div className="flex mb-8">
+              <span className="block mr-4 text-gray-400 min-w-[150px]">Quê quán</span>
+              <div className="flex">
+                <span className="block min-w-[100px]">
+                  {/* <input
+                  type="text"
+                  className={`${isViewing ? '' : 'border'} p-2`}
+                  {...register('user.fullName')}
+                /> */}
+                  <TextField
+                    sx={{ minWidth: 320, maxWidth: 320 }}
+                    required
+                    variant="outlined"
+                    disabled={isViewing}
+                    className="w-full"
+                    {...register('citizenIdentity.originAddress', { required: true })}
+                  />
+                </span>
+              </div>
+            </div>
+            <div className="flex mb-8">
+              <span className="block mr-4 text-gray-400 min-w-[150px]">Đ/c thường trú</span>
+              <div className="flex">
+                <span className="block min-w-[100px]">
+                  {/* <input
+                  type="text"
+                  className={`${isViewing ? '' : 'border'} p-2`}
+                  {...register('user.fullName')}
+                /> */}
+                  <TextField
+                    sx={{ minWidth: 320, maxWidth: 320 }}
+                    required
+                    variant="outlined"
+                    disabled={isViewing}
+                    className="w-full"
+                    {...register('citizenIdentity.residenceAddress', { required: true })}
+                  />
+                </span>
+              </div>
+            </div>
+            <div className="flex mb-8">
+              <span className="block mr-4 text-gray-400 min-w-[150px]">Ngày tạo</span>
+              <div className="flex">
+                <span className="block min-w-[100px]">
+                  {/* <input
+                  type="text"
+                  disabled={isViewing}
+                  className={`${isViewing ? '' : 'border'} p-2`}
+                  {...register('user.birthday')}
+                /> */}
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePicker
+                      value={createDate}
+                      onChange={(newValue) => {
+                        setCreateDate(newValue);
+                      }}
+                      renderInput={(params) => <TextField sx={{ minWidth: 320, maxWidth: 320 }} {...params} />}
+                      disabled={isViewing}
+                    />
+                  </LocalizationProvider>
+                </span>
+              </div>
+            </div>
+            <div className="flex mb-8">
+              <span className="block mr-4 text-gray-400 min-w-[150px]">Ngày hết hạn</span>
+              <div className="flex">
+                <span className="block min-w-[100px]">
+                  {/* <input
+                  type="text"
+                  disabled={isViewing}
+                  className={`${isViewing ? '' : 'border'} p-2`}
+                  {...register('user.birthday')}
+                /> */}
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePicker
+                      value={expiryDate}
+                      onChange={(newValue) => {
+                        setExpiryDate(newValue);
+                      }}
+                      renderInput={(params) => <TextField sx={{ minWidth: 320, maxWidth: 320 }} {...params} />}
+                      disabled={isViewing}
+                    />
+                  </LocalizationProvider>
+                </span>
+              </div>
+            </div>
+            <div className="flex mb-8">
+              <span className="block mr-4 text-gray-400 min-w-[150px]">Tạo bởi</span>
+              <div className="flex">
+                <span className="block min-w-[100px]">
+                  {/* <input
+                  type="text"
+                  className={`${isViewing ? '' : 'border'} p-2`}
+                  {...register('user.fullName')}
+                /> */}
+                  <TextField
+                    sx={{ minWidth: 320, maxWidth: 320 }}
+                    required
+                    variant="outlined"
+                    disabled={isViewing}
+                    className="w-full"
+                    {...register('citizenIdentity.createBy', { required: true })}
+                  />
+                </span>
+              </div>
+            </div>
+
+            {/* <div className="flex mb-8">
             <span className="block mr-4 text-gray-400 min-w-[150px]">Trạng thái</span>
             <span>{UserStatusLabel[user.userStatus]}</span>
+          </div> */}
           </div>
-        </div>
+        </React.Fragment>
       </form>
     </div>
   );

@@ -6,6 +6,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { UserStatusLabel } from '../../constants';
 import { AppContext } from '../../context';
+import { numberWithCommas } from '../../lib/utils';
 import { User } from '../../services/api-admin.type';
 import { editUserInfo } from '../../services/api-user.service';
 import { EditUserPayload } from '../../services/api-user.type';
@@ -86,15 +87,19 @@ const Payment = () => {
         </div>
         <div>
           <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">Tài khoản Payment</span>
-            <span>{user.username}</span>
+            <span className="block mr-4 text-gray-400 min-w-[150px]">Tài khoản ngân hàng</span>
+            <span>{citizenIdentity?.cardNumber}</span>
           </div>
           <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">Email</span>
-            <span>{user.email}</span>
+            <span className="block mr-4 text-gray-400 min-w-[150px]">Số dư</span>
+            <span>{numberWithCommas(user.money || 0)}</span>
           </div>
           <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">Họ và tên</span>
+            <span className="block mr-4 text-gray-400 min-w-[150px]">Số dư bị phong tỏa</span>
+            <span>{numberWithCommas(user.lockedMoney || 0)}</span>
+          </div>
+          <div className="flex mb-8">
+            <span className="block mr-4 text-gray-400 min-w-[150px]">Tài khoản nhận tiền</span>
             <div className="flex">
               <span className="block min-w-[100px]">
                 {/* <input
@@ -102,7 +107,8 @@ const Payment = () => {
                   className={`${isViewing ? '' : 'border'} p-2`}
                   {...register('user.fullName')}
                 /> */}
-                <TextField sx={{ minWidth: 450, maxWidth: 450  }}
+                <TextField
+                  sx={{ minWidth: 450, maxWidth: 450 }}
                   required
                   variant="outlined"
                   disabled={isViewing}
@@ -113,7 +119,7 @@ const Payment = () => {
             </div>
           </div>
           <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">Ngày sinh nhật</span>
+            <span className="block mr-4 text-gray-400 min-w-[150px]">Số tiền</span>
             <div className="flex">
               <span className="block min-w-[100px]">
                 {/* <input
@@ -128,7 +134,7 @@ const Payment = () => {
                     onChange={(newValue) => {
                       setBirthday(newValue);
                     }}
-                    renderInput={(params) => <TextField sx={{ minWidth: 450, maxWidth: 450  }} {...params} />}
+                    renderInput={(params) => <TextField sx={{ minWidth: 450, maxWidth: 450 }} {...params} />}
                     disabled={isViewing}
                   />
                 </LocalizationProvider>
@@ -136,7 +142,7 @@ const Payment = () => {
             </div>
           </div>
           <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">Trạng thái</span>
+            <span className="block mr-4 text-gray-400 min-w-[150px]">Lời nhắn</span>
             <span>{UserStatusLabel[user.userStatus]}</span>
           </div>
         </div>

@@ -7,7 +7,7 @@
 @tailwind utilities;
 
 @layer base {
-  button[type='submit']  {
+  button[type='submit'], button.MuiButton-contained  {
       @apply bg-[#1976d2];
   }
 }

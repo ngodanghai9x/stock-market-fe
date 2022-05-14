@@ -91,7 +91,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
     setFileState(file);
     setFileUrl('');
   };
-
+  
   const uploadFile = async (): Promise<string | void> => {
     if (fileState) {
       return await filestackClient
@@ -163,6 +163,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                   freeSolo
                   disableClearable
                   options={industries.map((option) => option.industryName)}
+                  defaultValue={getValues('company.industry.industryName')}
                   renderInput={(params) => (
                     <div className="">
                       <TextField

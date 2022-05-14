@@ -237,7 +237,7 @@ export const NUMBER = {
 };
 
 export const PERCENT = {
-  fee: 0.1,
+  fee: 0.001,
   priceRange: 0.1,
 };
 

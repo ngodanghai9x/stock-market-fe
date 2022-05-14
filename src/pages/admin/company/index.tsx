@@ -12,6 +12,7 @@ import CreateCompanyModal from './components/CreateCompanyModal';
 import { getAllCompany } from '../../../services/api-admin.service';
 import { Company, Industry } from '../../../services/api-admin.type';
 import { StatusLabelType } from '../../../constants';
+import { formatDate } from '../../../lib/utils';
 
 // export interface CompanyData {
 //   companyId: number;
@@ -66,12 +67,14 @@ const columns: readonly Column[] = [
     label: 'Ngày thành lập',
     minWidth: 170,
     align: 'left',
+    format: (date) => formatDate(String(date || '')),
   },
   {
     id: 'ipoDate',
     label: 'Ngày niêm yết',
     minWidth: 170,
     align: 'left',
+    format: (date) => formatDate(String(date || '')),
   },
   {
     id: 'editable',

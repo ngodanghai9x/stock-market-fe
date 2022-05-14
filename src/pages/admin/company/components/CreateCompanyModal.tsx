@@ -91,7 +91,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
     setFileState(file);
     setFileUrl('');
   };
-  
+
   const uploadFile = async (): Promise<string | void> => {
     if (fileState) {
       return await filestackClient
@@ -118,15 +118,19 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
           industryId: listIndustry.get(getValues('company.industryId').toString()) || 0,
         },
       };
-      let res = { data: { message: '' } };
+      let res = { data: { message: '' }, status: 0 };
 
       if (editRecord) {
         res = await editCompany(formData, formData.company.companyId);
       } else {
         res = await createCompany(formData);
       }
+      if (res.status === 200) {
+        resetForm();
+        fetchData();
+        onClose();
+      }
       toast(res.data?.message);
-      fetchData();
     } catch (error: any) {
       toast(error?.message || error?.data.message);
     }
@@ -168,7 +172,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                     <div className="">
                       <TextField
                         {...params}
-                        {...register('company.industryId', { valueAsNumber: true })}
+                        {...register('company.industryId')}
                         required
                         label="Ngành nghề"
                         variant="standard"
@@ -327,7 +331,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                     </label>
                   </div>
                 </div>
-                
+
                 <p className="mt-2 font-medium">Cố phiếu: </p>
                 <div className="my-2">
                   <TextField

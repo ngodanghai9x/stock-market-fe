@@ -46,15 +46,18 @@ const CreateIndustryModal = ({ isOpen, onClose, editRecord, fetchData }: CreateI
   const onSubmit: SubmitHandler<CreateIndustryPayload> = async (data) => {
     try {
       console.log(data);
-      let res = { data: { message: '' } };
+      let res = { data: { message: '' }, status: 0 };
       if (editRecord) {
         res = await editIndustry(data, data.industry.industryId);
       } else {
         res = await createIndustry(data);
       }
+      if (res.status === 200) {
+        reset({ industry: {} });
+        fetchData();
+        onClose();
+      }
       toast(res.data?.message);
-
-      fetchData();
     } catch (error: any) {
       toast(error?.message || error?.data.message);
     }
@@ -73,15 +76,17 @@ const CreateIndustryModal = ({ isOpen, onClose, editRecord, fetchData }: CreateI
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mx-10 mb-10">
-            <div className="my-2">
-              <TextField
-                disabled
-                label="ID"
-                variant="standard"
-                className="w-full"
-                {...register('industry.industryId')}
-              />
-            </div>
+            {editRecord && (
+              <div className="my-2">
+                <TextField
+                  disabled
+                  label="ID"
+                  variant="standard"
+                  className="w-full"
+                  {...register('industry.industryId')}
+                />
+              </div>
+            )}
             <div className="mb-2">
               <TextField
                 required

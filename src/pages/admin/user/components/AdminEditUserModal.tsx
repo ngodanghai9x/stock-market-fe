@@ -38,8 +38,12 @@ const AdminEditUserModal = ({ isOpen, onClose, editRecord, fetchData }: AdminEdi
     try {
       console.log(data);
       const res = await editUserByAdmin(data, data.user.userId);
+      if (res.status === 200) {
+        reset({ user: editRecord });
+        fetchData();
+        onClose();
+      }
       toast(res.data?.message);
-      fetchData();
     } catch (error: any) {
       toast(error?.message || error?.data.message);
     }

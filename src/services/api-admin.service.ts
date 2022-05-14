@@ -14,7 +14,7 @@ const adminBaseUrl = `${process.env.REACT_APP_API_HOST}`;
 
 export const getReport = async () => {
   const res = await axiosClient.get(`${adminBaseUrl}/report`);
-  return new MyResponse<GetReportResponse>(res);
+  return new MyResponse<GetReportResponse>(res).data;
 };
 
 export const getAllIndustry = async () => {

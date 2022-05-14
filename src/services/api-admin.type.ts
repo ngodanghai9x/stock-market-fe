@@ -153,19 +153,23 @@ export type SearchPayload = {
 
 export type GetReportResponse = {
   company: {
-    records: Partial<Company>;
+    records: Partial<Company>[];
     count: number;
   };
-  industry: {
-    records: Partial<Industry>;
-    count: number;
-  };
-  user: {
-    records: Partial<User>;
-    count: number;
-  };
-  // stockOrder: {
-  //   records: Partial<StockOrder>;
+  // industry: {
+  //   records: Partial<Industry>[];
   //   count: number;
   // };
+  user: {
+    records: Partial<User>[];
+    count: number;
+  };
+  stockOrder: {
+    records: Partial<StockOrder>[];
+    count: number;
+  };
+  matchedOrder: {
+    records: Partial<StockOrderMatching>[];
+    count: number;
+  };
 };

@@ -187,12 +187,14 @@ export function formatTotal(num: number) {
   }
 }
 
-export const formatDate = (v: string | Date, format: string = 'DD/MM/YYYY'): string => {
+export const formatDate = (v?: string | Date, format: string = 'DD/MM/YYYY'): string => {
+  if (!v) return '';
   return moment(v).format(format);
 };
 
-export function numberWithCommas(x: number) {
-  return x?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+export function numberWithCommas(x?: number) {
+  if (!x) return '';
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
 export function isFloat(n: number) {

@@ -34,7 +34,7 @@ const VerifyTradingOtpModal = ({ isOpen, onClose, fetchOTP }: VerifyTradingOtpMo
     try {
       console.log(data);
       const res = await verifyTradingOtp(data.otpTrading);
-      if (res.statusCode === 200) {
+      if (res.status === 200) {
         onClose();
         toast('Xác nhận mã OTP thành công');
       }

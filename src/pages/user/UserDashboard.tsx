@@ -40,7 +40,7 @@ const UserDashboard = () => {
     } as EditUserPayload;
     try {
       const res = await editUserInfo(editedUser, user.userId);
-      toast('Sửa thông tin người dùng thành công');
+      toast(res.message);
       fetchUser().then(() => {
         resetValue();
         setIsViewing(true);

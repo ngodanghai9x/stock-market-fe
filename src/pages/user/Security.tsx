@@ -39,7 +39,7 @@ const Security = () => {
     } as EditUserPayload;
     try {
       const res = await editUserSecretInfo(editedUser, user.userId);
-      toast('Sửa thông tin người dùng thành công');
+      toast(res.message);
       fetchUser().then(() => {
         resetValue();
         setIsViewing(true);

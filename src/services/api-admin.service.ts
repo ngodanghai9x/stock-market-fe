@@ -16,7 +16,7 @@ export const getReport = async () => {
   const res = await axiosClient.get(`${adminBaseUrl}/report`);
   return new MyResponse<GetReportResponse>(res).data;
 };
-
+// missing MyResponse
 export const getAllIndustry = async () => {
   const res = await axiosClient.get(`${adminBaseUrl}/companies/industries`);
   return res.data.data.industries;
@@ -31,54 +31,61 @@ export const getAllUser = async () => {
   const res = await axiosClient.get(`${adminBaseUrl}/users`);
   return res.data.data.users;
 };
+// end missing MyResponse
 
 export const searchIndustries = async ({ q = '', page = 1, size = 100 }: SearchPayload) => {
   const res = await axiosClient.get(`${adminBaseUrl}/companies/industries?q=${q}&page=${page}&size=${size}`);
-  return res.data.data.industries;
+  return new MyResponse<any>(res).data;
 };
 
 export const searchCompanies = async ({ q = '', page = 1, size = 100 }: SearchPayload) => {
   const res = await axiosClient.get(`${adminBaseUrl}/companies?q=${q}&page=${page}&size=${size}`);
-  return res.data.data.companies;
+  return new MyResponse<any>(res);
 };
 
 export const searchUsers = async ({ q = '', page = 1, size = 100 }: SearchPayload) => {
   const res = await axiosClient.get(`${adminBaseUrl}/users?q=${q}&page=${page}&size=${size}`);
-  return res.data.data.users;
+  return new MyResponse<any>(res);
 };
 
-export const editUserByAdmin = (payload: AdminEditUserPayload, userId: number) => {
-  return axiosClient.put(`${adminBaseUrl}/user/admin/${userId}`, {
+export const editUserByAdmin = async (payload: AdminEditUserPayload, userId: number) => {
+  const res = await axiosClient.put(`${adminBaseUrl}/user/admin/${userId}`, {
     ...payload,
   });
+  return new MyResponse<any>(res);
 };
 
-export const editCompany = (payload: EditCompanyPayload, companyId: number) => {
-  return axiosClient.put(`${adminBaseUrl}/company/${companyId}`, {
+export const editCompany = async (payload: EditCompanyPayload, companyId: number) => {
+  const res = await axiosClient.put(`${adminBaseUrl}/company/${companyId}`, {
     ...payload,
   });
+  return new MyResponse<any>(res);
 };
 
-export const editIndustry = (payload: EditIndustryPayload, industryId: number) => {
-  return axiosClient.put(`${adminBaseUrl}/company/industry/${industryId}`, {
+export const editIndustry = async (payload: EditIndustryPayload, industryId: number) => {
+  const res = await axiosClient.put(`${adminBaseUrl}/company/industry/${industryId}`, {
     ...payload,
   });
+  return new MyResponse<any>(res);
 };
 
-export const createIndustry = (payload: CreateIndustryPayload) => {
-  return axiosClient.post(`${adminBaseUrl}/company/industry`, {
+export const createIndustry = async (payload: CreateIndustryPayload) => {
+  const res = await axiosClient.post(`${adminBaseUrl}/company/industry`, {
     ...payload,
   });
+  return new MyResponse<any>(res);
 };
 
-export const createCompany = (payload: CreateCompanyPayload) => {
-  return axiosClient.post(`${adminBaseUrl}/company`, {
+export const createCompany = async (payload: CreateCompanyPayload) => {
+  const res = await axiosClient.post(`${adminBaseUrl}/company`, {
     ...payload,
   });
+  return new MyResponse<any>(res);
 };
 
-export const createCompanyNoAuth = (payload: CreateCompanyPayload) => {
-  return axiosClient.post(`${adminBaseUrl}/company/no-auth`, {
+export const createCompanyNoAuth = async (payload: CreateCompanyPayload) => {
+  const res = await axiosClient.post(`${adminBaseUrl}/company/no-auth`, {
     ...payload,
   });
+  return new MyResponse<any>(res);
 };

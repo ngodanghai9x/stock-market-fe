@@ -56,7 +56,7 @@ const Identification = () => {
     } as EditUserPayload;
     try {
       const res = await editUserInfo(editedUser, user.userId);
-      toast('Sửa thông tin người dùng thành công');
+      toast(res.message);
       fetchUser().then(() => {
         resetValue();
         setIsViewing(true);
@@ -100,18 +100,14 @@ const Identification = () => {
             </>
           )}
         </div>
+
         <React.Fragment>
-          <p className="mt-2 mb-4 font-medium">Ngân hàng:</p>
+          {/* <p className="mt-2 mb-4 font-medium">Ngân hàng:</p>
           <div className="grid grid-cols-2">
             <div className="flex mb-8">
               <span className="block mr-4 text-gray-400 min-w-[150px]">Số thẻ</span>
               <div className="flex">
                 <span className="block min-w-[100px]">
-                  {/* <input
-                  type="text"
-                  className={`${isViewing ? '' : 'border'} p-2`}
-                  {...register('user.fullName')}
-                /> */}
                   <TextField
                     sx={{ minWidth: 320, maxWidth: 320 }}
                     required
@@ -127,12 +123,6 @@ const Identification = () => {
               <span className="block mr-4 text-gray-400 min-w-[150px]">Ngày hết hạn thẻ</span>
               <div className="flex">
                 <span className="block min-w-[100px]">
-                  {/* <input
-                  type="text"
-                  disabled={isViewing}
-                  className={`${isViewing ? '' : 'border'} p-2`}
-                  {...register('user.birthday')}
-                /> */}
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DatePicker
                       value={cardExpiryDate}
@@ -146,7 +136,7 @@ const Identification = () => {
                 </span>
               </div>
             </div>
-          </div>
+          </div> */}
         </React.Fragment>
 
         <React.Fragment>
@@ -156,11 +146,6 @@ const Identification = () => {
               <span className="block mr-4 text-gray-400 min-w-[150px]">Số căn cước</span>
               <div className="flex">
                 <span className="block min-w-[100px]">
-                  {/* <input
-                  type="text"
-                  className={`${isViewing ? '' : 'border'} p-2`}
-                  {...register('user.fullName')}
-                /> */}
                   <TextField
                     sx={{ minWidth: 320, maxWidth: 320 }}
                     required
@@ -176,11 +161,6 @@ const Identification = () => {
               <span className="block mr-4 text-gray-400 min-w-[150px]">Họ và tên</span>
               <div className="flex">
                 <span className="block min-w-[100px]">
-                  {/* <input
-                  type="text"
-                  className={`${isViewing ? '' : 'border'} p-2`}
-                  {...register('user.fullName')}
-                /> */}
                   <TextField
                     sx={{ minWidth: 320, maxWidth: 320 }}
                     required
@@ -196,12 +176,6 @@ const Identification = () => {
               <span className="block mr-4 text-gray-400 min-w-[150px]">Ngày sinh nhật</span>
               <div className="flex">
                 <span className="block min-w-[100px]">
-                  {/* <input
-                  type="text"
-                  disabled={isViewing}
-                  className={`${isViewing ? '' : 'border'} p-2`}
-                  {...register('user.birthday')}
-                /> */}
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DatePicker
                       value={birthday}
@@ -219,11 +193,6 @@ const Identification = () => {
               <span className="block mr-4 text-gray-400 min-w-[150px]">Quê quán</span>
               <div className="flex">
                 <span className="block min-w-[100px]">
-                  {/* <input
-                  type="text"
-                  className={`${isViewing ? '' : 'border'} p-2`}
-                  {...register('user.fullName')}
-                /> */}
                   <TextField
                     sx={{ minWidth: 320, maxWidth: 320 }}
                     required
@@ -239,11 +208,6 @@ const Identification = () => {
               <span className="block mr-4 text-gray-400 min-w-[150px]">Đ/c thường trú</span>
               <div className="flex">
                 <span className="block min-w-[100px]">
-                  {/* <input
-                  type="text"
-                  className={`${isViewing ? '' : 'border'} p-2`}
-                  {...register('user.fullName')}
-                /> */}
                   <TextField
                     sx={{ minWidth: 320, maxWidth: 320 }}
                     required
@@ -259,12 +223,6 @@ const Identification = () => {
               <span className="block mr-4 text-gray-400 min-w-[150px]">Ngày tạo</span>
               <div className="flex">
                 <span className="block min-w-[100px]">
-                  {/* <input
-                  type="text"
-                  disabled={isViewing}
-                  className={`${isViewing ? '' : 'border'} p-2`}
-                  {...register('user.birthday')}
-                /> */}
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DatePicker
                       value={createDate}
@@ -282,12 +240,6 @@ const Identification = () => {
               <span className="block mr-4 text-gray-400 min-w-[150px]">Ngày hết hạn</span>
               <div className="flex">
                 <span className="block min-w-[100px]">
-                  {/* <input
-                  type="text"
-                  disabled={isViewing}
-                  className={`${isViewing ? '' : 'border'} p-2`}
-                  {...register('user.birthday')}
-                /> */}
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DatePicker
                       value={expiryDate}
@@ -305,11 +257,6 @@ const Identification = () => {
               <span className="block mr-4 text-gray-400 min-w-[150px]">Tạo bởi</span>
               <div className="flex">
                 <span className="block min-w-[100px]">
-                  {/* <input
-                  type="text"
-                  className={`${isViewing ? '' : 'border'} p-2`}
-                  {...register('user.fullName')}
-                /> */}
                   <TextField
                     sx={{ minWidth: 320, maxWidth: 320 }}
                     required

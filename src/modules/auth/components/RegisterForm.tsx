@@ -22,7 +22,6 @@ export const RegisterForm = () => {
   const [hasCaptchaToken, setHasCaptchaToken] = useState(false);
 
   const onSubmit: SubmitHandler<RegisterPayload> = async (data) => {
-    console.log('🚀 ~ file: RegisterForm.tsx ~ line 24 ~ constonSubmit:SubmitHandler<RegisterPayload>= ~ data', data);
     try {
       const res = await customerRegister(data);
       toast(res.message);

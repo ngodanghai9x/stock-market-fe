@@ -58,8 +58,8 @@ const IndustryPage = () => {
   const [editRecord, setEditRecord] = useState<Industry | undefined>(undefined);
 
   const fetchData = async () => {
-    const list = await searchIndustries({} as SearchPayload);
-    setRecords(list);
+    const { industries } = await searchIndustries({} as SearchPayload);
+    setRecords(industries);
   };
 
   useEffect(() => {

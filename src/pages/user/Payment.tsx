@@ -19,7 +19,6 @@ const Payment = () => {
 
   const [birthday, setBirthday] = useState<string | null | Date>(user.birthday);
   const { register, handleSubmit, setValue } = useForm<EditUserPayload>();
-  const [isViewing, setIsViewing] = useState(true);
 
   const resetValue = () => {
     if (user) {
@@ -41,10 +40,9 @@ const Payment = () => {
     } as EditUserPayload;
     try {
       const res = await editUserInfo(editedUser, user.userId);
-      toast('Sửa thông tin người dùng thành công');
+      toast(res.message);
       fetchUser().then(() => {
         resetValue();
-        setIsViewing(true);
       });
     } catch (error: any) {
       toast(error?.message || error?.data.message);
@@ -53,65 +51,27 @@ const Payment = () => {
   return (
     <div className="bg-white w-11/12 h-full p-10">
       <form className="mx-[110px]" onSubmit={handleSubmit(updateUserHandler)}>
-        <div className="flex justify-end">
-          {isViewing ? (
-            <Button
-              type="button"
-              variant="contained"
-              onClick={(e) => {
-                e.preventDefault();
-                setIsViewing((prev) => !prev);
-              }}
-            >
-              Chỉnh sửa
-            </Button>
-          ) : (
-            <>
-              <Button
-                type="button"
-                variant="outlined"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setIsViewing((prev) => !prev);
-                  resetValue();
-                }}
-                className="mx-3"
-              >
-                Hủy
-              </Button>
-              <Button type="submit" variant="contained">
-                Lưu
-              </Button>
-            </>
-          )}
-        </div>
         <div>
-          <div className="flex mb-8">
+          <div className="flex mb-5">
             <span className="block mr-4 text-gray-400 min-w-[150px]">Tài khoản ngân hàng</span>
             <span>{citizenIdentity?.cardNumber}</span>
           </div>
-          <div className="flex mb-8">
+          <div className="flex mb-5">
             <span className="block mr-4 text-gray-400 min-w-[150px]">Số dư</span>
-            <span>{numberWithCommas(user.money || 0)}</span>
+            <span>{numberWithCommas(user.money) || 0}</span>
           </div>
-          <div className="flex mb-8">
+          <div className="flex mb-6">
             <span className="block mr-4 text-gray-400 min-w-[150px]">Số dư bị phong tỏa</span>
-            <span>{numberWithCommas(user.lockedMoney || 0)}</span>
+            <span>{numberWithCommas(user.lockedMoney) || 0}</span>
           </div>
           <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">Tài khoản nhận tiền</span>
+            <span className="block mr-4 text-gray-400 min-w-[150px]">Số tiền muốn rút</span>
             <div className="flex">
               <span className="block min-w-[100px]">
-                {/* <input
-                  type="text"
-                  className={`${isViewing ? '' : 'border'} p-2`}
-                  {...register('user.fullName')}
-                /> */}
                 <TextField
                   sx={{ minWidth: 450, maxWidth: 450 }}
                   required
                   variant="outlined"
-                  disabled={isViewing}
                   className="w-full"
                   {...register('user.fullName', { required: true })}
                 />
@@ -119,33 +79,51 @@ const Payment = () => {
             </div>
           </div>
           <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">Số tiền</span>
+            <span className="block mr-4 text-gray-400 min-w-[150px]">Mã OTP</span>
             <div className="flex">
               <span className="block min-w-[100px]">
-                {/* <input
-                  type="text"
-                  disabled={isViewing}
-                  className={`${isViewing ? '' : 'border'} p-2`}
-                  {...register('user.birthday')}
-                /> */}
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DatePicker
-                    value={birthday}
-                    onChange={(newValue) => {
-                      setBirthday(newValue);
-                    }}
-                    renderInput={(params) => <TextField sx={{ minWidth: 450, maxWidth: 450 }} {...params} />}
-                    disabled={isViewing}
-                  />
-                </LocalizationProvider>
+                <TextField
+                  sx={{ minWidth: 450, maxWidth: 450 }}
+                  required
+                  variant="outlined"
+                  className="w-full"
+                  {...register('user.fullName', { required: true })}
+                />
               </span>
             </div>
           </div>
           <div className="flex mb-8">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">Lời nhắn</span>
-            <span>{UserStatusLabel[user.userStatus]}</span>
+            <span className="block mr-4 text-gray-400 min-w-[150px]">Mật khẩu cũ</span>
+            <div className="flex">
+              <span className="block min-w-[100px]">
+                <TextField
+                  sx={{ minWidth: 450, maxWidth: 450 }}
+                  required
+                  type="password"
+                  variant="outlined"
+                  className="w-full"
+                  {...register('user.fullName', { required: true })}
+                />
+              </span>
+            </div>
           </div>
         </div>
+        <>
+          <Button
+            type="button"
+            variant="outlined"
+            onClick={(e) => {
+              e.preventDefault();
+              resetValue();
+            }}
+            className="mx-3"
+          >
+            Gửi lại mã OTP
+          </Button>
+          <Button type="submit" variant="contained">
+            Rút tiền
+          </Button>
+        </>
       </form>
     </div>
   );

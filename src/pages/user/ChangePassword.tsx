@@ -47,38 +47,6 @@ const ChangePassword = () => {
   return (
     <div className="bg-white w-11/12 h-full p-10">
       <form className="mx-[110px]" onSubmit={handleSubmit(updateUserHandler)}>
-        <div className="flex justify-end">
-          {isViewing ? (
-            <Button
-              type="button"
-              variant="contained"
-              onClick={(e) => {
-                e.preventDefault();
-                setIsViewing((prev) => !prev);
-              }}
-            >
-              Chỉnh sửa
-            </Button>
-          ) : (
-            <>
-              <Button
-                type="button"
-                variant="outlined"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setIsViewing((prev) => !prev);
-                  resetValue();
-                }}
-                className="mx-3"
-              >
-                Hủy
-              </Button>
-              <Button type="submit" variant="contained">
-                Lưu
-              </Button>
-            </>
-          )}
-        </div>
         <div>
           <div className="flex mb-8">
             <span className="block mr-4 text-gray-400 min-w-[150px]">Tài khoản</span>
@@ -165,6 +133,38 @@ const ChangePassword = () => {
               </span>
             </div>
           </div>
+        </div>
+        <div className="ml-[80px]">
+          {isViewing ? (
+            <Button
+              type="button"
+              variant="contained"
+              onClick={(e) => {
+                e.preventDefault();
+                setIsViewing((prev) => !prev);
+              }}
+            >
+              Chỉnh sửa
+            </Button>
+          ) : (
+            <>
+              <Button
+                type="button"
+                variant="outlined"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsViewing((prev) => !prev);
+                  resetValue();
+                }}
+                className="mx-3"
+              >
+                Hủy
+              </Button>
+              <Button type="submit" variant="contained">
+                Lưu
+              </Button>
+            </>
+          )}
         </div>
       </form>
     </div>

@@ -54,7 +54,7 @@ const Payment = () => {
         <div>
           <div className="flex mb-5">
             <span className="block mr-4 text-gray-400 min-w-[150px]">Tài khoản ngân hàng</span>
-            <span>{citizenIdentity?.cardNumber}</span>
+            <span>{user?.bankNumber}</span>
           </div>
           <div className="flex mb-5">
             <span className="block mr-4 text-gray-400 min-w-[150px]">Số dư</span>

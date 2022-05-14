@@ -93,6 +93,7 @@ const AdminEditUserModal = ({ isOpen, onClose, editRecord, fetchData }: AdminEdi
                       {...register('user.roleId', { required: true, valueAsNumber: true })}
                       label="Vai trò"
                       disabled={disableEditRole}
+                      defaultValue={getValues('user.roleId')}
                     >
                       {editableRoleIds.map((id) => {
                         return <MenuItem value={+id}>{RoleLabelType[id]}</MenuItem>;

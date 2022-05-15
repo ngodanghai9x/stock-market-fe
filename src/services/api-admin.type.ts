@@ -64,7 +64,7 @@ export type Industry = {
 export type User = {
   userId: number;
   username: string;
-  // password: string | null;
+  password: string | null;
   fullName: string;
   roleId: number;
   email: string | null;

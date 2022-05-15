@@ -16,7 +16,7 @@ const PriceTableDashboard = () => {
 
   return (
     <div>
-      <PriceTable itemList={list} setMode={setMode} />
+      <PriceTable mode={mode} itemList={list} setMode={setMode} />
     </div>
   );
 };

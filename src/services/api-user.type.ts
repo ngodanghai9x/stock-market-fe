@@ -107,3 +107,10 @@ export type EditUserPayload = {
   citizenIdentity?: EditableIdentity;
   password: string;
 };
+
+export type DrawMoneyPayload = {
+  bankNumber: string;
+  money: number;
+  oldPassword: string;
+  otp: string;
+}

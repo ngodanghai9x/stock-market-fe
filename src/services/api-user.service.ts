@@ -2,6 +2,7 @@ import axiosClient from '../lib/request';
 import { MyResponse } from '../types';
 import {
   CreateStockOrderPayload,
+  DrawMoneyPayload,
   EditUserPayload,
   GetAllStockOrderResponse,
   GetUser,
@@ -119,3 +120,15 @@ export const getCurrencyIndexes = async () => {
     }[];
   }>(res);
 };
+
+export const sendOpt = async (userName: string) => {
+  const res = await axiosClient.get(`${baseUrl}/finance/withdraw/otp?username=${userName}`);
+  return new MyResponse<any>(res);
+}
+
+export const drawMoney = async (data: DrawMoneyPayload) => {
+  const res = await axiosClient.get(`${baseUrl}/finance/withdraw`, {
+    data
+  })
+  return new MyResponse<any>(res);
+}

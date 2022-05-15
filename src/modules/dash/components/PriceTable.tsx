@@ -102,9 +102,10 @@ const ColorTableCell = ({
 type PriceTableProps = {
   itemList?: PriceItem[];
   setMode: React.Dispatch<React.SetStateAction<ModePT>>;
+  mode: ModePT
 };
 
-const PriceTable = ({ itemList = [], setMode }: PriceTableProps) => {
+const PriceTable = ({ itemList = [], setMode, mode }: PriceTableProps) => {
   const [currentStock, setCurrentStock] = React.useState<PriceItem>({} as PriceItem);
   const [favSymbols, _setFavSymbols] = React.useState<string[]>(getFavSymbolsFromStorage());
   const [list, setList] = React.useState<PriceItem[]>(itemList);
@@ -147,13 +148,20 @@ const PriceTable = ({ itemList = [], setMode }: PriceTableProps) => {
       <div className="row-span-2">
         <PriceTableSubHeader />
         <PriceTableHeader currentStock={currentStock} />
-        <input type="search" onChange={handleChangeSearch} value={query} placeholder="Tìm kiếm mã cổ phiếu" />
-        <button type="button" className="text-white mx-2" onClick={() => setMode(ModePT.default)}>
+        <div className='flex items-end border-b-red-400 border-b'>
+      <div className='mb-0'>
+      <input type="search" onChange={handleChangeSearch} value={query} placeholder="Tìm kiếm mã cổ phiếu" className='m-3 mb-0 p-1 rounded' />
+      <div className='h-1'></div>
+      </div>
+      <div className='px-2'>
+      <button type="button" className={`text-white mx-2 px-2 py-1 rounded rounded-b-none ${mode === ModePT.default && `bg-red-400`}`} onClick={() => setMode(ModePT.default)}>
           default
         </button>
-        <button type="button" className="text-white" onClick={() => setMode(ModePT.favorite)}>
+        <button type="button" className={`text-white mx-2 px-2 py-1 rounded rounded-b-none  ${mode === ModePT.favorite && `bg-red-400`}`} onClick={() => setMode(ModePT.favorite)}>
           favorite
         </button>
+      </div>
+        </div>
         <TableContainer
           component={Paper}
           sx={{

@@ -193,7 +193,7 @@ export const formatDate = (v?: string | Date, format: string = 'DD/MM/YYYY'): st
 };
 
 export function numberWithCommas(x?: number) {
-  if (!x) return '';
+  if (!x) return 0;
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 

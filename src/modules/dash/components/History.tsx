@@ -109,7 +109,7 @@ const History = () => {
       <div className="flex m-4">
         <span className="font-semibold block mr-4">Lịch sử</span>
         <ul className="flex">
-          <li className="px-4 border-b text-red-500 border-red-500">
+          <li className="px-4 border-b text-myYellow border-myYellow">
             <button>Lệnh thường</button>
           </li>
           <li className="px-4 border-b opacity-70 cursor-not-allowed">

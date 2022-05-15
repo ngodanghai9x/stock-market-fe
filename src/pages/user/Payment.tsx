@@ -19,23 +19,40 @@ const Payment = () => {
     fetchUser,
   } = React.useContext(AppContext);
 
-  const [birthday, setBirthday] = useState<string | null | Date>(user.birthday);
-  const { register, handleSubmit, setValue, formState: {errors} } = useForm<DrawMoneyPayload>();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<DrawMoneyPayload>();
+
+  const resetForm = () => {
+    setValue('bankNumber', '');
+    setValue('money', 0);
+    setValue('otp', '');
+    setValue('oldPassword', '');
+  };
 
   const drawMoneyHandler: SubmitHandler<DrawMoneyPayload> = async (data) => {
-      const res = await drawMoney(data);
-      console.log(res)
-  }
+    try {
+      const res = await drawMoney({ ...data, bankNumber: user.bankNumber || '' });
+      resetForm();
+      fetchUser();
+      toast(res.message);
+    } catch (err: any) {
+      toast(err?.message);
+    }
+  };
 
   const sendOptHandler = async () => {
     try {
-    const res = await sendOpt(user.username)
-      toast(res.message)
+      const res = await sendOpt(user.username);
+      // toast(res.message)
     } catch (error: any) {
-      toast(error)
-      console.error(error)
+      toast(error);
+      console.error(error);
     }
-  }
+  };
 
   return (
     <div className="bg-white w-11/12 h-full p-10">
@@ -60,15 +77,19 @@ const Payment = () => {
                 <TextField
                   sx={{ minWidth: 450, maxWidth: 450 }}
                   required
+                  type="number"
                   variant="outlined"
                   className="w-full"
-                  {...register('money', { required: true, validate: {
-                    greaterThanCurrentMoney: (value) => value < Number(user.money)
-                  } })}
+                  {...register('money', {
+                    required: true,
+                    valueAsNumber: true,
+                    validate: {
+                      greaterThanCurrentMoney: (value) => value < Number(user.money),
+                    },
+                  })}
                 />
               </span>
-            {errors.money && <ValidateMessage>Số dư không đủ</ValidateMessage>}
-
+              {errors.money && <ValidateMessage>Số dư không đủ</ValidateMessage>}
             </div>
           </div>
           <div className="flex mb-8">
@@ -95,9 +116,7 @@ const Payment = () => {
                   type="password"
                   variant="outlined"
                   className="w-full"
-                  {...register('oldPassword', { required: true, validate: {
-                    validPassword: (value) => value === user.password
-                  } })}
+                  {...register('oldPassword', { required: true })}
                 />
               </span>
               {errors.oldPassword && <ValidateMessage>Mật khẩu không hợp lệ</ValidateMessage>}
@@ -110,7 +129,7 @@ const Payment = () => {
             variant="outlined"
             onClick={(e) => {
               e.preventDefault();
-              sendOptHandler()
+              sendOptHandler();
             }}
             className="mx-3"
           >

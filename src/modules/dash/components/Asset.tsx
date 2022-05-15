@@ -133,7 +133,7 @@ const Asset = ({ itemList }: { itemList: PriceItem[] }) => {
             {TABS.map((tab) => (
               <button
                 className={`px-4 py-2 border-b font-semibold	 min-w-[90px] ${
-                  currentTab === tab.key ? 'border-red-500 text-red-500 ' : ''
+                  currentTab === tab.key ? 'border-myYellow text-myYellow ' : ''
                 }`}
                 key={tab.key}
                 onClick={() => setCurrentTab(tab.key)}

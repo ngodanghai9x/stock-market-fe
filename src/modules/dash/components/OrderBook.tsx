@@ -103,7 +103,7 @@ const OrderBook = () => {
       <div className="flex m-4">
         <span className="font-semibold block mr-4">Sổ lệnh</span>
         <ul className="flex">
-          <li className="px-4 border-b text-red-500 border-red-500">
+          <li className="px-4 border-b text-myYellow border-myYellow">
             <button>Thường</button>
           </li>
           <li className="px-4 border-b opacity-70 cursor-not-allowed">

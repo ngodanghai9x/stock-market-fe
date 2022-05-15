@@ -127,8 +127,8 @@ export const sendOpt = async (userName: string) => {
 }
 
 export const drawMoney = async (data: DrawMoneyPayload) => {
-  const res = await axiosClient.get(`${baseUrl}/finance/withdraw`, {
-    data
+  const res = await axiosClient.put(`${baseUrl}/finance/withdraw`, {
+    ...data
   })
   return new MyResponse<any>(res);
 }

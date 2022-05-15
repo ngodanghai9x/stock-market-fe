@@ -52,7 +52,7 @@ const MoneyInfo = ({ itemList }: { itemList: PriceItem[] }) => {
           {TABS.map((tab) => (
             <li
               key={tab.key}
-              className={`even:border-x even:px-4 even:mx-4 ${currentTab === tab.key ? ' text-red-500 ' : ''}`}
+              className={`even:border-x even:px-4 even:mx-4 ${currentTab === tab.key ? ' text-myYellow ' : ''}`}
             >
               <button onClick={() => setCurrentTab(tab.key)}>{tab.title}</button>
             </li>

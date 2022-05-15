@@ -148,17 +148,17 @@ const PriceTable = ({ itemList = [], setMode, mode }: PriceTableProps) => {
       <div className="row-span-2">
         <PriceTableSubHeader />
         <PriceTableHeader currentStock={currentStock} />
-        <div className='flex items-end border-b-red-400 border-b'>
+        <div className='flex items-end border-b-myYellow border-b'>
       <div className='mb-0'>
       <input type="search" onChange={handleChangeSearch} value={query} placeholder="Tìm kiếm mã cổ phiếu" className='m-3 mb-0 p-1 rounded' />
       <div className='h-1'></div>
       </div>
       <div className='px-2'>
-      <button type="button" className={`text-white mx-2 px-2 py-1 rounded rounded-b-none ${mode === ModePT.default && `bg-red-400`}`} onClick={() => setMode(ModePT.default)}>
-          default
+      <button type="button" className={`text-white mx-1 px-3 py-1 rounded rounded-b-none ${mode === ModePT.default ? `bg-myYellow`: 'bg-[#363636]'}`} onClick={() => setMode(ModePT.default)}>
+          Mặc định
         </button>
-        <button type="button" className={`text-white mx-2 px-2 py-1 rounded rounded-b-none  ${mode === ModePT.favorite && `bg-red-400`}`} onClick={() => setMode(ModePT.favorite)}>
-          favorite
+        <button type="button" className={`text-white mx-1 px-3 py-1 rounded rounded-b-none  ${mode === ModePT.favorite ? `bg-myYellow`: 'bg-[#363636]'}`} onClick={() => setMode(ModePT.favorite)}>
+          Yêu thích
         </button>
       </div>
         </div>

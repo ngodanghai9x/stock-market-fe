@@ -120,7 +120,7 @@ const PriceTableSubHeader = ({ indexes, totalIndex }: { indexes: Index[]; totalI
       <div className="flex px-4 py-2 justify-center flex-1">
         <span>KL (cp): {formatTotal(totalIndex.totalMatch || 764000000)}</span>
         <span className="block mx-6">GT: {formatTotal(totalIndex.totalValue || 9890000000)}</span>
-        {(indexes || data).map((o) => {
+        {(indexes.length ? indexes : data).map((o) => {
           return (
             <div className="flex items-center mr-6" key={o.indexNumber + 'DerivativeIndex'}>
               <span>{DerivativeIndex[o.indexNumber]}:</span>

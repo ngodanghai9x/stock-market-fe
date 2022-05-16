@@ -82,7 +82,7 @@ export type GetUserOrdersResponse = {
   orders: StockOrder[];
 };
 
-export type GetUser = { user: User; citizenIdentity: CitizenIdentity | null, storage: GroupedStorage };
+export type GetUser = { user: User; citizenIdentity: CitizenIdentity | null; storage: GroupedStorage };
 
 export type EditableUser = {
   fullName: string;
@@ -113,4 +113,22 @@ export type DrawMoneyPayload = {
   money: number;
   oldPassword: string;
   otp: string;
-}
+};
+
+export type Index = {
+  indexNumber: number;
+  index: number;
+  change: number;
+  changePercent: number;
+  volume: number;
+  value: number;
+  increase: number;
+  decrease: number;
+  notChange: number;
+  session: string;
+  ceilIncrease: number;
+  floorDecrease: number;
+  preIndex: number;
+};
+
+export type TotalIndex = { totalMatch: number; totalValue: number }

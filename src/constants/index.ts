@@ -288,6 +288,8 @@ export enum DerivativeIndex {
   VNX50 = 15,
 }
 
+export const INDEX_LIST =  [DerivativeIndex.VNI, DerivativeIndex.VN30, DerivativeIndex.HNX, DerivativeIndex.UPCOM]
+
 export enum ActionTypes {
   Initialize = 'Initialize',
   AddStockOrder = 'AddStockOrder',

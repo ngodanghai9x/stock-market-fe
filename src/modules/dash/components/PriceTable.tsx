@@ -8,7 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled, SxProps, Theme } from '@mui/material/styles';
 import MoneyInfo from './MoneyInfo';
-import { CreateStockOrder, PriceItem } from '../../../services/api-user.type';
+import { CreateStockOrder, Index, PriceItem, TotalIndex } from '../../../services/api-user.type';
 import { calculateColor, formatAmount, formatPrice, formatTotal, getFavSymbolsFromStorage } from '../../../lib/utils';
 import PriceTableHeader from './PriceTableHeader';
 import PriceTableSubHeader from './PriceTableSubHeader';
@@ -101,11 +101,13 @@ const ColorTableCell = ({
 
 type PriceTableProps = {
   itemList?: PriceItem[];
+  indexes: Index[];
+  totalIndex: TotalIndex;
   setMode: React.Dispatch<React.SetStateAction<ModePT>>;
-  mode: ModePT
+  mode: ModePT;
 };
 
-const PriceTable = ({ itemList = [], setMode, mode }: PriceTableProps) => {
+const PriceTable = ({ indexes = [], itemList = [], totalIndex, setMode, mode }: PriceTableProps) => {
   const [currentStock, setCurrentStock] = React.useState<PriceItem>({} as PriceItem);
   const [favSymbols, _setFavSymbols] = React.useState<string[]>(getFavSymbolsFromStorage());
   const [list, setList] = React.useState<PriceItem[]>(itemList);
@@ -146,21 +148,39 @@ const PriceTable = ({ itemList = [], setMode, mode }: PriceTableProps) => {
   return (
     <div className="w-screen h-screen overflow-y-hidden bg-trueGray-800 grid grid-rows-4 grid-flow-col">
       <div className="row-span-2">
-        <PriceTableSubHeader />
+        <PriceTableSubHeader indexes={indexes} totalIndex={totalIndex} />
         <PriceTableHeader currentStock={currentStock} />
-        <div className='flex items-end border-b-myYellow border-b'>
-      <div className='mb-0'>
-      <input type="search" onChange={handleChangeSearch} value={query} placeholder="Tìm kiếm mã cổ phiếu" className='m-3 mb-0 p-1 rounded' />
-      <div className='h-1'></div>
-      </div>
-      <div className='px-2'>
-      <button type="button" className={`text-white mx-1 px-3 py-1 rounded rounded-b-none ${mode === ModePT.default ? `bg-myYellow`: 'bg-[#363636]'}`} onClick={() => setMode(ModePT.default)}>
-          Mặc định
-        </button>
-        <button type="button" className={`text-white mx-1 px-3 py-1 rounded rounded-b-none  ${mode === ModePT.favorite ? `bg-myYellow`: 'bg-[#363636]'}`} onClick={() => setMode(ModePT.favorite)}>
-          Yêu thích
-        </button>
-      </div>
+        <div className="flex items-end border-b-myYellow border-b">
+          <div className="mb-0">
+            <input
+              type="search"
+              onChange={handleChangeSearch}
+              value={query}
+              placeholder="Tìm kiếm mã cổ phiếu"
+              className="m-3 mb-0 p-1 rounded"
+            />
+            <div className="h-1"></div>
+          </div>
+          <div className="px-2">
+            <button
+              type="button"
+              className={`text-white mx-1 px-3 py-1 rounded rounded-b-none ${
+                mode === ModePT.default ? `bg-myYellow` : 'bg-[#363636]'
+              }`}
+              onClick={() => setMode(ModePT.default)}
+            >
+              Mặc định
+            </button>
+            <button
+              type="button"
+              className={`text-white mx-1 px-3 py-1 rounded rounded-b-none  ${
+                mode === ModePT.favorite ? `bg-myYellow` : 'bg-[#363636]'
+              }`}
+              onClick={() => setMode(ModePT.favorite)}
+            >
+              Yêu thích
+            </button>
+          </div>
         </div>
         <TableContainer
           component={Paper}
@@ -338,7 +358,7 @@ const PriceTable = ({ itemList = [], setMode, mode }: PriceTableProps) => {
           </Table>
         </TableContainer>
       </div>
-      <MoneyInfo itemList={itemList}/>
+      <MoneyInfo itemList={itemList} />
     </div>
   );
 };

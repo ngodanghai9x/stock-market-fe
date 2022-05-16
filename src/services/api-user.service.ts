@@ -7,8 +7,12 @@ import {
   GetAllStockOrderResponse,
   GetUser,
   GetUserOrdersResponse,
+  Index,
+  TotalIndex,
 } from './api-user.type';
 import { CitizenIdentity, User } from './api-admin.type';
+import axios from 'axios';
+import { INDEX_LIST } from '../constants';
 
 const baseUrl = `${process.env.REACT_APP_API_HOST}`;
 
@@ -80,24 +84,34 @@ export const getProductIndexes = async () => {
 };
 
 export const getDerivativeIndexes = async () => {
-  const res = await axiosClient.get(`https://athenaaws.tcbs.com.vn/athena/v1/indexSnaps?indexes=1,2,3,4,5`);
+  const res = await axiosClient.get(`${baseUrl}/external/indexSnaps?indexes=${INDEX_LIST.join(',')}`);
   return new MyResponse<{
-    data: {
-      indexNumber: number;
-      index: number;
-      change: number;
-      changePercent: number;
-      volume: number;
-      value: number;
-      increase: number;
-      decrease: number;
-      notChange: number;
-      session: string;
-      ceilIncrease: number;
-      floorDecrease: number;
-      preIndex: number;
-    }[];
+    data: Index[];
   }>(res).data;
+};
+
+export const getDerivativeIndexes2 = async () => {
+  // const res = await axiosClient.get(
+  //   `https://athenaaws.tcbs.com.vn/athena/v1/indexSnaps?indexes=${INDEX_LIST.join(',')}`
+  // );
+  const res = await axios.get(`https://athenaaws.tcbs.com.vn/athena/v1/indexSnaps?indexes=${INDEX_LIST.join(',')}`, {
+    headers: {
+      'Access-Control-Allow-Origin': `${process.env.REACT_APP_HOST || '*'}`,
+      Referer: `https://tcinvest.tcbs.com.vn`,
+      Origin: `https://tcinvest.tcbs.com.vn`,
+      origin: `https://tcinvest.tcbs.com.vn`,
+      referer: `https://tcinvest.tcbs.com.vn`,
+      'Referrer-Policy': 'unsafe-url',
+    },
+  });
+  return new MyResponse<{
+    data: Index[];
+  }>(res).data;
+};
+
+export const getTotalIndex = async () => {
+  const res = await axiosClient.get(`${baseUrl}/external/totalIndex`);
+  return new MyResponse<TotalIndex>(res).data;
 };
 
 export const getCurrencyIndexes = async () => {
@@ -124,11 +138,11 @@ export const getCurrencyIndexes = async () => {
 export const sendOpt = async (userName: string) => {
   const res = await axiosClient.get(`${baseUrl}/finance/withdraw/otp?username=${userName}`);
   return new MyResponse<any>(res);
-}
+};
 
 export const drawMoney = async (data: DrawMoneyPayload) => {
   const res = await axiosClient.put(`${baseUrl}/finance/withdraw`, {
-    ...data
-  })
+    ...data,
+  });
   return new MyResponse<any>(res);
-}
+};

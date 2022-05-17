@@ -8,9 +8,11 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import { AuthContext } from '../../../context/auth/AuthContext';
-import { getUserOrders } from '../../../services/api-user.service';
+import { cancelStockOrder, getUserOrders } from '../../../services/api-user.service';
 import { StockOrder, StockOrderMatching } from '../../../services/api-admin.type';
 import { formatDate, numberWithCommas } from '../../../lib/utils';
+import CancelIcon from '@mui/icons-material/Cancel';
+import { toast } from 'react-toastify';
 
 const tableHeadings = [
   'Mã',
@@ -98,6 +100,15 @@ const OrderBook = () => {
     };
   }, [list]);
 
+  const cancelOrder = async (order: StockOrder) => {
+    /*eslint no-restricted-globals: ["error", "event", "fdescribe"]*/
+    const isConfirm = confirm(`Bạn đang hủy lệnh ${order.stockSymbol}`);
+    if (isConfirm) {
+      const res = await cancelStockOrder(order.orderId);
+      toast(res.message);
+    }
+  };
+
   return (
     <div className="h-full">
       <div className="flex m-4">
@@ -106,7 +117,7 @@ const OrderBook = () => {
           <li className="px-4 border-b text-myYellow border-myYellow">
             <button>Thường</button>
           </li>
-          <li className="px-4 border-b opacity-70 cursor-not-allowed">
+          <li className="px-4 border-b opacity-70">
             <button disabled>Điều khiện</button>
           </li>
         </ul>
@@ -223,6 +234,7 @@ const OrderBook = () => {
                       }}
                     >
                       {row.isDone ? 'Hoàn thành' : 'Chờ khớp'}
+                      {!row.isDone && <CancelIcon sx={{ mx: 2, cursor: 'pointer' }} onClick={() => cancelOrder(row)} />}
                     </StyledTableCell>
                     <StyledTableCell
                       align="center"

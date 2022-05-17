@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import { toast } from 'react-toastify';
 import { RoleIdType } from './constants';
 
 export interface TokenInfo {
@@ -28,12 +29,14 @@ export class MyResponse<T> {
   message: string;
   data: T;
   constructor(res: AxiosResponse<any, any>, ignoreFail?: boolean) {
-    if (res.status !== 200 && !ignoreFail) {
-      throw Error(res.data?.message || `Có lỗi xảy ra, vui lòng thử lại sau`);
-    }
     this.status = res.status;
     this.data = res.data?.data;
     this.message = res.data?.message;
+    if (res.status !== 200 && !ignoreFail) {
+      this.message = res.data?.message || `Có lỗi xảy ra, vui lòng thử lại sau`;
+      // toast(res.data?.message || `Có lỗi xảy ra, vui lòng thử lại sau`);
+      // throw Error(res.data?.message || `Có lỗi xảy ra, vui lòng thử lại sau`);
+    }
   }
 }
 

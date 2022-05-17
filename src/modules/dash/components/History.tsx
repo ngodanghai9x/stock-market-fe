@@ -112,7 +112,7 @@ const History = () => {
           <li className="px-4 border-b text-myYellow border-myYellow">
             <button>Lệnh thường</button>
           </li>
-          <li className="px-4 border-b opacity-70 cursor-not-allowed">
+          <li className="px-4 border-b opacity-70">
             <button disabled>Lệnh điều khiện</button>
           </li>
         </ul>

@@ -57,6 +57,11 @@ export const createStockOrder = async (payload: CreateStockOrderPayload) => {
   return new MyResponse<any>(res);
 };
 
+export const cancelStockOrder = async (orderId: number) => {
+  const res = await axiosClient.delete(`${baseUrl}/stock-order/${orderId}`);
+  return new MyResponse<any>(res);
+};
+
 export const getWorldIndexes = async () => {
   const res = await axiosClient.get(`https://athenaaws.tcbs.com.vn/athena/v1/worldIndexes`);
   return new MyResponse<{

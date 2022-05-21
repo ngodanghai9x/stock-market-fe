@@ -22,6 +22,9 @@ import { customerLogin } from './../services/api-auth.service';
 export const login = async (data: LoginPayload) => {
   try {
     const res = await customerLogin(data);
+    if (res.status !== 200) {
+      throw Error(res.message);
+    }
     const { token, refreshToken, user } = res.data;
     // Expiration time (ms): 4h
     const expireTime = new Date(new Date().getTime() + Number(process.env.REACT_APP_TOKEN_LIFE) * 1000);
@@ -197,7 +200,7 @@ export const formatDate = (v?: string | Date, format: string = 'DD/MM/YYYY'): st
 
 export const formatOrderStatus = (order: StockOrder): string => {
   if (!order) return '';
-  if (order.statusId === StatusIdType.cancel && order.isDone ) {
+  if (order.statusId === StatusIdType.cancel && order.isDone) {
     return 'Đã hủy';
   }
   return order.isDone ? 'Hoàn thành' : 'Chờ khớp';

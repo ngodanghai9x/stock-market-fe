@@ -23,7 +23,7 @@ export const LoginForm = () => {
   const loginHandle: SubmitHandler<LoginPayload> = async (data) => {
     try {
       const res = await login(data);
-      setUser(res.data.user);
+      setUser(res.data?.user);
       setAuthenticated(true);
       toast(res.message);
     } catch (error: any) {

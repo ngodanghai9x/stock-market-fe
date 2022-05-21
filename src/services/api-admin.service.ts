@@ -19,17 +19,17 @@ export const getReport = async () => {
 // missing MyResponse
 export const getAllIndustry = async () => {
   const res = await axiosClient.get(`${adminBaseUrl}/companies/industries`);
-  return res.data.data.industries;
+  return res.data?.data.industries;
 };
 
 export const getAllCompany = async () => {
   const res = await axiosClient.get(`${adminBaseUrl}/companies`);
-  return res.data.data.companies;
+  return res.data?.data.companies;
 };
 
 export const getAllUser = async () => {
   const res = await axiosClient.get(`${adminBaseUrl}/users`);
-  return res.data.data.users;
+  return res.data?.data.users;
 };
 // end missing MyResponse
 

@@ -10,9 +10,11 @@ import { styled } from '@mui/material/styles';
 import { AuthContext } from '../../../context/auth/AuthContext';
 import { cancelStockOrder, getUserOrders } from '../../../services/api-user.service';
 import { StockOrder, StockOrderMatching } from '../../../services/api-admin.type';
-import { formatDate, numberWithCommas } from '../../../lib/utils';
+import { formatDate, formatOrderStatus, numberWithCommas } from '../../../lib/utils';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { toast } from 'react-toastify';
+import { STORAGE } from '../../../constants';
+import { AppContext } from '../../../context';
 
 const tableHeadings = [
   'Mã',
@@ -52,7 +54,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const OrderBook = () => {
-  const { user } = React.useContext(AuthContext);
+  const {
+    userInfo: { user },
+    fetchUser,
+    fetchData: fetchPrices,
+  } = React.useContext(AppContext);
   const [list, setList] = React.useState<StockOrder[]>([]);
 
   const fetchData = React.useCallback(async () => {
@@ -101,10 +107,24 @@ const OrderBook = () => {
   }, [list]);
 
   const cancelOrder = async (order: StockOrder) => {
+    const otpTrading = localStorage.getItem(STORAGE.otpTrading) || '';
+    if (!otpTrading) {
+      // setIsOpenModal(true);
+      // fetchOTP();
+      toast(`Bạn cần nhập mã OTP trước khi hủy lệnh`);
+      return;
+    }
     /*eslint no-restricted-globals: ["error", "event", "fdescribe"]*/
-    const isConfirm = confirm(`Bạn đang hủy lệnh ${order.stockSymbol}`);
+    const isConfirm = confirm(
+      `Bạn đang hủy lệnh ${order.isBuy ? 'MUA' : 'BÁN'} ${order.stockSymbol} (Số hiệu ${order.orderId})`
+    );
     if (isConfirm) {
-      const res = await cancelStockOrder(order.orderId);
+      const res = await cancelStockOrder(order.orderId, otpTrading);
+      if (res.status === 200) {
+        fetchPrices();
+        fetchUser();
+        fetchData();
+      }
       toast(res.message);
     }
   };
@@ -233,7 +253,7 @@ const OrderBook = () => {
                         color: 'white',
                       }}
                     >
-                      {row.isDone ? 'Hoàn thành' : 'Chờ khớp'}
+                      {formatOrderStatus(row)}
                       {!row.isDone && <CancelIcon sx={{ mx: 2, cursor: 'pointer' }} onClick={() => cancelOrder(row)} />}
                     </StyledTableCell>
                     <StyledTableCell

@@ -14,7 +14,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import CustomModal from '../../../../components/CustomModal';
 import ValidateMessage from '../../../../components/ValidateMessage';
-import { RoleIdType, StatusLabelType } from '../../../../constants';
+import { RoleIdType, StatusIdType, StatusLabelType } from '../../../../constants';
 import { AuthContext } from '../../../../context/auth/AuthContext';
 import { createIndustry, editIndustry } from '../../../../services/api-admin.service';
 import { CreateIndustryPayload, Industry } from '../../../../services/api-admin.type';
@@ -63,7 +63,7 @@ const CreateIndustryModal = ({ isOpen, onClose, editRecord, fetchData }: CreateI
     }
   };
 
-  const disableForm = !editRecord ? false : !editRecord?.editable;
+  const disableForm = !editRecord ? false : !editRecord?.editable || editRecord?.statusId !== StatusIdType.pending;
 
   return (
     <div>

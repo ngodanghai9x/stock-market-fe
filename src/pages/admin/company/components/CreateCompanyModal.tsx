@@ -22,7 +22,7 @@ import ValidateMessage from '../../../../components/ValidateMessage';
 import ImageUpload from '../../../../components/ImageUpload';
 import { FileState } from '../../../../types';
 import { AppContext } from '../../../../context';
-import { RoleIdType, StatusLabelType } from '../../../../constants';
+import { RoleIdType, StatusIdType, StatusLabelType } from '../../../../constants';
 import { AuthContext } from '../../../../context/auth/AuthContext';
 
 type CreateCompanyModalProps = {
@@ -136,7 +136,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
     }
   };
 
-  const disableForm = !editRecord ? false : !editRecord?.editable;
+  const disableForm = !editRecord ? false : !editRecord?.editable || editRecord?.statusId !== StatusIdType.pending;
 
   return (
     <div>

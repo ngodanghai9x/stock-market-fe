@@ -30,7 +30,12 @@ export const ForgotPasswordForm = () => {
 
   const onSendOTP = async () => {
     try {
-      const res = await getForgotPwOtp('mod');
+      const username = getValues('username');
+      if (!username) {
+        toast(`Bạn cần nhập tài khoản trước khi lấy lại OTP`);
+        return;
+      }
+      const res = await getForgotPwOtp(username);
       console.log('onSendOTP', res);
     } catch (error: any) {
       toast(error?.message || error?.data.message);

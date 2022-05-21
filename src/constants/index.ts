@@ -336,7 +336,7 @@ export enum OrderIdType {
 export enum StatusIdType {
   activated = 1,
   deleted = 2,
-  duplicated = 3,
+  cancel = 3,
   reviewed = 4,
   pending = 5,
 }

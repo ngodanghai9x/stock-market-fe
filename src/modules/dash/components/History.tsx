@@ -10,7 +10,7 @@ import { styled } from '@mui/material/styles';
 import { AuthContext } from '../../../context/auth/AuthContext';
 import { getUserHistory, getUserOrders } from '../../../services/api-user.service';
 import { StockOrder, StockOrderMatching } from '../../../services/api-admin.type';
-import { formatDate, numberWithCommas } from '../../../lib/utils';
+import { formatDate, formatOrderStatus, numberWithCommas } from '../../../lib/utils';
 
 const tableHeadings = [
   'Mã',
@@ -273,7 +273,7 @@ const History = () => {
                           color: 'white',
                         }}
                       >
-                        {row.isDone ? 'Hoàn thành' : 'Chờ khớp'}
+                        {formatOrderStatus(row)}
                       </StyledTableCell>
                       <StyledTableCell
                         align="center"

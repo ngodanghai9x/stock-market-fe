@@ -45,7 +45,7 @@ export const customerChangePassword = async (payload: ChangePasswordPayload) => 
 };
 
 export const getForgotPwOtp = async (username: string) => {
-  const res = await axiosClient.get(`${authBaseUrl}/otp-forget?username=${username}`);
+  const res = await axiosClient.get(`${authBaseUrl}/otp-forget?username=${encodeURIComponent(username)}`);
   return new MyResponse<any>(res);
 };
 

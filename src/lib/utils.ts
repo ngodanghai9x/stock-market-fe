@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie';
 import moment from 'moment';
 import { COLOR, StatusIdType, StatusLabelType, STORAGE } from '../constants';
+import { StockOrder } from '../services/api-admin.type';
 import { LoginPayload } from '../services/api-auth.type';
 import { GroupedStockOrders, MatchingGroupedStockOrders, PriceItem, GroupedHistory } from '../services/api-user.type';
 import { TokenInfo } from '../types';
@@ -192,6 +193,14 @@ export function formatTotal(num: number) {
 export const formatDate = (v?: string | Date, format: string = 'DD/MM/YYYY'): string => {
   if (!v) return '';
   return moment(v).format(format);
+};
+
+export const formatOrderStatus = (order: StockOrder): string => {
+  if (!order) return '';
+  if (order.statusId === StatusIdType.cancel && order.isDone ) {
+    return 'Đã hủy';
+  }
+  return order.isDone ? 'Hoàn thành' : 'Chờ khớp';
 };
 
 export function numberWithCommas(x?: number) {

@@ -12,7 +12,7 @@ import {
 } from './api-user.type';
 import { CitizenIdentity, User } from './api-admin.type';
 import axios from 'axios';
-import { INDEX_LIST } from '../constants';
+import { INDEX_LIST, STORAGE } from '../constants';
 
 const baseUrl = `${process.env.REACT_APP_API_HOST}`;
 
@@ -57,8 +57,10 @@ export const createStockOrder = async (payload: CreateStockOrderPayload) => {
   return new MyResponse<any>(res);
 };
 
-export const cancelStockOrder = async (orderId: number) => {
-  const res = await axiosClient.delete(`${baseUrl}/stock-order/${orderId}`);
+export const cancelStockOrder = async (orderId: number, otpTrading: string) => {
+  const res = await axiosClient.delete(
+    `${baseUrl}/stock-order/${orderId}?otpTrading=${encodeURIComponent(otpTrading)}`
+  );
   return new MyResponse<any>(res);
 };
 

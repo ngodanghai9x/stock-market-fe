@@ -133,7 +133,7 @@ const Payment = () => {
             }}
             className="mx-3"
           >
-            Gửi lại mã OTP
+            Lấy mã OTP
           </Button>
           <Button type="submit" variant="contained">
             Rút tiền

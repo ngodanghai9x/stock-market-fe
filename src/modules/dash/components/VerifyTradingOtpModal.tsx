@@ -73,7 +73,7 @@ const VerifyTradingOtpModal = ({ isOpen, onClose, fetchOTP }: VerifyTradingOtpMo
             </div>
             <div className="mr-3">
               <Button type="button" variant="outlined" onClick={fetchOTP}>
-                Gửi lại mã
+                Lấy mã OTP
               </Button>
             </div>
             <Button type="submit" variant="contained">

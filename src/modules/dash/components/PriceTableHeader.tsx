@@ -103,7 +103,7 @@ const PriceTableHeader = ({ currentStock }: { currentStock: PriceItem }) => {
       toast(`Không thể bán số lượng cổ phiếu lớn hơn số lượng hiện có`);
       return;
     }
-    if (isBuy && user.money < realPrice * data.quantity * 1.01) {
+    if (isBuy && user.money < realPrice * data.quantity) {
       toast(`Không đủ số dư`);
       return;
     }

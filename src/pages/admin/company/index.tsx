@@ -137,12 +137,12 @@ const CompanyPage = () => {
   };
 
   const searchHandler = async () => {
-    if (!searchValue) return;
+    // if (!searchValue) return;
     setIsLoading(true);
     const res = await searchCompanies({
       q: searchValue,
       page: page + 1,
-      size: 100,
+      size: rowsPerPage,
     });
     setIsLoading(false);
     setCompanies(res.data.companies);
@@ -150,7 +150,7 @@ const CompanyPage = () => {
 
   return (
     <div className="bg-white h-full w-11/12 relative">
-      <div className="flex justify-end mt-4 mr-4 items-center">
+      <div className="flex justify-between mt-4 mx-4 items-center">
         <div className="flex border mr-10 py-2 px-4 rounded-md focus-within:border-lightBlue-500">
           <input
             type="text"

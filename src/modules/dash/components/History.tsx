@@ -162,6 +162,7 @@ const History = () => {
                 const orderMatchings = row?.orderMatchings?.length
                   ? row?.orderMatchings
                   : ([{}] as StockOrderMatching[]);
+                  // [need_test] cho các lệnh đã hoàn thành nhưng k khớp lệnh do hết hạn
                 return orderMatchings.map((order) => {
                   const gtKhop = order.price * order.quantity;
                   const gtVon = Number(row.currentPrice) * Number(order.quantity) || 0;

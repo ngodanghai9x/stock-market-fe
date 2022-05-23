@@ -20,7 +20,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { createCompany, editCompany, getAllIndustry } from '../../../../services/api-admin.service';
 import ValidateMessage from '../../../../components/ValidateMessage';
 import ImageUpload from '../../../../components/ImageUpload';
-import { FileState } from '../../../../types';
+import { FileState, MyResponse } from '../../../../types';
 import { AppContext } from '../../../../context';
 import { RoleIdType, StatusIdType, StatusLabelType } from '../../../../constants';
 import { AuthContext } from '../../../../context/auth/AuthContext';
@@ -66,8 +66,8 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
 
   useEffect(() => {
     const getData = async () => {
-      const res = await getAllIndustry();
-      setIndustries(res as Industry[]);
+      const res: Industry[] = await getAllIndustry();
+      setIndustries(res.filter((o) => o.statusId === StatusIdType.activated));
     };
     getData();
   }, []);
@@ -118,8 +118,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
           industryId: listIndustry.get(getValues('company.industryId').toString()) || 0,
         },
       };
-      let res = { data: { message: '' }, status: 0 };
-
+      let res = {} as MyResponse<any>;
       if (editRecord) {
         res = await editCompany(formData, formData.company.companyId);
       } else {
@@ -130,13 +129,24 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
         fetchData();
         onClose();
       }
-      toast(res.data?.message);
+      toast(res.message);
     } catch (error: any) {
       toast(error?.message || error?.data.message);
     }
   };
 
-  const disableForm = !editRecord ? false : !editRecord?.editable || editRecord?.statusId !== StatusIdType.pending;
+  const disableForm = !editRecord ? false : !editRecord?.editable && editRecord?.statusId !== StatusIdType.pending;
+
+  const statusOptions = React.useMemo(() => {
+    const opt = [StatusIdType.activated, StatusIdType.deleted];
+    if (editRecord?.statusId) {
+      opt.push(+editRecord?.statusId as StatusIdType);
+    }
+    if (editRecord?.statusId == StatusIdType.pending) {
+      opt.push(StatusIdType.reject);
+    }
+    return Array.from(new Set(opt));
+  }, [editRecord?.statusId]);
 
   return (
     <div>
@@ -296,10 +306,10 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                         variant="standard"
                         labelId="company.statusId"
                         {...register('company.statusId', { required: true, valueAsNumber: true })}
-                        defaultValue={getValues('company.statusId')}
+                        defaultValue={+getValues('company.statusId')}
                         label="Trạng thái"
                       >
-                        {Object.keys(StatusLabelType).map((id) => {
+                        {statusOptions.map((id) => {
                           return <MenuItem value={+id}>{StatusLabelType[id]}</MenuItem>;
                         })}
                       </Select>

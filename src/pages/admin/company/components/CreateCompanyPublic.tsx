@@ -12,6 +12,7 @@ import ValidateMessage from '../../../../components/ValidateMessage';
 import ImageUpload from '../../../../components/ImageUpload';
 import { FileState } from '../../../../types';
 import { AppContext } from '../../../../context';
+import { StatusIdType } from '../../../../constants';
 
 type CreateCompanyPublicProps = {};
 
@@ -95,7 +96,7 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
         resetForm();
       }
 
-      toast(res.data?.message);
+      toast(res.message);
     } catch (error: any) {
       toast(error?.message || error?.data.message);
     }
@@ -103,8 +104,8 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
 
   useEffect(() => {
     const getData = async () => {
-      const res = await getAllIndustry();
-      setIndustries(res as Industry[]);
+      const res: Industry[] = await getAllIndustry();
+      setIndustries(res.filter((o) => o.statusId === StatusIdType.activated));
     };
     getData();
   }, []);

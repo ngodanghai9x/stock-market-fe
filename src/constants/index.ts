@@ -337,7 +337,7 @@ export enum StatusIdType {
   activated = 1,
   deleted = 2,
   cancel = 3,
-  reviewed = 4,
+  reject = 4,
   pending = 5,
 }
 
@@ -352,8 +352,8 @@ export const RoleLabelType: Record<string, string> = {
 export const StatusLabelType: Record<string, string> = {
   '1': 'Hoạt động',
   '2': 'Đã xóa',
-  // '3': 'Trùng lặp',
-  // '4': 'Đã duyệt',
+  '3': 'Đã hủy',
+  '4': 'Từ chối',
   '5': 'Chờ duyệt',
 };
 

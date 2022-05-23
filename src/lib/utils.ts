@@ -203,6 +203,9 @@ export const formatOrderStatus = (order: StockOrder): string => {
   if (order.statusId === StatusIdType.cancel && order.isDone) {
     return 'Đã hủy';
   }
+  if (order.statusId === StatusIdType.reject && order.isDone) {
+    return 'Hết hạn';
+  }
   return order.isDone ? 'Hoàn thành' : 'Chờ khớp';
 };
 

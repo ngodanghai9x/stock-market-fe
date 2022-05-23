@@ -18,6 +18,7 @@ import { RoleIdType, StatusIdType, StatusLabelType } from '../../../../constants
 import { AuthContext } from '../../../../context/auth/AuthContext';
 import { createIndustry, editIndustry } from '../../../../services/api-admin.service';
 import { CreateIndustryPayload, Industry } from '../../../../services/api-admin.type';
+import { MyResponse } from '../../../../types';
 
 type CreateIndustryModalProps = {
   isOpen: boolean;
@@ -45,25 +46,35 @@ const CreateIndustryModal = ({ isOpen, onClose, editRecord, fetchData }: CreateI
 
   const onSubmit: SubmitHandler<CreateIndustryPayload> = async (data) => {
     try {
-      console.log(data);
-      let res = { data: { message: '' }, status: 0 };
+      let res = {} as MyResponse<any>;
       if (editRecord) {
         res = await editIndustry(data, data.industry.industryId);
       } else {
         res = await createIndustry(data);
       }
+      toast(res.message);
       if (res.status === 200) {
         reset({ industry: {} });
         fetchData();
         onClose();
       }
-      toast(res.data?.message);
     } catch (error: any) {
       toast(error?.message || error?.data.message);
     }
   };
 
-  const disableForm = !editRecord ? false : !editRecord?.editable || editRecord?.statusId !== StatusIdType.pending;
+  const disableForm = !editRecord ? false : !editRecord?.editable && editRecord?.statusId !== StatusIdType.pending;
+
+  const statusOptions = React.useMemo(() => {
+    const opt = [StatusIdType.activated, StatusIdType.deleted];
+    if (editRecord?.statusId) {
+      opt.push(+editRecord?.statusId as StatusIdType);
+    }
+    if (editRecord?.statusId == StatusIdType.pending) {
+      opt.push(StatusIdType.reject);
+    }
+    return Array.from(new Set(opt));
+  }, [editRecord?.statusId]);
 
   return (
     <div>
@@ -102,6 +113,7 @@ const CreateIndustryModal = ({ isOpen, onClose, editRecord, fetchData }: CreateI
                 label="Mã ngành nghề"
                 variant="standard"
                 className="w-full"
+                disabled={!!editRecord}
                 {...register('industry.industryCode', { required: false, pattern: /^[A-Z0-9]{3,10}$/ })}
               />
               {errors?.industry?.industryCode && (
@@ -116,7 +128,7 @@ const CreateIndustryModal = ({ isOpen, onClose, editRecord, fetchData }: CreateI
                 {...register('industry.description', { required: false })}
               />
             </div>
-            {user.roleId === RoleIdType.admin && (
+            {user.roleId === RoleIdType.admin && editRecord && (
               <>
                 <div className="mb-2">
                   <FormControl variant="standard" className="w-full">
@@ -125,10 +137,10 @@ const CreateIndustryModal = ({ isOpen, onClose, editRecord, fetchData }: CreateI
                       variant="standard"
                       labelId="industry.statusId"
                       {...register('industry.statusId', { required: true, valueAsNumber: true })}
-                      defaultValue={getValues('industry.statusId')}
+                      defaultValue={+getValues('industry.statusId')}
                       label="Trạng thái"
                     >
-                      {Object.keys(StatusLabelType).map((id) => {
+                      {statusOptions.map((id) => {
                         return <MenuItem value={+id}>{StatusLabelType[id]}</MenuItem>;
                       })}
                     </Select>

@@ -43,7 +43,7 @@ const AdminEditUserModal = ({ isOpen, onClose, editRecord, fetchData }: AdminEdi
         fetchData();
         onClose();
       }
-      toast(res.data?.message);
+      toast(res.message);
     } catch (error: any) {
       toast(error?.message || error?.data.message);
     }

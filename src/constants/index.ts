@@ -314,6 +314,7 @@ export const TABLE = {
 export const USER_STATUS = {
   activated: 'activated',
   deleted: 'deleted',
+  banned: 'banned',
   expired_password: 'expired_password',
 };
 
@@ -359,7 +360,7 @@ export const StatusLabelType: Record<string, string> = {
 
 export const UserStatusLabel: Record<string, string> = {
   [USER_STATUS.activated]: 'Hoạt động',
-  [USER_STATUS.deleted]: 'Đã xóa',
+  [USER_STATUS.banned]: 'Đã khóa',
   [USER_STATUS.expired_password]: 'Hết hạn MK',
 };
 

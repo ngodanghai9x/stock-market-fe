@@ -109,6 +109,8 @@ export type EditUserPayload = {
 };
 
 export type DrawMoneyPayload = {
+  receiveBank: string;
+  receiveBankNum: string;
   bankNumber: string;
   money: number;
   oldPassword: string;

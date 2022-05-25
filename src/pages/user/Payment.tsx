@@ -27,6 +27,8 @@ const Payment = () => {
   } = useForm<DrawMoneyPayload>();
 
   const resetForm = () => {
+    setValue('receiveBank', '');
+    setValue('receiveBankNum', '');
     setValue('bankNumber', '');
     setValue('money', 0);
     setValue('otp', '');
@@ -63,14 +65,48 @@ const Payment = () => {
             <span>{user?.bankNumber}</span>
           </div>
           <div className="flex mb-5">
+            <span className="block mr-4 text-gray-400 min-w-[150px]">Số dư bị phong tỏa</span>
+            <span>{numberWithCommas(user.lockedMoney) || 0}</span>
+          </div>
+          <div className="flex mb-5">
             <span className="block mr-4 text-gray-400 min-w-[150px]">Số dư</span>
             <span>{numberWithCommas(user.money) || 0}</span>
           </div>
           <div className="flex mb-6">
-            <span className="block mr-4 text-gray-400 min-w-[150px]">Số dư bị phong tỏa</span>
-            <span>{numberWithCommas(user.lockedMoney) || 0}</span>
+            <span className="block mr-4 text-gray-400 min-w-[150px]">Ngân hàng nhận tiền</span>
+            <div className="flex flex-col">
+              <span className="block min-w-[100px]">
+                <TextField
+                  sx={{ minWidth: 450, maxWidth: 450 }}
+                  required
+                  variant="outlined"
+                  className="w-full"
+                  {...register('receiveBank', {
+                    required: true,
+                  })}
+                />
+              </span>
+              {errors.receiveBank && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
+            </div>
           </div>
-          <div className="flex mb-8">
+          <div className="flex mb-6">
+            <span className="block mr-4 text-gray-400 min-w-[150px]">Tài khoản nhận tiền</span>
+            <div className="flex flex-col">
+              <span className="block min-w-[100px]">
+                <TextField
+                  sx={{ minWidth: 450, maxWidth: 450 }}
+                  required
+                  variant="outlined"
+                  className="w-full"
+                  {...register('receiveBankNum', {
+                    required: true,
+                  })}
+                />
+              </span>
+              {errors.receiveBankNum && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
+            </div>
+          </div>
+          <div className="flex mb-6">
             <span className="block mr-4 text-gray-400 min-w-[150px]">Số tiền muốn rút</span>
             <div className="flex flex-col">
               <span className="block min-w-[100px]">
@@ -92,7 +128,7 @@ const Payment = () => {
               {errors.money && <ValidateMessage>Số dư không đủ</ValidateMessage>}
             </div>
           </div>
-          <div className="flex mb-8">
+          <div className="flex mb-6">
             <span className="block mr-4 text-gray-400 min-w-[150px]">Mã OTP</span>
             <div className="flex">
               <span className="block min-w-[100px]">
@@ -104,9 +140,10 @@ const Payment = () => {
                   {...register('otp', { required: true })}
                 />
               </span>
+              {errors.otp && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
             </div>
           </div>
-          <div className="flex mb-8">
+          <div className="flex mb-6">
             <span className="block mr-4 text-gray-400 min-w-[150px]">Mật khẩu cũ</span>
             <div className="flex flex-col">
               <span className="block min-w-[100px]">
@@ -119,7 +156,7 @@ const Payment = () => {
                   {...register('oldPassword', { required: true })}
                 />
               </span>
-              {errors.oldPassword && <ValidateMessage>Mật khẩu không hợp lệ</ValidateMessage>}
+              {errors.oldPassword && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
             </div>
           </div>
         </div>

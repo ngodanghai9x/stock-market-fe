@@ -16,11 +16,9 @@ const PriceTableDashboard = () => {
 
   const fetchIndexes = async () => {
     getDerivativeIndexes().then(({ data }) => {
-      console.log('🚀 ~ file: PriceTableDashboard.tsx ~ line 19 ~ getDerivativeIndexes ~ data', data);
       setIndexes(data || []);
     });
     getTotalIndex().then((data) => {
-      console.log('🚀 ~ file: PriceTableDashboard.tsx ~ line 23 ~ getTotalIndex ~ data', data);
       const { totalMatch, totalValue } = data;
       setTotalIndex({ totalMatch, totalValue });
     });

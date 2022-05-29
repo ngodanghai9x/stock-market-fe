@@ -11,8 +11,8 @@ export default function ImageUpload({
 }: {
   disabled?: boolean;
   onChange?: (fileState: FileState) => void;
-  fileUrl?: string;
-  setFileUrl: (url: string) => void;
+  fileUrl: string | null;
+  setFileUrl?: (url: string) => void;
 }): JSX.Element {
   const [fileState, setFileState] = React.useState<FileState | null>(null);
 

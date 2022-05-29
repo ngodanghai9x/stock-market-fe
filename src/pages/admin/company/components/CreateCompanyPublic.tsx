@@ -354,7 +354,7 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
                 {errors?.stock?.price && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
               </div>
               <div className="mt-4">
-                <ImageUpload onChange={onChangeFile} setFileUrl={setFileUrl} />
+                <ImageUpload onChange={onChangeFile} fileUrl={null} />
               </div>
             </>
           </div>

@@ -112,10 +112,10 @@ const PriceTableSubHeader = ({ indexes, totalIndex }: { indexes: Index[]; totalI
   }, [user.roleId, user?.userId]);
 
   return (
-    <div className=" bg-trueGray-800 text-white flex items-center pr-4">
+    <div className="bg-trueGray-800 text-white flex items-center px-4 py-1">
       <div className="text-myYellow flex items-center">
-        <img src={process.env.PUBLIC_URL + '/favicon.ico'} alt="" />
-        <div>Stock Market App</div>
+        <img className='scale-75' src={process.env.PUBLIC_URL + '/favicon.ico'} alt="" />
+        <div className='font-medium mx-1'>Stock Market</div>
       </div>
       <div className="flex px-4 py-2 justify-center flex-1">
         <span>KL (cp): {formatTotal(totalIndex.totalMatch || 764000000)}</span>
@@ -126,7 +126,7 @@ const PriceTableSubHeader = ({ indexes, totalIndex }: { indexes: Index[]; totalI
               <span>{DerivativeIndex[o.indexNumber]}:</span>
               <div className={`${o.change >= 0 ? 'text-myGreen' : 'text-myRed'} flex`}>
                 <span className="block mx-2">{numberWithCommas(o.index)}</span>
-                <span className="block flex items-center ml-1">
+                <span className="flex items-center">
                   {o.change >= 0 ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />} <span>{o.change}</span>
                   <span className="text-sm">({o.changePercent}%)</span>
                 </span>

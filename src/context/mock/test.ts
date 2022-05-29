@@ -15,7 +15,7 @@ const flatGrouped = (matchingGrouped: MatchingGroupedStockOrders, grouped: Group
       price: +matchingOrders[0]?.price,
       orders: matchingOrders.filter((i) => i.price === +matchingOrders[0]?.price && i.fee > 0),
     };
-    console.log('🚀matchingInfo', matchingInfo);
+    // console.log('🚀matchingInfo', matchingInfo);
     const prices = matchingOrders.map((o) => o.price);
     matchingOrders.forEach((o) => {
       sum += o.price * o.quantity;
@@ -51,7 +51,6 @@ const flatGrouped = (matchingGrouped: MatchingGroupedStockOrders, grouped: Group
     list.push(toReturn);
     // state[symbol]
   }
-  console.log('🚀 ~ file: test.js ~ line 206 ~ list', list);
   return list;
 };
 

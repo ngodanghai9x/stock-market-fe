@@ -9,13 +9,12 @@ const HomePage = () => {
   const { user } = useContext(AuthContext);
   const { store, dispatch } = useContext(AppContext);
   const { socket } = useContext(SocketContext);
-  console.log('🚀 ~ file: index.tsx ~ line 11 ~ HomePage ~ store', {
+  console.log('🚀HomePage ~ store', {
     store,
     dispatch,
-    socket
+    socket,
   });
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <ProtectedRoute>

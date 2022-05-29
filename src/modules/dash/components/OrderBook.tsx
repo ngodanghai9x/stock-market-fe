@@ -57,11 +57,12 @@ const OrderBook = () => {
   const {
     userInfo: { user },
     fetchUser,
-    fetchData: fetchPrices,
+    fetchData: fetchPriceTable,
   } = React.useContext(AppContext);
   const [list, setList] = React.useState<StockOrder[]>([]);
 
   const fetchData = React.useCallback(async () => {
+    if (!user.userId) return;
     const { total, orders } = await getUserOrders(user.userId);
     setList(orders);
   }, [user.userId]);
@@ -121,7 +122,7 @@ const OrderBook = () => {
     if (isConfirm) {
       const res = await cancelStockOrder(order.orderId, otpTrading);
       if (res.status === 200) {
-        fetchPrices();
+        // fetchPriceTable();
         fetchUser();
         fetchData();
       }

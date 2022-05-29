@@ -77,7 +77,7 @@ const ColorTableCell = ({
 }: {
   row: PriceItem;
   compareValue: number;
-  value?: number | string;
+  value: number | string;
   sx?: SxProps<Theme>;
   formatValue?: (v: any) => string | number;
   children?: JSX.Element;
@@ -93,7 +93,7 @@ const ColorTableCell = ({
     >
       <div className="flex gap-2 justify-center items-center">
         {children || ''}
-        {formatValue(value ? value : compareValue)}
+        {formatValue(value)}
       </div>
     </StyledTableCell>
   );
@@ -157,7 +157,7 @@ const PriceTable = ({ indexes = [], itemList = [], totalIndex, setMode, mode }: 
               onChange={handleChangeSearch}
               value={query}
               placeholder="Tìm kiếm mã cổ phiếu"
-              className="m-3 mb-0 p-1 rounded"
+              className="m-4 mb-0 p-1 rounded"
             />
             <div className="h-1"></div>
           </div>
@@ -268,7 +268,7 @@ const PriceTable = ({ indexes = [], itemList = [], totalIndex, setMode, mode }: 
                       {formatPrice(row.refPrice)}
                     </StyledTableCell>
 
-                    <ColorTableCell row={row} compareValue={row.thirdBuy.price} />
+                    <ColorTableCell row={row} compareValue={row.thirdBuy.price} value={row.thirdBuy.price} />
                     <ColorTableCell
                       row={row}
                       compareValue={row.thirdBuy.price}
@@ -276,7 +276,7 @@ const PriceTable = ({ indexes = [], itemList = [], totalIndex, setMode, mode }: 
                       formatValue={formatAmount}
                     />
 
-                    <ColorTableCell row={row} compareValue={row.secondBuy.price} />
+                    <ColorTableCell row={row} compareValue={row.secondBuy.price} value={row.secondBuy.price} />
                     <ColorTableCell
                       row={row}
                       compareValue={row.secondBuy.price}
@@ -284,7 +284,7 @@ const PriceTable = ({ indexes = [], itemList = [], totalIndex, setMode, mode }: 
                       formatValue={formatAmount}
                     />
 
-                    <ColorTableCell row={row} compareValue={row.bestBuy.price} />
+                    <ColorTableCell row={row} compareValue={row.bestBuy.price} value={row.bestBuy.price} />
                     <ColorTableCell
                       row={row}
                       compareValue={row.bestBuy.price}
@@ -295,6 +295,7 @@ const PriceTable = ({ indexes = [], itemList = [], totalIndex, setMode, mode }: 
                     <ColorTableCell
                       row={row}
                       compareValue={row.matchingPrice}
+                      value={row.matchingPrice}
                       sx={{
                         borderLeft: '1px solid #888484',
                       }}
@@ -310,6 +311,7 @@ const PriceTable = ({ indexes = [], itemList = [], totalIndex, setMode, mode }: 
                     <ColorTableCell
                       row={row}
                       compareValue={row.bestSell.price}
+                      value={row.bestSell.price}
                       sx={{
                         borderLeft: '1px solid #888484',
                       }}
@@ -321,7 +323,7 @@ const PriceTable = ({ indexes = [], itemList = [], totalIndex, setMode, mode }: 
                       formatValue={formatAmount}
                     />
 
-                    <ColorTableCell row={row} compareValue={row.secondSell.price} />
+                    <ColorTableCell row={row} compareValue={row.secondSell.price} value={row.secondSell.price} />
                     <ColorTableCell
                       row={row}
                       compareValue={row.secondSell.price}
@@ -329,7 +331,7 @@ const PriceTable = ({ indexes = [], itemList = [], totalIndex, setMode, mode }: 
                       formatValue={formatAmount}
                     />
 
-                    <ColorTableCell row={row} compareValue={row.thirdSell.price} />
+                    <ColorTableCell row={row} compareValue={row.thirdSell.price} value={row.thirdSell.price} />
                     <ColorTableCell
                       row={row}
                       compareValue={row.thirdSell.price}
@@ -337,9 +339,9 @@ const PriceTable = ({ indexes = [], itemList = [], totalIndex, setMode, mode }: 
                       formatValue={formatAmount}
                     />
 
-                    <ColorTableCell row={row} compareValue={row.matchedHigh} />
-                    <ColorTableCell row={row} compareValue={row.matchedAvg} />
-                    <ColorTableCell row={row} compareValue={row.matchedLow} />
+                    <ColorTableCell row={row} compareValue={row.matchedHigh} value={row.matchedHigh} />
+                    <ColorTableCell row={row} compareValue={row.matchedAvg} value={row.matchedAvg} />
+                    <ColorTableCell row={row} compareValue={row.matchedLow} value={row.matchedLow} />
 
                     <StyledTableCell
                       align="center"

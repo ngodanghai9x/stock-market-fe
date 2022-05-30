@@ -13,7 +13,7 @@ import LetterAvatar from '../../../components/LetterAvatar';
 import { Login } from '@mui/icons-material';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { Index, TotalIndex } from '../../../services/api-user.type';
-import { formatTotal, numberWithCommas } from '../../../lib/utils';
+import { formatTotal, numberWithCommas, stringAvatar } from '../../../lib/utils';
 
 const data = [
   {
@@ -114,8 +114,8 @@ const PriceTableSubHeader = ({ indexes, totalIndex }: { indexes: Index[]; totalI
   return (
     <div className="bg-trueGray-800 text-white flex items-center px-4 py-1">
       <div className="text-myYellow flex items-center">
-        <img className='scale-75' src={process.env.PUBLIC_URL + '/favicon.ico'} alt="" />
-        <div className='font-medium mx-1'>Stock Market</div>
+        <img className="scale-75" src={process.env.PUBLIC_URL + '/favicon.ico'} alt="" />
+        <div className="font-medium mx-1">Stock Market</div>
       </div>
       <div className="flex px-4 py-2 justify-center flex-1">
         <span>KL (cp): {formatTotal(totalIndex.totalMatch || 764000000)}</span>
@@ -155,7 +155,7 @@ const PriceTableSubHeader = ({ indexes, totalIndex }: { indexes: Index[]; totalI
           <Avatar
             alt={user.fullName}
             src="/static/images/avatar/1.jpg"
-            sx={{ width: '26px', height: '26px', p: 1, fontSize: '14px' }}
+            {...stringAvatar(user.fullName, { width: '26px', height: '26px', p: 1, fontSize: '14px' })}
           />
         </Tooltip>
       </div>

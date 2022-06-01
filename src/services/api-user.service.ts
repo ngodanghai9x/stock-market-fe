@@ -59,7 +59,7 @@ export const createStockOrder = async (payload: CreateStockOrderPayload) => {
 };
 
 export const createDeposit = async (payload: CreateDepositPayload) => {
-  const res = await axiosClient.post(`${baseUrl}/finance/deposit`, {
+  const res = await axiosClient.put(`${baseUrl}/finance/deposit`, {
     ...payload,
   });
   return new MyResponse<any>(res);

@@ -289,6 +289,7 @@ export enum DerivativeIndex {
 }
 
 export const INDEX_LIST =  [DerivativeIndex.VNI, DerivativeIndex.VN30, DerivativeIndex.HNX, DerivativeIndex.UPCOM]
+export const BANKS = ['MBB', 'VCB', 'TCB', 'TPB', 'VPB'];
 
 export enum ActionTypes {
   Initialize = 'Initialize',

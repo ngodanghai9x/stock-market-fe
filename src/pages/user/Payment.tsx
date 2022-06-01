@@ -1,4 +1,4 @@
-import { Button, TextField } from '@mui/material';
+import { Autocomplete, Button, TextField } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { getValue } from '@testing-library/user-event/dist/utils';
@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import ValidateMessage from '../../components/ValidateMessage';
-import { UserStatusLabel } from '../../constants';
+import { BANKS, UserStatusLabel } from '../../constants';
 import { AppContext } from '../../context';
 import { numberWithCommas } from '../../lib/utils';
 import { User } from '../../services/api-admin.type';
@@ -62,7 +62,7 @@ const Payment = () => {
         <div>
           <div className="flex mb-5">
             <span className="block mr-4 text-gray-400 min-w-[150px]">Tài khoản ngân hàng</span>
-            <span>{user?.bankNumber}</span>
+            <span>{user?.bankNumber} - MBB</span>
           </div>
           <div className="flex mb-5">
             <span className="block mr-4 text-gray-400 min-w-[150px]">Số dư bị phong tỏa</span>
@@ -76,7 +76,7 @@ const Payment = () => {
             <span className="block mr-4 text-gray-400 min-w-[150px]">Ngân hàng nhận tiền</span>
             <div className="flex flex-col">
               <span className="block min-w-[100px]">
-                <TextField
+                {/* <TextField
                   sx={{ minWidth: 450, maxWidth: 450 }}
                   required
                   variant="outlined"
@@ -84,6 +84,27 @@ const Payment = () => {
                   {...register('receiveBank', {
                     required: true,
                   })}
+                /> */}
+                <Autocomplete
+                  freeSolo
+                  disableClearable
+                  options={BANKS}
+                  renderInput={(params) => (
+                    <>
+                      <TextField
+                        {...params}
+                        {...register('receiveBank')}
+                        required
+                        sx={{ minWidth: 450, maxWidth: 450 }}
+                        variant="outlined"
+                        InputProps={{
+                          ...params.InputProps,
+                          type: 'search',
+                        }}
+                      />
+                      {errors?.receiveBank && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
+                    </>
+                  )}
                 />
               </span>
               {errors.receiveBank && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}

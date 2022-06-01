@@ -3,26 +3,12 @@ import * as React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import ValidateMessage from '../../components/ValidateMessage';
+import { BANKS } from '../../constants';
 import { createDeposit } from '../../services/api-user.service';
 import { CreateDepositPayload } from '../../services/api-user.type';
 
-const listBank = [
-  {
-    bankName: 'VietComBank',
-  },
-  {
-    bankName: 'TechComBank',
-  },
-  {
-    bankName: 'AgriBank',
-  },
-  {
-    bankName: 'TPBank',
-  },
-]
 
 const DepositForm = () => {
-
   const {
     register,
     handleSubmit,
@@ -46,8 +32,8 @@ const DepositForm = () => {
   return (
     <div className="bg-gray-100 h-screen w-full mx-auto py-20">
       <div className="w-1/2 bg-white rounded-tr-2xl rounded-br-2xl shadow-2xl mx-auto px-10 py-8">
-        <form onSubmit={handleSubmit(onSubmit)} className='mx-10 mb-4'>
-          <p className="mb-8 font-bold text-center text-lg">Deposit </p>
+        <form onSubmit={handleSubmit(onSubmit)} className="mx-10 mb-4">
+          <p className="mb-8 font-bold text-center text-lg">Nạp tiền </p>
           <div className="flex flex-col gap-4">
             <TextField
               id="company-name"
@@ -61,7 +47,7 @@ const DepositForm = () => {
             <Autocomplete
               freeSolo
               disableClearable
-              options={listBank.map((option) => option.bankName)}
+              options={BANKS}
               renderInput={(params) => (
                 <div className="">
                   <TextField
@@ -95,7 +81,7 @@ const DepositForm = () => {
               className="w-full"
               {...register('message')}
             />
-            <div className='mt-5'>
+            <div className="mt-5">
               <Button type="submit" variant="contained" sx={{ width: '100%' }}>
                 Xác nhận
               </Button>
@@ -104,7 +90,7 @@ const DepositForm = () => {
         </form>
       </div>
     </div>
-  )
+  );
 };
 
 export default DepositForm;

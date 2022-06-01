@@ -69,6 +69,13 @@ export type CreateStockOrderPayload = {
   otpTrading: string;
 };
 
+export type CreateDepositPayload = {
+  bankNumber: string;
+  bankName: string;
+  money: number;
+  message: string;
+}
+
 export type GetAllStockOrderResponse = {
   grouped: GroupedStockOrders;
   history: GroupedHistory;

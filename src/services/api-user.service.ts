@@ -1,6 +1,7 @@
 import axiosClient from '../lib/request';
 import { MyResponse } from '../types';
 import {
+  CreateDepositPayload,
   CreateStockOrderPayload,
   DrawMoneyPayload,
   EditUserPayload,
@@ -56,6 +57,13 @@ export const createStockOrder = async (payload: CreateStockOrderPayload) => {
   });
   return new MyResponse<any>(res);
 };
+
+export const createDeposit = async (payload: CreateDepositPayload) => {
+  const res = await axiosClient.put(`${baseUrl}/finance/deposit`, {
+    ...payload,
+  });
+  return new MyResponse<any>(res);
+}
 
 export const cancelStockOrder = async (orderId: number, otpTrading: string) => {
   const res = await axiosClient.delete(

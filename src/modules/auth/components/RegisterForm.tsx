@@ -31,7 +31,7 @@ export const RegisterForm = () => {
     }
   };
 
-  function onChange(value: any) {
+  function handleCaptchaChange(value: any) {
     if (value) {
       setHasCaptchaToken(true);
     }
@@ -94,13 +94,13 @@ export const RegisterForm = () => {
             label="Email:"
             {...register('email', {
               required: true,
-              pattern: /^[a-z][a-z0-9_\-.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/i,
+              pattern: /^[a-z][a-z0-9_\-.]{2,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/i,
             })}
           />
           {errors.email && <ValidateMessage>Email không đúng định dạng</ValidateMessage>}
         </div>
         <div className="flex justify-center mb-3">
-          <ReCAPTCHA sitekey={process.env.REACT_APP_CAPTCHA_KEY || ''} onChange={onChange} size="normal" />
+          <ReCAPTCHA sitekey={process.env.REACT_APP_CAPTCHA_KEY || ''} onChange={handleCaptchaChange} size="normal" />
         </div>
         <div className="flex justify-center">
           <Button disabled={!hasCaptchaToken} className="" type="submit" variant="contained" children="Đăng ký" />

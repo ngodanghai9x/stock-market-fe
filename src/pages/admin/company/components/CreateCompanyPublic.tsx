@@ -13,6 +13,7 @@ import ImageUpload from '../../../../components/ImageUpload';
 import { FileState } from '../../../../types';
 import { AppContext } from '../../../../context';
 import { StatusIdType } from '../../../../constants';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 type CreateCompanyPublicProps = {};
 
@@ -22,6 +23,7 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
   const [industries, setIndustries] = useState<Industry[]>([]);
   const [fileState, setFileState] = useState<FileState | null>(null);
   const [fileUrl, setFileUrl] = useState<string>('');
+  const [hasCaptchaToken, setHasCaptchaToken] = useState(false);
 
   const { filestackClient } = React.useContext(AppContext);
 
@@ -30,6 +32,12 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
       return [el.industryName, el.industryId];
     })
   );
+
+  function handleCaptchaChange(value: any) {
+    if (value) {
+      setHasCaptchaToken(true);
+    }
+  }
 
   const {
     register,
@@ -205,7 +213,7 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
                     className="w-full"
                     {...register('company.contactEmail', {
                       required: true,
-                      pattern: /^[a-z][a-z0-9_\-.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/i,
+                      pattern: /^[a-z][a-z0-9_\-.]{2,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/i,
                       // /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                     })}
                   />
@@ -358,13 +366,16 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
               </div>
             </>
           </div>
+          <div className="flex justify-center mb-3">
+          <ReCAPTCHA sitekey={process.env.REACT_APP_CAPTCHA_KEY || ''} onChange={handleCaptchaChange} size="normal" />
+        </div>
           <div className="flex justify-end px-6 pb-6">
             <div className="mr-3">
               <Button type="button" variant="outlined" className="mr-3" onClick={resetForm}>
                 Hủy
               </Button>
             </div>
-            <Button className="" type="submit" variant="contained">
+            <Button className="" type="submit" variant="contained" disabled={!hasCaptchaToken} >
               Lưu
             </Button>
           </div>

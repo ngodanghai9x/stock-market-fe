@@ -28,7 +28,7 @@ const TABS = [
 
 const MoneyInfo = ({ itemList }: { itemList: PriceItem[] }) => {
   const [currentTab, setCurrentTab] = useState<CurrentTab>(CurrentTab.OrderBook);
-  const [isOpenDetail, setIsOpenDetail] = useState(true);
+  const [isOpenDetail, setIsOpenDetail] = useState(false);
   return (
     <div className="text-white row-span-2">
       {isOpenDetail && (

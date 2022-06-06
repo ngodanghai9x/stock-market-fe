@@ -85,7 +85,7 @@ const PriceTableHeader = ({ currentStock }: { currentStock: PriceItem }) => {
       toast(`Bạn không có quyền thực hiện thao tác này`);
       return;
     }
-    if (!citizenIdentity) {
+    if (!citizenIdentity && user.roleId !== RoleIdType.company) {
       // alert(`Bạn cần phải xác minh danh tính trước khi giao dịch cổ phiếu`);
       toast(`Bạn cần phải xác minh danh tính trước khi giao dịch cổ phiếu`);
       return;

@@ -279,6 +279,8 @@ export function stringAvatar(name: string, sx?: SxProps) {
         // height: 32,
       },
       children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+      title: name,
+      alt: name,
     };
   } catch (error) {
     console.log('stringAvatar', name);

@@ -157,16 +157,29 @@ export const flatGrouped = (
     });
     const sellPrices = Object.keys(purchaseObj.sell || {}).sort((a, b) => +a - +b);
     WORDS.forEach((word, i) => {
+      const amountBuy = (purchaseObj.buy?.[buyPrices[i]] || []).reduce((sum, obj) => sum + obj?.quantity, 0);
+      const amountSell = (purchaseObj.sell?.[sellPrices[i]] || []).reduce((sum, obj) => sum + obj?.quantity, 0);
+
       toReturn = {
         ...toReturn,
         [`${word}Buy`]: {
           price: +buyPrices[i],
-          amount: (purchaseObj.buy?.[buyPrices[i]] || []).reduce((sum, obj) => sum + obj?.quantity, 0),
+          amount:
+            amountBuy -
+            (purchaseObj.buy?.[buyPrices[i]] || []).reduce(
+              (sum, obj) => sum + (obj?.orderMatchings || []).reduce((omSum, om) => omSum + om.quantity, 0),
+              0
+            ),
           // orders: symbolArr.buy?.[buyPrices[i]] || [],
         },
         [`${word}Sell`]: {
           price: +sellPrices[i],
-          amount: (purchaseObj.sell?.[sellPrices[i]] || []).reduce((sum, obj) => sum + obj?.quantity, 0),
+          amount:
+            amountSell -
+            (purchaseObj.sell?.[sellPrices[i]] || []).reduce(
+              (sum, obj) => sum + (obj?.orderMatchings || []).reduce((omSum, om) => omSum + om.quantity, 0),
+              0
+            ),
           // orders: symbolArr.sell?.[sellPrices[i]] || [],
         },
       };

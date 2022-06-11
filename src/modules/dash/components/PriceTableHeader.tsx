@@ -186,7 +186,7 @@ const PriceTableHeader = ({ currentStock }: { currentStock: PriceItem }) => {
                   inputProps={{
                     min: currentStock.floorPrice / 1000 || 0,
                     max: currentStock.ceilPrice / 1000 || 0,
-                    step: 0.01,
+                    step: 0.05,
                   }}
                   {...register('price', { required: true, valueAsNumber: true })}
                   InputLabelProps={{

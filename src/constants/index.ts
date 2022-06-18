@@ -262,7 +262,7 @@ export enum MatchedStatus {
 
 export enum ModePT {
   default,
-  favorite
+  favorite,
 }
 
 export enum Gender {
@@ -288,7 +288,7 @@ export enum DerivativeIndex {
   VNX50 = 15,
 }
 
-export const INDEX_LIST =  [DerivativeIndex.VNI, DerivativeIndex.VN30, DerivativeIndex.HNX, DerivativeIndex.UPCOM]
+export const INDEX_LIST = [DerivativeIndex.VNI, DerivativeIndex.VN30, DerivativeIndex.HNX, DerivativeIndex.UPCOM];
 export const BANKS = ['MBB', 'VCB', 'TCB', 'TPB', 'VPB'];
 
 export enum ActionTypes {
@@ -366,3 +366,9 @@ export const UserStatusLabel: Record<string, string> = {
 };
 
 export const GenderLabel = ['Nữ', 'Nam', 'Khác'];
+
+export const REGEX = {
+  username: /^[a-zA-Z_\d]{3,255}$/i,
+  password: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#?!@$%^&*+='"<>\]\[\|-]).{8,}$/i,
+  email: /^[a-z][a-z0-9_\-.]{2,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/i,
+};

@@ -119,7 +119,7 @@ export const flatGrouped = (
     let sum = 0;
     let total = 0;
     const matchingOrders = matchingGrouped[symbol]?.matchingOrders || [];
-    const refPrice = +(history[symbol]?.closePrice || +matchingOrders[0]?.price).toFixed(0);
+    const refPrice = +(history[symbol]?.closePrice || +matchingOrders[matchingOrders.length - 1]?.price).toFixed(0);
     matchingOrders.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     const matchingInfo = {
       matchingPrice: +matchingOrders[0]?.price,

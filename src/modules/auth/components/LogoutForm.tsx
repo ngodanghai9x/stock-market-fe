@@ -21,10 +21,10 @@ export const LogoutForm = () => {
 
   useEffect(() => {
     const logout = async () => {
+      customerLogout();
       Cookies.remove(STORAGE.jwtToken);
       localStorage.removeItem(STORAGE.userData);
       localStorage.removeItem(STORAGE.otpTrading);
-      await customerLogout();
       navigate(PATH_NAMES.login);
     };
     logout();

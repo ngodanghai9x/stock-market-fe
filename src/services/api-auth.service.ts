@@ -8,6 +8,7 @@ import {
 import axiosClient from '../lib/request';
 import { MyResponse } from '../types';
 import { STORAGE } from '../constants';
+import { tokenCookies } from '../lib/token-cookies';
 
 const authBaseUrl = `${process.env.REACT_APP_API_HOST}/auth`;
 
@@ -26,7 +27,8 @@ export const customerLogin = async (payload: LoginPayload) => {
 };
 
 export const customerLogout = async () => {
-  const res = await axiosClient.post(`${authBaseUrl}/logout`, {});
+  const token = tokenCookies.get();
+  const res = await axiosClient.post(`${authBaseUrl}/logout`, { ...token });
   return new MyResponse<any>(res);
 };
 

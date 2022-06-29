@@ -68,7 +68,7 @@ const PriceTableHeader = ({ currentStock }: { currentStock: PriceItem }) => {
 
   React.useEffect(() => {
     const subscription = watch(({ quantity, price }) => {
-      if (quantity && price) setOrderValue(quantity * price * 1000);
+      if (quantity && price) setOrderValue(Math.round(quantity * price * 1000));
     });
     return () => subscription.unsubscribe();
   }, [watch]);
@@ -121,6 +121,10 @@ const PriceTableHeader = ({ currentStock }: { currentStock: PriceItem }) => {
       userId: user.userId,
     };
     const res = await createStockOrder({ order, otpTrading });
+    reset({
+      quantity: 0,
+      price: 0,
+    });
     toast(res?.message);
   };
 

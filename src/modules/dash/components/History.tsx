@@ -138,9 +138,9 @@ const History = () => {
           <Table stickyHeader sx={{ minWidth: 650 }}>
             <TableHead>
               <TableRow>
-                {tableHeadings.map((tableHeading) => (
+                {tableHeadings.map((tableHeading, i) => (
                   <TableCell
-                    key={tableHeading}
+                    key={tableHeading + i + `History`}
                     sx={{
                       color: 'white',
                       fontWeight: '600',
@@ -162,13 +162,13 @@ const History = () => {
                 const orderMatchings = row?.orderMatchings?.length
                   ? row?.orderMatchings
                   : ([{}] as StockOrderMatching[]);
-                  // [need_test] cho các lệnh đã hoàn thành nhưng k khớp lệnh do hết hạn
-                return orderMatchings.map((order) => {
+                // [need_test] cho các lệnh đã hoàn thành nhưng k khớp lệnh do hết hạn
+                return orderMatchings.map((order, i) => {
                   const gtKhop = order.price * order.quantity;
                   const gtVon = Number(row.currentPrice) * Number(order.quantity) || 0;
                   const laiLo = row.isBuy ? 0 : gtKhop - (gtVon + order.fee);
                   return (
-                    <StyledTableRow key={row.orderId}>
+                    <StyledTableRow key={row.orderId + i + `orderMatchings`}>
                       <StyledTableCell
                         align="center"
                         sx={{

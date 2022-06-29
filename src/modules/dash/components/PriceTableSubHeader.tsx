@@ -152,9 +152,7 @@ const PriceTableSubHeader = ({ indexes, totalIndex }: { indexes: Index[]; totalI
           arrow
         >
           {/* <LetterAvatar noWrap sx={{ width: '26px', height: '26px', p: 1, fontSize: '14px' }} /> */}
-          <Avatar
-            {...stringAvatar(user.fullName, { width: '26px', height: '26px', p: 1, fontSize: '14px' })}
-          />
+          <Avatar {...stringAvatar(user.fullName, { width: '26px', height: '26px', p: 1, fontSize: '14px' })} />
         </Tooltip>
       </div>
     </div>

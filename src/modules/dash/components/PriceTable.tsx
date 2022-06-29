@@ -192,9 +192,9 @@ const PriceTable = ({ indexes = [], itemList = [], totalIndex, setMode, mode }: 
           <Table sx={{ minWidth: 650 }}>
             <TableHead>
               <TableRow>
-                {tableHeadings.map((tableHeading) => (
+                {tableHeadings.map((tableHeading, i) => (
                   <TableCell
-                    key={tableHeading}
+                    key={tableHeading + i + i}
                     sx={{
                       color: 'white',
                       fontWeight: '600',

@@ -140,8 +140,12 @@ const CreateIndustryModal = ({ isOpen, onClose, editRecord, fetchData }: CreateI
                       defaultValue={+getValues('industry.statusId')}
                       label="Trạng thái"
                     >
-                      {statusOptions.map((id) => {
-                        return <MenuItem value={+id}>{StatusLabelType[id]}</MenuItem>;
+                      {statusOptions.map((id, i) => {
+                        return (
+                          <MenuItem key={id + i + `statusOptions`} value={+id}>
+                            {StatusLabelType[id]}
+                          </MenuItem>
+                        );
                       })}
                     </Select>
                   </FormControl>

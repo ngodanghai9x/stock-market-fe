@@ -62,9 +62,9 @@ export const AssetInfo = ({ itemList }: { itemList: PriceItem[] }) => {
         <Table stickyHeader sx={{ minWidth: 650 }}>
           <TableHead>
             <TableRow>
-              {tableHeadings.map((tableHeading) => (
+              {tableHeadings.map((tableHeading, i) => (
                 <TableCell
-                  key={tableHeading}
+                  key={'AssetInfo' + i + tableHeading}
                   sx={{
                     color: 'white',
                     fontWeight: '600',

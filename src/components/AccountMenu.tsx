@@ -104,8 +104,8 @@ export default function AccountMenu() {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         {/* <Divider /> */}
-        {Object.keys(USER_MENU).map((option) => (
-          <MenuItem>
+        {Object.keys(USER_MENU).map((option, idx) => (
+          <MenuItem key={option + idx}>
             <CustomLink to={USER_MENU[option].exact ? `/${option}` : `/user/${option}`}>
               <span className="mr-3">{USER_MENU[option].render()}</span>
               <span className="">{USER_MENU[option].label}</span>

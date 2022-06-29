@@ -309,8 +309,12 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                         defaultValue={+getValues('company.statusId')}
                         label="Trạng thái"
                       >
-                        {statusOptions.map((id) => {
-                          return <MenuItem value={+id}>{StatusLabelType[id]}</MenuItem>;
+                        {statusOptions.map((id, i) => {
+                          return (
+                            <MenuItem key={i + id + i + `statusOptions`} value={+id}>
+                              {StatusLabelType[id]}
+                            </MenuItem>
+                          );
                         })}
                       </Select>
                     </FormControl>

@@ -62,10 +62,11 @@ const AuthPage = () => {
         <div className="col-span-4 bg-white my-5 rounded-tr-2xl rounded-br-2xl shadow-2xl px-10 py-8">
           <div className="flex mx-auto justify-center">
             <div className="flex font-bold text-base text-gray-300 mb-10 cursor-pointer">
-              {Object.keys(Menu).map((path) => {
+              {Object.keys(Menu).map((path, idx) => {
                 const activeForm = pathname === path;
                 return (
                   <span
+                    key={path + idx}
                     className={`px-3 mx-1 border-b-2 ${
                       activeForm
                         ? 'border-b-2 border-lightBlue-300 text-lightBlue-300 font-extrabold'

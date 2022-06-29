@@ -99,8 +99,12 @@ const AdminEditUserModal = ({ isOpen, onClose, editRecord, fetchData }: AdminEdi
                       disabled={disableEditRole}
                       defaultValue={getValues('user.roleId')}
                     >
-                      {editableRoleIds.map((id) => {
-                        return <MenuItem value={+id}>{RoleLabelType[id]}</MenuItem>;
+                      {editableRoleIds.map((id, i) => {
+                        return (
+                          <MenuItem key={`editableRoleIds` + id + i} value={+id}>
+                            {RoleLabelType[id]}
+                          </MenuItem>
+                        );
                       })}
                     </Select>
                   </FormControl>
@@ -119,8 +123,12 @@ const AdminEditUserModal = ({ isOpen, onClose, editRecord, fetchData }: AdminEdi
                   label="Trạng thái"
                   defaultValue={getValues('user.userStatus')}
                 >
-                  {Object.keys(UserStatusLabel).map((val) => {
-                    return <MenuItem value={val}>{UserStatusLabel[val]}</MenuItem>;
+                  {Object.keys(UserStatusLabel).map((val, i) => {
+                    return (
+                      <MenuItem key={val + i + `MenuItem`} value={val}>
+                        {UserStatusLabel[val]}
+                      </MenuItem>
+                    );
                   })}
                 </Select>
               </FormControl>

@@ -49,9 +49,9 @@ const MoneyInfo = ({ itemList }: { itemList: PriceItem[] }) => {
       )}
       <div className="flex border-t px-2 py-3 fixed w-full bottom-0">
         <ul className="flex" onClick={() => setIsOpenDetail(true)}>
-          {TABS.map((tab) => (
+          {TABS.map((tab, i) => (
             <li
-              key={tab.key}
+              key={tab.key + `MoneyInfo` + i}
               className={`even:border-x even:px-4 even:mx-4 ${currentTab === tab.key ? ' text-myYellow ' : ''}`}
             >
               <button onClick={() => setCurrentTab(tab.key)}>{tab.title}</button>

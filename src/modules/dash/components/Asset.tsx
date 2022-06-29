@@ -130,12 +130,12 @@ const Asset = ({ itemList }: { itemList: PriceItem[] }) => {
         </div>
         <div className="flex-1">
           <div className="flex mx-2">
-            {TABS.map((tab) => (
+            {TABS.map((tab, i) => (
               <button
                 className={`px-4 py-2 border-b font-semibold	 min-w-[90px] ${
                   currentTab === tab.key ? 'border-myYellow text-myYellow ' : ''
                 }`}
-                key={tab.key}
+                key={tab.key + i + 'Asset'}
                 onClick={() => setCurrentTab(tab.key)}
               >
                 {tab.title}
@@ -143,7 +143,7 @@ const Asset = ({ itemList }: { itemList: PriceItem[] }) => {
             ))}
           </div>
           {currentTab === CurrentTab.Debts && <DebtsTab />}
-          {currentTab === CurrentTab.Asset && <AssetInfo itemList={itemList}/>}
+          {currentTab === CurrentTab.Asset && <AssetInfo itemList={itemList} />}
           {currentTab === CurrentTab.LoanAmount && <LoanAmountTab />}
         </div>
       </div>

@@ -86,6 +86,10 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
   const onSubmit: SubmitHandler<CreateCompanyPayload> = async (data) => {
     try {
       const url = fileUrl || (await uploadFile()) || '';
+      if (!url) {
+        toast(`Ảnh chứng chỉ của công ty không được để trống`);
+        return;
+      }
       const formData = {
         ...data,
         needChangePw: false,

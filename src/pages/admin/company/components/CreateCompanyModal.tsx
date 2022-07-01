@@ -137,7 +137,9 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
 
   const getDisableFrom = () => {
     if (!editRecord) return false;
-    if (!editRecord?.editable) return true;
+    if (!editRecord?.editable) {
+      return editRecord?.statusId !== StatusIdType.pending;
+    }
     if (user.roleId === RoleIdType.moderator) {
       return editRecord?.statusId !== StatusIdType.pending;
     }

@@ -64,7 +64,9 @@ const CreateIndustryModal = ({ isOpen, onClose, editRecord, fetchData }: CreateI
   };
   const getDisableFrom = () => {
     if (!editRecord) return false;
-    if (!editRecord?.editable) return true;
+    if (!editRecord?.editable) {
+      return editRecord?.statusId !== StatusIdType.pending;
+    }
     if (user.roleId === RoleIdType.moderator) {
       return editRecord?.statusId !== StatusIdType.pending;
     }

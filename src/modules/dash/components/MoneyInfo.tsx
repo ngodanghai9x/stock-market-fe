@@ -30,7 +30,7 @@ const MoneyInfo = ({ itemList }: { itemList: PriceItem[] }) => {
   const [currentTab, setCurrentTab] = useState<CurrentTab>(CurrentTab.OrderBook);
   const [isOpenDetail, setIsOpenDetail] = useState(false);
   return (
-    <div className="text-white row-span-2">
+    <div className="text-white row-span-2" style={{ height: 'fit-content' }}>
       {isOpenDetail && (
         <div className="flex flex-col bg-trueGray-800 relative h-full">
           <div className="flex-1 border-t h-full">

@@ -20,7 +20,7 @@ const Identification = () => {
   const [createDate, setCreateDate] = useState<string | null | Date>(citizenIdentity?.createDate || null);
   const [expiryDate, setExpiryDate] = useState<string | null | Date>(citizenIdentity?.expiryDate || null);
   const [cardExpiryDate, setCardExpiryDate] = useState<string | null | Date>(citizenIdentity?.cardExpiryDate || null);
-  const { register, handleSubmit, setValue } = useForm<EditUserPayload>();
+  const { register, handleSubmit, setValue } = useForm<EditUserPayload>({ mode: 'onBlur' });
   const [isViewing, setIsViewing] = useState(true);
 
   const resetValue = () => {

@@ -372,3 +372,9 @@ export const REGEX = {
   password: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#?!@$%^&*+='"<>\]\[\|-]).{8,}$/i,
   email: /^[a-z][a-z0-9_\-.]{2,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/i,
 };
+
+export const OPTIONS_NUMBER = {
+  valueAsNumber: true,
+  min: { message: `Số nhập vào phải lớn hơn 0`, value: 0 },
+  max: { message: `Số nhập vào phải bé hơn 1 tỷ`, value: 1000000000 },
+};

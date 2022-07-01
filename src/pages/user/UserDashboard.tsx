@@ -17,7 +17,7 @@ const UserDashboard = () => {
   } = React.useContext(AppContext);
 
   const [birthday, setBirthday] = useState<string | null | Date>(user.birthday);
-  const { register, handleSubmit, setValue } = useForm<EditUserPayload>();
+  const { register, handleSubmit, setValue } = useForm<EditUserPayload>({ mode: 'onBlur' });
   const [isViewing, setIsViewing] = useState(true);
 
   const resetValue = () => {
@@ -103,7 +103,7 @@ const UserDashboard = () => {
                   {...register('user.fullName')}
                 /> */}
                 <TextField
-                  sx={{ minWidth: 450, maxWidth: 450  }}
+                  sx={{ minWidth: 450, maxWidth: 450 }}
                   required
                   variant="outlined"
                   disabled={isViewing}
@@ -129,7 +129,7 @@ const UserDashboard = () => {
                     onChange={(newValue) => {
                       setBirthday(newValue);
                     }}
-                    renderInput={(params) => <TextField sx={{ minWidth: 450, maxWidth: 450  }} {...params} />}
+                    renderInput={(params) => <TextField sx={{ minWidth: 450, maxWidth: 450 }} {...params} />}
                     disabled={isViewing}
                   />
                 </LocalizationProvider>

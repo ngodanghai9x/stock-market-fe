@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import ValidateMessage from '../../components/ValidateMessage';
-import { BANKS, UserStatusLabel } from '../../constants';
+import { BANKS, OPTIONS_NUMBER, UserStatusLabel } from '../../constants';
 import { AppContext } from '../../context';
 import { numberWithCommas } from '../../lib/utils';
 import { User } from '../../services/api-admin.type';
@@ -24,7 +24,7 @@ const Payment = () => {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<DrawMoneyPayload>();
+  } = useForm<DrawMoneyPayload>({ mode: 'onBlur' });
 
   const resetForm = () => {
     setValue('receiveBank', '');
@@ -139,14 +139,14 @@ const Payment = () => {
                   className="w-full"
                   {...register('money', {
                     required: true,
-                    valueAsNumber: true,
+                    ...OPTIONS_NUMBER,
                     validate: {
-                      greaterThanCurrentMoney: (value) => value < Number(user.money),
+                      greaterThanCurrentMoney: (value) => value < Number(user.money) || `Số dư không đủ`,
                     },
                   })}
                 />
               </span>
-              {errors.money && <ValidateMessage>Số dư không đủ</ValidateMessage>}
+              {errors.money && <ValidateMessage>{errors.money.message || `Số dư không đủ`}</ValidateMessage>}
             </div>
           </div>
           <div className="flex mb-6">

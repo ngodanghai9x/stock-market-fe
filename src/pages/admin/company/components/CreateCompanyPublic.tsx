@@ -12,7 +12,7 @@ import ValidateMessage from '../../../../components/ValidateMessage';
 import ImageUpload from '../../../../components/ImageUpload';
 import { FileState } from '../../../../types';
 import { AppContext } from '../../../../context';
-import { StatusIdType } from '../../../../constants';
+import { OPTIONS_NUMBER, StatusIdType } from '../../../../constants';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 type CreateCompanyPublicProps = {};
@@ -258,13 +258,13 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
                     className="w-full"
                     {...register('company.numEmployees', {
                       required: false,
-                      valueAsNumber: true,
-                      min: 0,
-                      max: 1000000000,
+                      ...OPTIONS_NUMBER,
                     })}
                   />
                   {errors?.company?.numEmployees && (
-                    <ValidateMessage>Số nhân viên phải là số nguyên dương không quá 1 tỷ</ValidateMessage>
+                    <ValidateMessage>
+                      {errors?.company?.numEmployees.message || `Số nhân viên phải là số nguyên dương không quá 1 tỷ`}
+                    </ValidateMessage>
                   )}
                 </div>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -345,9 +345,13 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
                   variant="standard"
                   className="w-full"
                   type="number"
-                  {...register('stock.quantity', { required: true, valueAsNumber: true, min: 0 })}
+                  {...register('stock.quantity', { required: true, ...OPTIONS_NUMBER })}
                 />
-                {errors?.stock?.quantity && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
+                {errors?.stock?.quantity && (
+                  <ValidateMessage>
+                    {errors?.stock?.quantity.message || `Trường này bắt buộc phải nhập`}
+                  </ValidateMessage>
+                )}
               </div>
               <div className="mb-2">
                 <TextField
@@ -357,9 +361,11 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
                   variant="standard"
                   className="w-full"
                   type="number"
-                  {...register('stock.price', { required: true, valueAsNumber: true, min: 0 })}
+                  {...register('stock.price', { required: true, ...OPTIONS_NUMBER })}
                 />
-                {errors?.stock?.price && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
+                {errors?.stock?.price && (
+                  <ValidateMessage>{errors?.stock?.price.message || `Trường này bắt buộc phải nhập`}</ValidateMessage>
+                )}
               </div>
               <div className="mt-4">
                 <ImageUpload onChange={onChangeFile} fileUrl={null} />
@@ -367,15 +373,15 @@ const CreateCompanyPublic = ({}: CreateCompanyPublicProps) => {
             </>
           </div>
           <div className="flex justify-center mb-3">
-          <ReCAPTCHA sitekey={process.env.REACT_APP_CAPTCHA_KEY || ''} onChange={handleCaptchaChange} size="normal" />
-        </div>
+            <ReCAPTCHA sitekey={process.env.REACT_APP_CAPTCHA_KEY || ''} onChange={handleCaptchaChange} size="normal" />
+          </div>
           <div className="flex justify-end px-6 pb-6">
             <div className="mr-3">
               <Button type="button" variant="outlined" className="mr-3" onClick={resetForm}>
                 Hủy
               </Button>
             </div>
-            <Button className="" type="submit" variant="contained" disabled={!hasCaptchaToken} >
+            <Button className="" type="submit" variant="contained" disabled={!hasCaptchaToken}>
               Lưu
             </Button>
           </div>

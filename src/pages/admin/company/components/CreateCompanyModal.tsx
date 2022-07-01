@@ -22,7 +22,7 @@ import ValidateMessage from '../../../../components/ValidateMessage';
 import ImageUpload from '../../../../components/ImageUpload';
 import { FileState, MyResponse } from '../../../../types';
 import { AppContext } from '../../../../context';
-import { RoleIdType, StatusIdType, StatusLabelType } from '../../../../constants';
+import { OPTIONS_NUMBER, RoleIdType, StatusIdType, StatusLabelType } from '../../../../constants';
 import { AuthContext } from '../../../../context/auth/AuthContext';
 
 type CreateCompanyModalProps = {
@@ -248,13 +248,13 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                   className="w-full"
                   {...register('company.numEmployees', {
                     required: false,
-                    valueAsNumber: true,
-                    min: 0,
-                    max: 1000000000,
+                    ...OPTIONS_NUMBER,
                   })}
                 />
                 {errors?.company?.numEmployees && (
-                  <ValidateMessage>Số nhân viên phải là số nguyên dương không quá 1 tỷ</ValidateMessage>
+                  <ValidateMessage>
+                    {errors?.company?.numEmployees.message || `Số nhân viên phải là số nguyên dương không quá 1 tỷ`}Ư
+                  </ValidateMessage>
                 )}
               </div>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -368,9 +368,13 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                     variant="standard"
                     className="w-full"
                     type="number"
-                    {...register('stock.quantity', { required: true, valueAsNumber: true, min: 0 })}
+                    {...register('stock.quantity', { required: true, ...OPTIONS_NUMBER })}
                   />
-                  {errors?.stock?.quantity && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
+                  {errors?.stock?.quantity && (
+                    <ValidateMessage>
+                      {errors?.stock?.quantity.message || `Trường này bắt buộc phải nhập`}
+                    </ValidateMessage>
+                  )}
                 </div>
                 <div className="mb-2">
                   <TextField
@@ -380,9 +384,11 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                     variant="standard"
                     className="w-full"
                     type="number"
-                    {...register('stock.price', { required: true, valueAsNumber: true, min: 0 })}
+                    {...register('stock.price', { required: true, ...OPTIONS_NUMBER })}
                   />
-                  {errors?.stock?.price && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
+                  {errors?.stock?.price && (
+                    <ValidateMessage>{errors?.stock?.price.message || `Trường này bắt buộc phải nhập`}</ValidateMessage>
+                  )}
                 </div>
               </>
             )}

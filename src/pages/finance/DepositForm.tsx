@@ -3,10 +3,9 @@ import * as React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import ValidateMessage from '../../components/ValidateMessage';
-import { BANKS } from '../../constants';
+import { BANKS, OPTIONS_NUMBER } from '../../constants';
 import { createDeposit } from '../../services/api-user.service';
 import { CreateDepositPayload } from '../../services/api-user.type';
-
 
 const DepositForm = () => {
   const {
@@ -71,9 +70,11 @@ const DepositForm = () => {
               label="Tiền"
               variant="standard"
               className="w-full"
-              {...register('money', { required: true, valueAsNumber: true })}
+              {...register('money', { required: true, ...OPTIONS_NUMBER })}
             />
-            {errors?.money && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
+            {errors?.money && (
+              <ValidateMessage>{errors?.money.message || `Trường này bắt buộc phải nhập`}</ValidateMessage>
+            )}
             <TextField
               id="company-name"
               label="Ghi chú"

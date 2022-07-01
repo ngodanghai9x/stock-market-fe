@@ -119,7 +119,7 @@ const AdminEditUserModal = ({ isOpen, onClose, editRecord, fetchData }: AdminEdi
                 <Select
                   variant="standard"
                   labelId="user.userStatus'"
-                  {...register('user.userStatus', { required: true, valueAsNumber: true })}
+                  {...register('user.userStatus', { required: true })}
                   label="Trạng thái"
                   defaultValue={getValues('user.userStatus')}
                 >

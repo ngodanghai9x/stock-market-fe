@@ -197,17 +197,17 @@ export const formatPrice = (v: number): string | number => {
 
 export const formatAmount = (v: number): string | number => {
   if (!v) return '--';
-  return (v / 100).toFixed(2);
+  return ((v / 100).toFixed(1));
   // return parseFloat((v / 100).toFixed(3));
 };
 
 export function formatTotal(num: number) {
   if (num > 999 && num < 1000000) {
-    return numberWithCommas(+(num / 1000).toFixed(1)) + ' ng'; // convert to K for number from > 1000 < 1 million
+    return numberWithCommas(+(num / 1000).toFixed(1)) + ' K'; // convert to K for number from > 1000 < 1 million
   } else if (num > 1000000000) {
-    return numberWithCommas(+(num / 1000000000).toFixed(1)) + ' tỷ';
+    return ((num / 1000000000).toFixed(1)) + ' B';
   } else if (num > 1000000) {
-    return numberWithCommas(+(num / 1000000).toFixed(1)) + ' tr'; // convert to M for number from > 1 million
+    return ((num / 1000000).toFixed(1)) + ' M'; // convert to M for number from > 1 million
   } else if (num < 900) {
     return num; // if value < 1000, nothing to do
   }

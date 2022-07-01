@@ -15,7 +15,7 @@ function App() {
       <AppProvider>
         <SocketProvider>
           <>
-            <ToastContainer />
+            <ToastContainer autoClose={1400}/>
             <Routers />
           </>
         </SocketProvider>

@@ -62,8 +62,14 @@ const CreateIndustryModal = ({ isOpen, onClose, editRecord, fetchData }: CreateI
       toast(error?.message || error?.data.message);
     }
   };
-
-  const disableForm = !editRecord ? false : !editRecord?.editable && editRecord?.statusId !== StatusIdType.pending;
+  const getDisableFrom = () => {
+    if (!editRecord) return false;
+    if (!editRecord?.editable) return true;
+    if (user.roleId === RoleIdType.moderator) {
+      return editRecord?.statusId !== StatusIdType.pending;
+    }
+    return false;
+  };
 
   const statusOptions = React.useMemo(() => {
     const opt = [StatusIdType.activated, StatusIdType.deleted];
@@ -160,7 +166,7 @@ const CreateIndustryModal = ({ isOpen, onClose, editRecord, fetchData }: CreateI
                 Hủy
               </Button>
             </div>
-            <Button disabled={disableForm} type="submit" variant="contained">
+            <Button disabled={getDisableFrom()} type="submit" variant="contained">
               Lưu
             </Button>
           </div>

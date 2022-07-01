@@ -79,7 +79,8 @@ export const SocketProvider = (props: { children: ReactElement }) => {
 
     socket.on('MatchingStockOrder', async () => {
       console.log('🚀MatchingStockOrder', fetchData);
-      await fetchData();
+      fetchUser();
+      fetchData();
     });
 
     return () => {

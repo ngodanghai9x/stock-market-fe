@@ -135,7 +135,14 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
     }
   };
 
-  const disableForm = !editRecord ? false : !editRecord?.editable && editRecord?.statusId !== StatusIdType.pending;
+  const getDisableFrom = () => {
+    if (!editRecord) return false;
+    if (!editRecord?.editable) return true;
+    if (user.roleId === RoleIdType.moderator) {
+      return editRecord?.statusId !== StatusIdType.pending;
+    }
+    return false;
+  };
 
   const statusOptions = React.useMemo(() => {
     const opt = [StatusIdType.activated, StatusIdType.deleted];
@@ -393,7 +400,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
               </>
             )}
             <div className="mt-4">
-              <ImageUpload disabled={disableForm} onChange={onChangeFile} fileUrl={fileUrl} />
+              <ImageUpload disabled={getDisableFrom()} onChange={onChangeFile} fileUrl={fileUrl} />
             </div>
           </div>
           <div className="flex justify-end px-6 pb-6">
@@ -402,7 +409,7 @@ const CreateCompanyModal = ({ isOpen, onClose, editRecord, fetchData }: CreateCo
                 Hủy
               </Button>
             </div>
-            <Button disabled={disableForm} type="submit" variant="contained">
+            <Button disabled={getDisableFrom()} type="submit" variant="contained">
               Lưu
             </Button>
           </div>

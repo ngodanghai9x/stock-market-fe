@@ -23,7 +23,7 @@ import { AuthContext } from './auth/AuthContext';
 import appContextMock from './mock/appContextMock';
 import * as filestack from 'filestack-js';
 
-const filestackClient: filestack.Client = filestack.init(process.env.REACT_APP_FILE_STACK_TOKEN || '');
+const filestackClient: filestack.Client = filestack.init(process.env.REACT_APP_FILE_STACK_TOKEN || 'abc');
 // const initialState = { HNG: {} } as GroupedStockOrders;
 const initialState = appContextMock.grouped as GroupedStockOrders;
 const initializeState = (store: GroupedStockOrders) => store;

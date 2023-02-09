@@ -1,0 +1,22 @@
+name: first-test-action
+run-name: GitHub Action is triggered by ${{ github.actor }}  
+# on: [push]
+on:
+  push:
+    branches: [test-action]
+    # paths:
+    #   - 'github-actions/**'
+    #   - '!linux/**'
+  workflow_dispatch:
+jobs:
+  echo-hello-world:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "${{ toJSON(github) }}"
+      - run: echo "${{ github }}"
+      - run: git -v
+      # - uses: actions/checkout@v3
+      # - uses: actions/setup-node@v3
+      #   with:
+      #     node-version: '18'
+      # - run: npm run start

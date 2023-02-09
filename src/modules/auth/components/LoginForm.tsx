@@ -34,7 +34,7 @@ export const LoginForm = () => {
   return (
     <form onSubmit={handleSubmit(loginHandle)} className="w-ful">
       <div className="group flex flex-col mb-8">
-        <AuthInput label="Tài khoản" {...register('username', { required: true })} />
+        <AuthInput label="Tài khoản test" {...register('username', { required: true })} />
         {errors.username && <ValidateMessage>Trường này bắt buộc phải nhập</ValidateMessage>}
       </div>
       <div className="group flex flex-col mb-10">

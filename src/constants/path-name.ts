@@ -1,31 +1,31 @@
 export const PATH_NAMES = {
   // public
-  login: '/login',
-  logout: '/logout',
-  register: '/register',
-  forgotPassword: '/forgot-password',
+  login: '/stock-market-fe/login',
+  logout: '/stock-market-fe/logout',
+  register: '/stock-market-fe/register',
+  forgotPassword: '/stock-market-fe/forgot-password',
 
-  home: '/',
-  unauthorized: '/unauthorized',
+  home: '/stock-market-fe/',
+  unauthorized: '/stock-market-fe/unauthorized',
 
   // admin
-  admin: '/admin/dashboard',
-  dashboard: '/dashboard',
-  companies: '/companies',
-  industries: '/industries',
-  users: '/users',
-  companyDetail: '/companies/:companyId',
-  industryDetail: '/industries/:industryId',
-  userDetail: '/users/:userId',
+  admin: '/stock-market-fe/admin/dashboard',
+  dashboard: '/stock-market-fe/dashboard',
+  companies: '/stock-market-fe/companies',
+  industries: '/stock-market-fe/industries',
+  users: '/stock-market-fe/users',
+  companyDetail: '/stock-market-fe/companies/:companyId',
+  industryDetail: '/stock-market-fe/industries/:industryId',
+  userDetail: '/stock-market-fe/users/:userId',
 
   // user
-  user: '/user',
-  priceTable: '/price-table',
-  userInfo: '/info',
-  security: '/security',
-  identification: '/identification',
-  payment: '/payment',
-  changePassword: '/change-password',
+  user: '/stock-market-fe/user',
+  priceTable: '/stock-market-fe/price-table',
+  userInfo: '/stock-market-fe/info',
+  security: '/stock-market-fe/security',
+  identification: '/stock-market-fe/identification',
+  payment: '/stock-market-fe/payment',
+  changePassword: '/stock-market-fe/change-password',
 };
 
 export const NEED_REDIRECT_ROUTES = [PATH_NAMES.login, PATH_NAMES.register, PATH_NAMES.home];

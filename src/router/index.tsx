@@ -11,26 +11,28 @@ import PriceTableDashboard from '../pages/user/PriceTableDashboard';
 import CreateCompanyPublic from '../pages/admin/company/components/CreateCompanyPublic';
 
 const Routers = () => {
-  let element = useRoutes([
-    { path: '/', element: <HomePage /> },
+  let element = useRoutes(
+    [
+      { path: '/', element: <HomePage /> },
 
-    // just temporary
-    { path: 'forgot-password', element: <AuthPage /> },
-    { path: 'register', element: <AuthPage /> },
-    { path: 'login', element: <AuthPage /> },
-    { path: 'logout', element: <AuthPage /> },
+      // just temporary
+      { path: 'forgot-password', element: <AuthPage /> },
+      { path: 'register', element: <AuthPage /> },
+      { path: 'login', element: <AuthPage /> },
+      { path: 'logout', element: <AuthPage /> },
 
-    { path: 'create-company', element: <CreateCompanyPublic /> },
-    { path: 'deposit', element: <DepositForm /> },
-    // { path: 'withdraw', element: <WithdrawForm /> },
-    { path: 'create-company', element: <CreateCompanyPublic /> },
+      { path: 'create-company', element: <CreateCompanyPublic /> },
+      { path: 'deposit', element: <DepositForm /> },
+      // { path: 'withdraw', element: <WithdrawForm /> },
+      { path: 'create-company', element: <CreateCompanyPublic /> },
 
-    { path: 'price-table/*', element: <PriceTableDashboard /> },
-    { path: 'user/*', element: <UserRouter /> },
-    { path: 'admin/*', element: <AdminRouter /> },
-    { path: 'unauthorized', element: <UnauthorizedPage /> },
-    { path: '*', element: <NotFoundPage /> },
-  ]);
+      { path: 'price-table/*', element: <PriceTableDashboard /> },
+      { path: 'user/*', element: <UserRouter /> },
+      { path: 'admin/*', element: <AdminRouter /> },
+      { path: 'unauthorized', element: <UnauthorizedPage /> },
+      { path: '*', element: <NotFoundPage /> },
+    ].map((o) => ({ ...o, path: 'stock-market-fe/' + o.path }))
+  );
   return element;
 };
 
